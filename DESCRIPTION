@@ -25,3 +25,5 @@ Imports:
     stringr,
     magrittr,
     dplyr
+URL: https://github.com/kenhanscombe/ukbkings
+BugReports: https://github.com/kenhanscombe/ukbkings/issues
