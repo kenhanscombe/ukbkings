@@ -1,0 +1,27 @@
+Package: ukbkings
+Title: KCL Interface to UKB Project Data on Rosalind HPC
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Ken",
+           family = "Hanscombe",
+           role = c("aut", "cre"),
+           email = "ken.b.hanscombe@kcl.ac.uk")
+Description:
+  The goal of ukbkings is to provide an interface to UK Biobank (UKB) project
+  data on Rosalind HPC, for UKB-approved King's College London (KCL) researchers
+  and collaborators on a project-by-project basis. Access to a particular
+  project is restricted to named KCL researchers and collaborators, approved by
+  the UKB for a particular study.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Suggests: 
+    testthat (>= 2.1.0)
+RoxygenNote: 7.0.2
+Imports: 
+    data.table,
+    rlang,
+    purrr,
+    stringr,
+    magrittr,
+    dplyr
