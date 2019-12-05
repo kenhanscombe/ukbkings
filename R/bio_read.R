@@ -28,7 +28,7 @@ bio_field <- function(project_dir) {
                             full.names = TRUE)
 
   baskets <- gsub(
-      stringr::str_interp("${project_dir}|phenotypes/|_field_finder.txt"),
+      stringr::str_interp("/|${project_dir}|phenotypes|_field_finder.txt"),
       "", field_files)
 
   col_type <- c(
