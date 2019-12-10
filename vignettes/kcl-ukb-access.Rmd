@@ -1,0 +1,200 @@
+---
+title: "How to access UKB data on Rosalind"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{How to access UKB phenotype data on KCL Rosalind HPC cluster}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE,
+  message = FALSE
+)
+
+requireNamespace("devtools", quietly = TRUE)
+requireNamespace("stringr", quietly = TRUE)
+
+devtools::load_all(".")
+```
+
+
+***
+
+**Note. This document is only useful for UKB-approved KCL reasearchers and their collaborators, with an account on the Rosalind HPC cluster.**
+
+***
+
+A UKB **project** corresponds to a single UKB application; a **study** fits within the scope of a project, and typically corresponds to a single publication. Each project potentially includes many studies. Project directories on Rosalind have roughly the same internal structure, including subdirectories for raw, decrypted and derived data. To access data for a particular UKB-approved project, KCL researchers and collaborators need to be named investigators/ collaborators on that particular project. Phenotype data in a project is accessed through the **ukbkings R package**. Genotype data is accessed via a symbolic link in the user's directory, once permission has been granted.
+
+For security reasons, the layout of directories on Rosalind and specific path names are described in **lustre_storage.doc**, on Basecamp (Team: UK Biobank > Docs & Files).
+
+<br>
+
+## Pre-requisites
+
+You must have an account on Rosalind (contact [Rosalind support](rosalind-support@kcl.ac.uk)), and access to the phenotype data in a specific project directory. You will need separate permission to access to the genotype data. For access to phenotype and genotype data contact [ken.b.hanscombe@kcl.ac.uk](ken.b.hanscombe@kcl.ac.uk).
+
+<br>
+
+## **ukbkings** installation
+
+To retrieve your study specific data, start an interactive cluster session with sufficient virtual memory to manipulate the +25GB decrypted project data.
+
+```{bash}
+qrsh -l h_vmem=30G
+```
+
+<br>
+
+Navigate to your Rosalind user directory, run R, and install the R package ukbkings.
+
+```{r}
+devtools::install_github("kenhanscombe/ukbkings", dependencies = TRUE)
+```
+
+<br>
+
+Alternatively, create a conda environment from **ukbkings-env.yml**.
+
+```{bash}
+wget https://github.com/kenhanscombe/ukbkings/blob/master/ukbkings-env.yml
+
+conda env create -f ukbkings-env.yml
+
+source activate ukbkings-env
+# inspect/ retrieve UKB data (see below)
+source deactivate ukbkings-env
+```
+
+The environment created, `ukbkings-env`, includes R 3.7, the `ukbkings` package, and all essential R packages ([based on this setup](https://docs.anaconda.com/anaconda/user-guide/tasks/using-r-language/)), as well as Python 3.7 and Snakemake 1.X. 
+
+**Aside**: It is considered good practice to have a self-contained environment for each analysis, with software installation and dependencies handled by an environment manager like [conda](https://docs.conda.io). You may find it useful to use this environment for your phenotype analysis.
+
+<br>
+
+## Phenotype data
+
+
+To use the example data bundled with the package
+
+```{r eval=TRUE}
+proj_dir <- system.file("testdata", package = "ukbkings")
+```
+
+<br>
+
+### Field-to-name data
+
+To get a dataframe of project fields
+
+```{r eval=TRUE}
+# library(ukbkings)
+
+proj_fields <- bio_field(proj_dir)
+head(proj_fields)
+```
+
+<br>
+
+You will need to create a file in your user directory that contains the fields you require, one per line. You can use a pager to manually search through the available fields and add these to a text file, one per line.
+
+```{r}
+page(proj_fields, method = "print")
+```
+
+<br>
+
+Or, as `proj_fields` is a dataframe, you can use regular expressions to search the `field` or `name` columns, then manually add these to 
+
+```{r eval=TRUE}
+proj_fields %>% 
+  filter(str_detect(field, "54"))
+
+
+proj_fields %>% 
+  filter(str_detect(name, "3"))
+```
+
+
+
+
+
+### Categorical level codes
+
+<br>
+
+### Selecting a subset of fields
+
+<br>
+
+## UKB showcase and catalogues
+
+Catalogues are listings of contents of the [UKB showcase](http://biobank.ctsu.ox.ac.uk/crystal/). There are 5 [catalogues](http://biobank.ndph.ox.ac.uk/showcase/catalogs.cgi):
+
+- fields
+- categories
+- returns
+- resources
+- schema
+
+<br>
+
+
+1. **Fields**
+
+List all variables, or columns in the phenotype data. 
+
+<br>
+
+2. **Categories**
+
+The [Category Listings](http://biobank.ndph.ox.ac.uk/showcase/cats.cgi) group data into related sets: 14 Recommended, **247 Origin**, 12 Core, 9 Specialist, and 3 Miscellaneous categories. (Note. Individual fields are always at least 1 Origin category, and may be in none, one, or more categories of the others)
+
+<br>
+
+3. **Returns**
+
+List returned datasets.
+
+<br>
+
+4. **Resources**
+
+This is a list of information relating to particular categories, processes, topics or groups of fields. The full [Resource Catalogue](http://biobank.ndph.ox.ac.uk/showcase/docs.cgi?id=0) is divided into 169 documents, 196 datasets, 820 graphics, 9 videos. (Note. this takes a minute to load.)
+
+<br>
+
+5. **Schema**
+
+List meta-information about the showcase.
+
+<br>
+
+
+# Guides and resources
+
+1. [Understanding UK Biobank](https://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=UnderstandingUKB.html)
+2. [Accessing your data](https://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=accessing_data_guide)
+3. [HES data dictionary](http://biobank.ctsu.ox.ac.uk/crystal/refer.cgi?id=141140)
+4. [Accessing UKB data v2.0](https://biobank.ndph.ox.ac.uk/~bbdatan/Accessing_UKB_data_v2.0.pdf)
+
+For primary care data, see **Section 5: Record-level hospital inpatient data and primary care (GP) data**
+
+5. [Showcase User Guide](http://biobank.ndph.ox.ac.uk/showcase/showcase/exinfo/ShowcaseUserGuide.pdf)
+6. [Update of HES Data - September 2019](https://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=HESupdate_2019_09)
+7. [Glossary](http://biobank.ndph.ox.ac.uk/showcase/help.cgi?cd=GLOSSARY)
+
+*Other*
+
+8. [Ingres 10.2 SQL reference guide](https://communities.actian.com/servlet/fileField?entityId=ka3330000008dbCAAQ&field=Attachment1__Body__s)
+
+The relational database management system used by the UKB to hold "record level" information.
+
+
+<br>
+
+## Genotype data

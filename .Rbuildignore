@@ -5,3 +5,7 @@
 ^doc$
 ^Meta$
 ^data-raw$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^vignettes/make-a-package-cheatsheet\.Rmd$
