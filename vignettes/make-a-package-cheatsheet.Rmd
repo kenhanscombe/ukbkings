@@ -73,7 +73,7 @@ usethis::use_test("<test_file_name>")
 <br>
 
 
-## Add example (or test data)
+**Add example (or test data)**
 
 ```{r}
 usethis::use_data_raw()

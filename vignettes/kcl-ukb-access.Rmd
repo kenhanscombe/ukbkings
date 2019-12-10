@@ -58,19 +58,18 @@ devtools::install_github("kenhanscombe/ukbkings", dependencies = TRUE)
 
 <br>
 
-Alternatively, create a conda environment from **ukbkings-env.yml**.
+If you have any trouble installing the package or its dependencies, create a conda environment from **ukbkings-env.yml**. From bash,
 
 ```{bash}
 wget https://github.com/kenhanscombe/ukbkings/blob/master/ukbkings-env.yml
-
 conda env create -f ukbkings-env.yml
 
 source activate ukbkings-env
-# inspect/ retrieve UKB data (see below)
+# run R, install ukbkings, inspect/ retrieve UKB data (see below)
 source deactivate ukbkings-env
 ```
 
-The environment created, `ukbkings-env`, includes R 3.7, the `ukbkings` package, and all essential R packages ([based on this setup](https://docs.anaconda.com/anaconda/user-guide/tasks/using-r-language/)), as well as Python 3.7 and Snakemake 1.X. 
+The environment created, `ukbkings-env`, includes R 3.6, the `ukbkings` package, and all base and essential R packages ([based on this setup](https://docs.anaconda.com/anaconda/user-guide/tasks/using-r-language/)), as well as Python 3.7 and Snakemake 5.7. Once created use `source activate` to start it up, and `source deactivate` to tear it down.
 
 **Aside**: It is considered good practice to have a self-contained environment for each analysis, with software installation and dependencies handled by an environment manager like [conda](https://docs.conda.io). You may find it useful to use this environment for your phenotype analysis.
 
@@ -95,41 +94,93 @@ To get a dataframe of project fields
 # library(ukbkings)
 
 proj_fields <- bio_field(proj_dir)
+
 head(proj_fields)
 ```
 
 <br>
 
-You will need to create a file in your user directory that contains the fields you require, one per line. You can use a pager to manually search through the available fields and add these to a text file, one per line.
+You will need to create a file in your user directory that contains the fields you require, one per line. You can use a pager to manually search through the available fields.
 
 ```{r}
-page(proj_fields, method = "print")
+proj_fields %>% 
+  select(field, name) %>% 
+  page(method = "print")
 ```
 
 <br>
 
-Or, as `proj_fields` is a dataframe, you can use regular expressions to search the `field` or `name` columns, then manually add these to 
+Or, as `proj_fields` is a dataframe, you can use regular expressions to search the `field` or `name` columns. For all *index* and *array* entries of a particular field
 
 ```{r eval=TRUE}
-proj_fields %>% 
-  filter(str_detect(field, "54"))
+# Search `field`
+proj_fields %>%
+  select(field, name) %>%
+  filter(str_detect(field, "^21000-.*"))
+```
+
+<br>
+
+Write to file
+
+```{r}
+proj_fields %>%
+  filter(str_detect(field, "^21000-.*")) %>% 
+  pull(field) %>% 
+  cat(file = "<selected_study_fields>", sep = "\n")
+```
+
+**Note**: No need to add `eid` (the unique sample identifier) - it is automatically added when retrieving fields with `bio_data`.
+
+<br>
+
+Search the `name` column
+
+```{r eval=TRUE}
+# Search `name`
+proj_fields %>%
+  select(field, name) %>%
+  filter(str_detect(name, "assessment_centre"))
+```
+
+<br>
+
+Append to file
+
+```{r}
+proj_fields %>%
+  filter(str_detect(name, "assessment_centre")) %>%
+  pull(field) %>%
+  cat(file = "<selected_study_fields_file>", sep = "\n", append = TRUE)
+```
+
+<br>
 
 
-proj_fields %>% 
-  filter(str_detect(name, "3"))
+### Retrieve study data
+
+Write a dataframe of selected study fields to you user directory.
+
+```{r}
+bio_data(proj_dir, fields = "<selected_study_fields_file>")
+```
+
+<br>
+
+`bio_data` uses `saveRDS` to write a serialized version of your data. Use `readRDS` to "resurrect" your serialized data.
+
+```{r}
+df <- readRDS("<study_data.rds>")
 ```
 
 
-
+<br>
 
 
 ### Categorical level codes
 
 <br>
 
-### Selecting a subset of fields
-
-<br>
 
 ## UKB showcase and catalogues
 

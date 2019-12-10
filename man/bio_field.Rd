@@ -2,7 +2,7 @@
 % Please edit documentation in R/bio_read.R
 \name{bio_field}
 \alias{bio_field}
-\title{Read the UKB field codes}
+\title{Reads project-specific UKB field codes}
 \usage{
 bio_field(project_dir)
 }
@@ -13,7 +13,5 @@ bio_field(project_dir)
 A dataframe with columns: ukb_type, r_type, path
 }
 \description{
-The field code lookup table associates with each field id, a desciptive name
-(which includes the field id, array, index), ukb_type, r_type, and the path
-to the csv file containing the field data.
+The field code lookup table associates with each field id, a desciptive name (which includes the field id, array, index), ukb_type, r_type, basket and the path to the csv file containing the field data.
 }
