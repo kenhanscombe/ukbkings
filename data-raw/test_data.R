@@ -2,8 +2,8 @@
 
 # Used for unit tests and example data
 
-requireNamespace(dplyr, quietly = TRUE)
-requireNamespace(ukbtools, quietly = TRUE)
+requireNamespace("dplyr", quietly = TRUE)
+requireNamespace("ukbtools", quietly = TRUE)
 
 
 # Use tab testdata from ukbtools
@@ -37,6 +37,9 @@ col_type <- c(
   "Records" = "character",
   "Curve" = "character"
 )
+
+testdata_fields$field.tab <- stringr::str_replace(
+  stringr::str_replace(testdata_fields$field.tab, "f\\.", ""), "\\.", "-")
 
 f <-  data.frame(field = testdata_fields$field.tab,
                  name = testdata_fields$col.name,

@@ -1,34 +1,34 @@
 field	name	ukb_type	r_type
-f.eid	eid	Sequence	double
-f.31.0.0	sex_f31_0_0	Categorical (single)	integer
-f.54.0.0	uk_biobank_assessment_centre_f54_0_0	Categorical (single)	integer
-f.54.1.0	uk_biobank_assessment_centre_f54_1_0	Categorical (single)	integer
-f.54.2.0	uk_biobank_assessment_centre_f54_2_0	Categorical (single)	integer
-f.189.0.0	townsend_deprivation_index_at_recruitment_f189_0_0	Continuous	integer
-f.6142.0.0	current_employment_status_f6142_0_0	Categorical (multiple)	integer
-f.6142.0.1	current_employment_status_f6142_0_1	Categorical (multiple)	integer
-f.6142.0.2	current_employment_status_f6142_0_2	Categorical (multiple)	integer
-f.6142.0.3	current_employment_status_f6142_0_3	Categorical (multiple)	integer
-f.6142.0.4	current_employment_status_f6142_0_4	Categorical (multiple)	integer
-f.6142.0.5	current_employment_status_f6142_0_5	Categorical (multiple)	integer
-f.6142.0.6	current_employment_status_f6142_0_6	Categorical (multiple)	integer
-f.6142.1.0	current_employment_status_f6142_1_0	Categorical (multiple)	integer
-f.6142.1.1	current_employment_status_f6142_1_1	Categorical (multiple)	integer
-f.6142.1.2	current_employment_status_f6142_1_2	Categorical (multiple)	integer
-f.6142.1.3	current_employment_status_f6142_1_3	Categorical (multiple)	integer
-f.6142.1.4	current_employment_status_f6142_1_4	Categorical (multiple)	integer
-f.6142.1.5	current_employment_status_f6142_1_5	Categorical (multiple)	integer
-f.6142.1.6	current_employment_status_f6142_1_6	Categorical (multiple)	integer
-f.6142.2.0	current_employment_status_f6142_2_0	Categorical (multiple)	integer
-f.6142.2.1	current_employment_status_f6142_2_1	Categorical (multiple)	integer
-f.6142.2.2	current_employment_status_f6142_2_2	Categorical (multiple)	integer
-f.6142.2.3	current_employment_status_f6142_2_3	Categorical (multiple)	integer
-f.6142.2.4	current_employment_status_f6142_2_4	Categorical (multiple)	integer
-f.6142.2.5	current_employment_status_f6142_2_5	Categorical (multiple)	integer
-f.6142.2.6	current_employment_status_f6142_2_6	Categorical (multiple)	integer
-f.21000.0.0	ethnic_background_f21000_0_0	Categorical (single)	integer
-f.21000.1.0	ethnic_background_f21000_1_0	Categorical (single)	integer
-f.21000.2.0	ethnic_background_f21000_2_0	Categorical (single)	integer
-f.21003.0.0	age_when_attended_assessment_centre_f21003_0_0	Integer	integer
-f.21003.1.0	age_when_attended_assessment_centre_f21003_1_0	Integer	integer
-f.21003.2.0	age_when_attended_assessment_centre_f21003_2_0	Integer	integer
+eid	eid	Sequence	double
+31-0.0	sex_f31_0_0	Categorical (single)	integer
+54-0.0	uk_biobank_assessment_centre_f54_0_0	Categorical (single)	integer
+54-1.0	uk_biobank_assessment_centre_f54_1_0	Categorical (single)	integer
+54-2.0	uk_biobank_assessment_centre_f54_2_0	Categorical (single)	integer
+189-0.0	townsend_deprivation_index_at_recruitment_f189_0_0	Continuous	integer
+6142-0.0	current_employment_status_f6142_0_0	Categorical (multiple)	integer
+6142-0.1	current_employment_status_f6142_0_1	Categorical (multiple)	integer
+6142-0.2	current_employment_status_f6142_0_2	Categorical (multiple)	integer
+6142-0.3	current_employment_status_f6142_0_3	Categorical (multiple)	integer
+6142-0.4	current_employment_status_f6142_0_4	Categorical (multiple)	integer
+6142-0.5	current_employment_status_f6142_0_5	Categorical (multiple)	integer
+6142-0.6	current_employment_status_f6142_0_6	Categorical (multiple)	integer
+6142-1.0	current_employment_status_f6142_1_0	Categorical (multiple)	integer
+6142-1.1	current_employment_status_f6142_1_1	Categorical (multiple)	integer
+6142-1.2	current_employment_status_f6142_1_2	Categorical (multiple)	integer
+6142-1.3	current_employment_status_f6142_1_3	Categorical (multiple)	integer
+6142-1.4	current_employment_status_f6142_1_4	Categorical (multiple)	integer
+6142-1.5	current_employment_status_f6142_1_5	Categorical (multiple)	integer
+6142-1.6	current_employment_status_f6142_1_6	Categorical (multiple)	integer
+6142-2.0	current_employment_status_f6142_2_0	Categorical (multiple)	integer
+6142-2.1	current_employment_status_f6142_2_1	Categorical (multiple)	integer
+6142-2.2	current_employment_status_f6142_2_2	Categorical (multiple)	integer
+6142-2.3	current_employment_status_f6142_2_3	Categorical (multiple)	integer
+6142-2.4	current_employment_status_f6142_2_4	Categorical (multiple)	integer
+6142-2.5	current_employment_status_f6142_2_5	Categorical (multiple)	integer
+6142-2.6	current_employment_status_f6142_2_6	Categorical (multiple)	integer
+21000-0.0	ethnic_background_f21000_0_0	Categorical (single)	integer
+21000-1.0	ethnic_background_f21000_1_0	Categorical (single)	integer
+21000-2.0	ethnic_background_f21000_2_0	Categorical (single)	integer
+21003-0.0	age_when_attended_assessment_centre_f21003_0_0	Integer	integer
+21003-1.0	age_when_attended_assessment_centre_f21003_1_0	Integer	integer
+21003-2.0	age_when_attended_assessment_centre_f21003_2_0	Integer	integer
