@@ -102,9 +102,14 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">usethis<span class="op">::</span><span class="kw"><a href="https://usethis.r-lib.org/reference/create_package.html">create_package</a></span>(<span class="st">"&lt;path_to_new_or_existing_directory&gt;"</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">usethis<span class="op">::</span><span class="kw"><a href="https://usethis.r-lib.org/reference/use_readme_rmd.html">use_readme_md</a></span>()</a></code></pre></div>
 <p><br></p>
-<p>Add license and lifecycle badge to indicate package development stage (“Experimental”, “Maturing”, “Stable”, “Retired”, “Archived”, “Dormant”, “Questioning”).</p>
+<p>Add optional license and lifecycle badge to indicate package development stage (“Experimental”, “Maturing”, “Stable”, “Retired”, “Archived”, “Dormant”, “Questioning”).</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">usethis<span class="op">::</span><span class="kw"><a href="https://usethis.r-lib.org/reference/licenses.html">use_mit_license</a></span>(<span class="dt">name =</span> <span class="st">"&lt;your_name&gt;"</span>)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">usethis<span class="op">::</span><span class="kw"><a href="https://usethis.r-lib.org/reference/badges.html">use_lifecycle_badge</a></span>(<span class="st">"&lt;development_stage&gt;"</span>)</a></code></pre></div>
+<p>For adding other badges see <code><a href="https://usethis.r-lib.org/reference/badges.html">usethis::use_badge</a></code></p>
+<ul>
+<li>See also <a href="https://www.tidyverse.org/lifecycle/">Tidyverse: Lifecycle badges</a>
+</li>
+</ul>
 <p><br></p>
 <p>Add version control.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">usethis<span class="op">::</span><span class="kw"><a href="https://usethis.r-lib.org/reference/use_git.html">use_git</a></span>()</a>
@@ -121,9 +126,7 @@
 <li>Repeat until all tests pass.</li>
 </ol>
 <p><br></p>
-<div id="add-example-or-test-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#add-example-or-test-data" class="anchor"></a>Add example (or test data)</h2>
+<p><strong>Add example (or test data)</strong></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">usethis<span class="op">::</span><span class="kw"><a href="https://usethis.r-lib.org/reference/use_data.html">use_data_raw</a></span>()</a></code></pre></div>
 <p><br></p>
 <p><strong>Documentation</strong></p>
@@ -169,16 +172,8 @@
 <li>roxygen skeleton CMD+SHIFT+ALT+R</li>
 </ul>
 </div>
-  </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#add-example-or-test-data">Add example (or test data)</a></li>
-      </ul>
-</div>
       </div>
 
 </div>
