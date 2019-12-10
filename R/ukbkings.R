@@ -14,3 +14,11 @@
 #' @docType package
 #' @name ukbkings
 NULL
+
+
+#' Export magrittr pipe
+#'
+#' @importFrom magrittr %>%
+#' @name %>%
+#' @export %>%
+NULL
