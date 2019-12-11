@@ -141,9 +141,11 @@ bio_field_add <- function(data, out = "ukb_field_subset.txt") {
   data %>%
     dplyr::pull(field) %>%
     {
-      ifelse(file.exists(out),
-             cat(., file = out, sep = "\n", append = TRUE),
-             cat(., file = out, sep = "\n"))
+      if(file.exists(out)) {
+        cat(., file = out, sep = "\n", append = TRUE)
+      } else {
+        cat(., file = out, sep = "\n")
+      }
     }
 }
 
