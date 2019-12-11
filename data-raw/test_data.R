@@ -14,6 +14,11 @@ testdata_fields <- ukbtools::ukb_df_field("ukbxxxx", testdata_ukbtools)
 tab <- read.delim(file.path(testdata_ukbtools, "ukbxxxx.tab"))
 
 tab %>%
+  dplyr::rename_all(
+    ~ {
+      stringr::str_replace(
+        stringr::str_replace(., "f\\.", ""), "\\.", "-")
+    }) %>%
   dplyr::mutate_all(as.character) %>%
   write.csv(
     "inst/testdata/ukb12345.csv",
