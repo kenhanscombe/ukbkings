@@ -100,6 +100,7 @@ bio_phen <-
 
       data.table::fread(
         p, header = TRUE, select = c("eid", f), data.table = FALSE,
+        colClasses = c("integer", t),
         na = c("", "NA"), nThread = data.table::getDTthreads())
 
       # cmd = stringr::str_interp("cut -d',' -f${field_cut} ${p}"),
