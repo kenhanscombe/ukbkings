@@ -1,6 +1,6 @@
 
 utils::globalVariables(c("ukb_type", "basket", "field", "path", "name",
-                         "data", "df"))
+                         "data", "df", "."))
 
 
 #' Reads project-specific UKB field codes
@@ -127,15 +127,25 @@ bio_phen <-
   }
 
 
-# bio_field_add(data, out = "ukb_field_subset.txt") {
-#   data %>%
-#     pull(field) %>%
-#     if (file.exists(out)) {
-#       cat(., sep = "\n", append = TRUE)
-#     } else {
-#       cat(., sep = "\n")
-#     }
-# }
+
+#' Adds \strong{field} column entries from a dataframe to a file
+#'
+#' @param data A dataframe with obligatory column \strong{field}. (Ideally the output of \code{\link{bio_field}}.)
+#' @param out Field subset file name (including path). Default "ukb_field_subset", writes or appends fields one per line to "ukb_field_subset" in the current directory.
+#'
+#' @return A file with one field per line (no header). If the file exists, the additional fields are appended.
+#'
+#' @importFrom dplyr pull
+#' @export
+bio_field_add <- function(data, out = "ukb_field_subset.txt") {
+  data %>%
+    dplyr::pull(field) %>%
+    {
+      ifelse(file.exists(out),
+             cat(., file = out, sep = "\n", append = TRUE),
+             cat(., file = out, sep = "\n"))
+    }
+}
 
 
 # bio_gp(project_dir, data) {
