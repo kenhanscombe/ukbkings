@@ -1,5 +1,7 @@
 
-utils::globalVariables(c("ukb_type", "basket"))
+utils::globalVariables(c("ukb_type", "basket", "field", "path", "name",
+                         "data", "df"))
+
 
 #' Reads project-specific UKB field codes
 #'
@@ -26,8 +28,8 @@ bio_field <- function(project_dir) {
                             full.names = TRUE)
 
   baskets <- gsub(
-      stringr::str_interp("/|${project_dir}|phenotypes|_field_finder.txt"),
-      "", field_files)
+    stringr::str_interp("/|${project_dir}|phenotypes|_field_finder.txt"),
+    "", field_files)
 
   col_type <- c(
     "Sequence" = "integer",
@@ -52,4 +54,112 @@ bio_field <- function(project_dir) {
       path = file.path(project_dir, stringr::str_c(basket, ".csv")))
 
   as.data.frame(field_finder)
+}
+
+
+#' Reads and writes phenotype data for a subset of fields
+#'
+#' Reads supplied fields from UKB project data and writes a serialized
+#' dataframe to a .rds file.
+#'
+#' @param project_dir Path to the enclosing directory of a UKB project.
+#' @param field_subset_file A path to a one-per-line text file of fields (no header).
+#' @param out Name of phenotype subset file. Default "ukb_phenotype_subset", writes ukb_phenotype_subset.rds to the current directory.
+#'
+#' @details Read the serialized dataframe with readRDS("<name_of_phenotype_subset_file>.rds")
+#'
+#' @importFrom data.table fread getDTthreads
+#' @importFrom dplyr pull filter group_by mutate
+#' @importFrom stringr str_detect str_c str_interp
+#' @importFrom tidyr nest
+#' @importFrom purrr map reduce
+#' @export
+bio_phen <-
+  function(project_dir, field_subset_file, out = "ukb_phenotype_subset") {
+
+    field_finder <- bio_field(project_dir)
+    field_subset <- data.table::fread(field_subset_file, header = FALSE) %>%
+      dplyr::pull(1)
+
+    # field_subset_index <- match(field_subset, field_finder$field)
+    # field_cut <- stringr::str_c(field_subset_index, collapse = ",")
+    # field_awk <- stringr::str_c(
+    #   stringr::str_c("$", field_subset_index), collapse = ",")
+
+    field_selection <- field_finder %>%
+      dplyr::filter(
+        stringr::str_detect(
+          field, stringr::str_c(
+            stringr::str_c("^", field_subset), collapse = "|")))
+
+    bio_reader <- function(data) {
+      p <- dplyr::pull(data, path)[1]
+      f <- dplyr::pull(data, "field")
+      t <- dplyr::pull(data, "r_type")
+      names(t) <- f
+
+      data.table::fread(
+        p, header = TRUE, select = c("eid", f), data.table = FALSE,
+        nThread = data.table::getDTthreads())
+
+      # cmd = stringr::str_interp("cut -d',' -f${field_cut} ${p}"),
+      # header = TRUE, data.table = FALSE,
+      # nThread = data.table::getDTthreads())
+
+      # cmd = stringr::str_interp("awk -FS',' '{print ${field_awk}}' ${p}"),
+      # header = TRUE, data.table = FALSE,
+      # nThread = data.table::getDTthreads())
+    }
+
+
+    field_selection_nested <- field_selection %>%
+      dplyr::filter(!stringr::str_detect(name, "eid")) %>%
+      dplyr::group_by(basket) %>%
+      tidyr::nest() %>%
+      dplyr::mutate(csv = purrr::map(data, bio_reader))
+
+    field_selection_nested
+
+    field_selection_nested$csv %>%
+      purrr::reduce(full_join) %>%
+      saveRDS(df, file = stringr::str_c(out, ".rds"))
   }
+
+
+# bio_field_add(data, out = "ukb_field_subset.txt") {
+#   data %>%
+#     pull(field) %>%
+#     if (file.exists(out)) {
+#       cat(., sep = "\n", append = TRUE)
+#     } else {
+#       cat(., sep = "\n")
+#     }
+# }
+
+
+# bio_gp(project_dir, data) {
+# if (data == "clinical") {
+#
+# }
+#
+# if (data == "registrations") {
+#
+# }
+#
+# if (data == "scripts") {
+#
+# }
+#   raw/gp_clinical.txt
+#   raw/gp_registrations.txt
+#   raw/gp_scripts.txt
+# }
+
+
+# bio_field_showcase() {
+#   browseURL
+# }
+
+
+# bio_code(project_dir) {
+#
+# }
