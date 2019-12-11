@@ -100,15 +100,15 @@ bio_phen <-
 
       data.table::fread(
         p, header = TRUE, select = c("eid", f), data.table = FALSE,
-        nThread = data.table::getDTthreads())
+        na = c("", "NA"), nThread = data.table::getDTthreads())
 
       # cmd = stringr::str_interp("cut -d',' -f${field_cut} ${p}"),
       # header = TRUE, data.table = FALSE,
-      # nThread = data.table::getDTthreads())
+      # na = c("", "NA"), nThread = data.table::getDTthreads())
 
       # cmd = stringr::str_interp("awk -FS',' '{print ${field_awk}}' ${p}"),
       # header = TRUE, data.table = FALSE,
-      # nThread = data.table::getDTthreads())
+      # na = c("", "NA"), nThread = data.table::getDTthreads())
     }
 
 
@@ -122,7 +122,7 @@ bio_phen <-
 
     field_selection_nested$csv %>%
       purrr::reduce(full_join) %>%
-      saveRDS(df, file = stringr::str_c(out, ".rds"))
+      saveRDS(file = stringr::str_c(out, ".rds"))
   }
 
 
