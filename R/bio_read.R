@@ -150,22 +150,32 @@ bio_field_add <- function(data, out = "ukb_field_subset.txt") {
 }
 
 
-# bio_gp(project_dir, data) {
-# if (data == "clinical") {
-#
-# }
-#
-# if (data == "registrations") {
-#
-# }
-#
-# if (data == "scripts") {
-#
-# }
-#   raw/gp_clinical.txt
-#   raw/gp_registrations.txt
-#   raw/gp_scripts.txt
-# }
+#' Reads the primary care data
+#'
+#' Detailed patient level diagnoses, prescriptions, etc. Only available if these data have been requested for the particular project you have access to.
+#'
+#' @param project_dir Path to the enclosing directory of a UKB project.
+#' @param record A string specifying which primary care records are required: "clinical", "registrations", "scripts".
+#'
+#' @return A dataframe. \strong{Note}. clinical data has 123,669,371 rows and 8 columns; registrations data has 361,841 rows and 4 columns; scripts data has 57,709,810 rows and 8 columns.
+#'
+#' @export
+bio_gp <- function(project_dir, record) {
+  if (record == "clinical") {
+    data.table::fread(file.path(project_dir, "raw/gp_clinical.txt"),
+                      header = TRUE)
+  }
+
+  if (record == "registrations") {
+    data.table::fread(file.path(project_dir, "raw/gp_registrations.txt"),
+                      header = TRUE)
+  }
+
+  if (record == "scripts") {
+    data.table::fread(file.path(project_dir, "raw/gp_scripts.txt"),
+                      header = TRUE)
+  }
+}
 
 
 # bio_field_showcase() {
@@ -173,6 +183,15 @@ bio_field_add <- function(data, out = "ukb_field_subset.txt") {
 # }
 
 
-# bio_code(project_dir) {
-#
-# }
+#' Reads the UKB showcase codings for categorical variables
+#'
+#' @param project_dir Path to the enclosing directory of a UKB project.
+#'
+#' @return A dataframe with header Coding, Value, Meaning
+#'
+#' @importFrom data.table fread
+#' @export
+bio_code <- function(project_dir) {
+  data.table::fread(file.path(project_dir, "resources/Codings_Showcase.csv"),
+                    sep = ",", header = TRUE)
+}
