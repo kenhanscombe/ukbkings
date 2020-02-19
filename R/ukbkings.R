@@ -1,5 +1,5 @@
 
-#' ukbkings: KCL R interface to UKB data Rosalind
+#' ukbkings: KCL R interface to UKB data on Rosalind HPC
 #'
 #' The ukbkings package provides a few basic tools to access UKB project data on
 #' Rosalind HPC, for UKB-approved KCL researchers and collaborators. Access to a

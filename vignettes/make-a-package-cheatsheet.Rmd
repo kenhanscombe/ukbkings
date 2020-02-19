@@ -57,18 +57,20 @@ usethis::use_github()
 
 **Testing**
 
-Add unit testing and create a first test file. `use_test`
+Add unit testing and create a first test file. `use_test` prepends "test-" to the <test_file_name>
 
 ```{r}
 usethis::use_testthat()
 usethis::use_test("<test_file_name>")
 ```
 
-**Workflow:**
+*Workflow:*
 
 1.	Modify your code or tests.
 2.	Test your package with Ctrl/Cmd + Shift + T or `devtools::test()`.
 3.	Repeat until all tests pass.
+
+R package [testing](http://r-pkgs.had.co.nz/tests.html)
 
 <br>
 
@@ -89,7 +91,7 @@ usethis::use_package()
 devtools::document()
 ```
 
-**Workflow:**
+*Workflow:*
 
 1.	Add roxygen comments to your .R files.
 2.	Run devtools::document() (or press Ctrl/Cmd + Shift + D in RStudio) to convert roxygen comments to .Rd files. (devtools::document() calls roxygen2::roxygenise() to do the hard work.)

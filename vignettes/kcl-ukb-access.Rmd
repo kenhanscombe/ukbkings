@@ -121,16 +121,15 @@ proj_fields %>%
 
 <br>
 
-Write to file
+Write to file with `bio_field_add` (creates file if it does not exist, or appends to existing file)
 
 ```{r}
 proj_fields %>%
   filter(str_detect(field, "^21000-.*")) %>% 
-  pull(field) %>% 
-  cat(file = "<selected_study_fields>", sep = "\n")
+  bio_field_add("<field_subset_file.txt>")
 ```
 
-**Note**: No need to add `eid` (the unique sample identifier) - it is automatically added when retrieving fields with `bio_data`.
+**Note**: No need to add `eid` (the unique sample identifier) - it is automatically added when retrieving fields with `bio_phen`.
 
 <br>
 
@@ -150,8 +149,7 @@ Append to file
 ```{r}
 proj_fields %>%
   filter(str_detect(name, "assessment_centre")) %>%
-  pull(field) %>%
-  cat(file = "<selected_study_fields_file>", sep = "\n", append = TRUE)
+  bio_field_add("<field_subset_file.txt>")
 ```
 
 <br>
@@ -162,12 +160,12 @@ proj_fields %>%
 Write a dataframe of selected study fields to you user directory.
 
 ```{r}
-bio_data(proj_dir, fields = "<selected_study_fields_file>")
+bio_phen(proj_dir, fields = "<selected_study_fields_file>")
 ```
 
 <br>
 
-`bio_data` uses `saveRDS` to write a serialized version of your data. Use `readRDS` to "resurrect" your serialized data.
+`bio_phen` uses `saveRDS` to write a serialized version of your data. Use `readRDS` to "resurrect" your serialized data as a dataframe.
 
 ```{r}
 df <- readRDS("<study_data.rds>")
@@ -248,4 +246,6 @@ The relational database management system used by the UKB to hold "record level"
 
 <br>
 
-## Genotype data
+## Genotype sample data
+
+
