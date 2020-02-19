@@ -129,9 +129,8 @@ bio_phen <-
     withdraw_files <- list.files("raw", pattern = "^w.*csv", full.names = TRUE)
 
     if (length(withdraw_files) > 0) {
-      withdraw_ids <- df %>%
-        purrr::map_df(withdraw_files,
-                      ~readr::read_csv(., col_names = "withdraw")) %>%
+      withdraw_ids <- purrr::map_df(
+        withdraw_files, ~readr::read_csv(., col_names = "withdraw")) %>%
         dplyr::pull(withdraw)
 
       # TODO: output message no. of withdrawals
