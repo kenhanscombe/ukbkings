@@ -38,7 +38,7 @@ bio_field <- function(project_dir) {
     "Categorical (multiple)" = "integer",
     "Continuous" = "double",
     "Text" = "character",
-    "Date" = "Date",
+    "Date" = "character",
     "Time" = "character",
     "Compound" = "character",
     "Binary object" = "character",
@@ -119,11 +119,32 @@ bio_phen <-
       tidyr::nest() %>%
       dplyr::mutate(csv = purrr::map(data, bio_reader))
 
-    field_selection_nested
+    # field_selection_nested
 
-    field_selection_nested$csv %>%
-      purrr::reduce(full_join) %>%
-      saveRDS(file = stringr::str_c(out, ".rds"))
+    df <- field_selection_nested$csv %>%
+      purrr::reduce(full_join)
+
+    # withdrawals
+    withdraw_files <- list.files("raw", pattern = "^w.*csv", full.names = TRUE)
+
+    if (length(withdraw_files) > 0) {
+      withdraw_ids <- df %>%
+        map_df(withdraw_files, ~read_csv(., col_names = "withdraw")) %>%
+        pull(withdraw)
+
+      # TODO: output message no. of withdrawals
+      # TODO: alter samples and fam files?
+      # TODO: write withdrawals.remove. edit sample/ fam files
+      # --prune filters out all samples with missing phenotypes.
+
+      df %>%
+        dplyr::mutate_all(list(~tidyr::na_if(eid %in% withdraw_ids))) %>%
+        saveRDS(file = stringr::str_c(out, ".rds"))
+    } else {
+      df %>%
+        saveRDS(file = stringr::str_c(out, ".rds"))
+    }
+
   }
 
 
@@ -160,27 +181,27 @@ bio_field_add <- function(data, out = "ukb_field_subset.txt") {
 #' @return A dataframe. \strong{Note}. clinical data has 123,669,371 rows and 8 columns; registrations data has 361,841 rows and 4 columns; scripts data has 57,709,810 rows and 8 columns.
 #'
 #' @export
-bio_gp <- function(project_dir, record) {
+bio_gp <- function(project_dir, record, gp_dir = "raw/") {
+
+  if(length(list.files(gp_dir, pattern = "^gp_")) != 3) {
+    stop("GP data is not available for this project.", call. = FALSE)
+  }
+
   if (record == "clinical") {
-    data.table::fread(file.path(project_dir, "raw/gp_clinical.txt"),
+    data.table::fread(file.path(project_dir, gp_dir, "gp_clinical.txt"),
                       header = TRUE)
   }
 
   if (record == "registrations") {
-    data.table::fread(file.path(project_dir, "raw/gp_registrations.txt"),
+    data.table::fread(file.path(project_dir, gp_dir, "gp_registrations.txt"),
                       header = TRUE)
   }
 
   if (record == "scripts") {
-    data.table::fread(file.path(project_dir, "raw/gp_scripts.txt"),
+    data.table::fread(file.path(project_dir, gp_dir, "gp_scripts.txt"),
                       header = TRUE)
   }
 }
-
-
-# bio_field_showcase() {
-#   browseURL
-# }
 
 
 #' Reads the UKB showcase codings for categorical variables
@@ -191,7 +212,15 @@ bio_gp <- function(project_dir, record) {
 #'
 #' @importFrom data.table fread
 #' @export
-bio_code <- function(project_dir) {
-  data.table::fread(file.path(project_dir, "resources/Codings_Showcase.csv"),
-                    sep = ",", header = TRUE)
+bio_code <- function(project_dir, code_dir = "resources/") {
+
+  codings_showcase <- file.path(project_dir, code_dir, "Codings_Showcase.csv")
+
+  if(!file.exists(codings_showcase)) {
+    stop(
+      stringr::str_interp(c("Required file ${codings_showcase} ",
+      "does not exist.")), call. = FALSE)
+  }
+
+  data.table::fread(codings_showcase, sep = ",", header = TRUE)
 }
