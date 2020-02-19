@@ -3,7 +3,7 @@
 \docType{package}
 \name{ukbkings}
 \alias{ukbkings}
-\title{ukbkings: KCL R interface to UKB data Rosalind}
+\title{ukbkings: KCL R interface to UKB data on Rosalind HPC}
 \description{
 The ukbkings package provides a few basic tools to access UKB project data on
 Rosalind HPC, for UKB-approved KCL researchers and collaborators. Access to a

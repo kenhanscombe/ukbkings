@@ -28,7 +28,8 @@ Imports:
     stringr,
     magrittr,
     dplyr,
-    tidyr
+    tidyr,
+    readr
 URL: https://github.com/kenhanscombe/ukbkings
 BugReports: https://github.com/kenhanscombe/ukbkings/issues
 VignetteBuilder: knitr

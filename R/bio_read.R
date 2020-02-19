@@ -1,6 +1,6 @@
 
 utils::globalVariables(c("ukb_type", "basket", "field", "path", "name",
-                         "data", "df", "."))
+                         "data", "df", ".", "withdraw"))
 
 
 #' Reads project-specific UKB field codes
@@ -69,10 +69,11 @@ bio_field <- function(project_dir) {
 #' @details Read the serialized dataframe with readRDS("<name_of_phenotype_subset_file>.rds")
 #'
 #' @importFrom data.table fread getDTthreads
-#' @importFrom dplyr pull filter group_by mutate
+#' @importFrom dplyr pull filter group_by mutate na_if
+#' @importFrom readr read_csv
 #' @importFrom stringr str_detect str_c str_interp
 #' @importFrom tidyr nest
-#' @importFrom purrr map reduce
+#' @importFrom purrr map map_df reduce
 #' @export
 bio_phen <-
   function(project_dir, field_subset_file, out = "ukb_phenotype_subset") {
@@ -129,8 +130,9 @@ bio_phen <-
 
     if (length(withdraw_files) > 0) {
       withdraw_ids <- df %>%
-        map_df(withdraw_files, ~read_csv(., col_names = "withdraw")) %>%
-        pull(withdraw)
+        purrr::map_df(withdraw_files,
+                      ~readr::read_csv(., col_names = "withdraw")) %>%
+        dplyr::pull(withdraw)
 
       # TODO: output message no. of withdrawals
       # TODO: alter samples and fam files?
@@ -138,7 +140,7 @@ bio_phen <-
       # --prune filters out all samples with missing phenotypes.
 
       df %>%
-        dplyr::mutate_all(list(~tidyr::na_if(eid %in% withdraw_ids))) %>%
+        dplyr::mutate_all(list(~dplyr::na_if(eid %in% withdraw_ids))) %>%
         saveRDS(file = stringr::str_c(out, ".rds"))
     } else {
       df %>%
@@ -176,6 +178,7 @@ bio_field_add <- function(data, out = "ukb_field_subset.txt") {
 #' Detailed patient level diagnoses, prescriptions, etc. Only available if these data have been requested for the particular project you have access to.
 #'
 #' @param project_dir Path to the enclosing directory of a UKB project.
+#' @param gp_dir Path to the enclosing directory of the primary care data.
 #' @param record A string specifying which primary care records are required: "clinical", "registrations", "scripts".
 #'
 #' @return A dataframe. \strong{Note}. clinical data has 123,669,371 rows and 8 columns; registrations data has 361,841 rows and 4 columns; scripts data has 57,709,810 rows and 8 columns.
@@ -207,6 +210,7 @@ bio_gp <- function(project_dir, record, gp_dir = "raw/") {
 #' Reads the UKB showcase codings for categorical variables
 #'
 #' @param project_dir Path to the enclosing directory of a UKB project.
+#' @param code_dir Path to the enclosing directory of the Codings_Showcase.csv.
 #'
 #' @return A dataframe with header Coding, Value, Meaning
 #'

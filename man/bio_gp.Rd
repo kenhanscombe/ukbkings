@@ -4,12 +4,14 @@
 \alias{bio_gp}
 \title{Reads the primary care data}
 \usage{
-bio_gp(project_dir, record)
+bio_gp(project_dir, record, gp_dir = "raw/")
 }
 \arguments{
 \item{project_dir}{Path to the enclosing directory of a UKB project.}
 
 \item{record}{A string specifying which primary care records are required: "clinical", "registrations", "scripts".}
+
+\item{gp_dir}{Path to the enclosing directory of the primary care data.}
 }
 \value{
 A dataframe. \strong{Note}. clinical data has 123,669,371 rows and 8 columns; registrations data has 361,841 rows and 4 columns; scripts data has 57,709,810 rows and 8 columns.
