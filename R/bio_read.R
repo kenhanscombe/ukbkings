@@ -120,31 +120,9 @@ bio_phen <-
       tidyr::nest() %>%
       dplyr::mutate(csv = purrr::map(data, bio_reader))
 
-    # field_selection_nested
-
     df <- field_selection_nested$csv %>%
-      purrr::reduce(full_join)
-
-    # withdrawals
-    withdraw_files <- list.files("raw", pattern = "^w.*csv", full.names = TRUE)
-
-    if (length(withdraw_files) > 0) {
-      withdraw_ids <- purrr::map_df(
-        withdraw_files, ~readr::read_csv(., col_names = "withdraw")) %>%
-        dplyr::pull(withdraw)
-
-      # TODO: output message no. of withdrawals
-      # TODO: alter samples and fam files?
-      # TODO: write withdrawals.remove. edit sample/ fam files
-      # --prune filters out all samples with missing phenotypes.
-
-      df %>%
-        dplyr::mutate_all(list(~dplyr::na_if(eid %in% withdraw_ids))) %>%
-        saveRDS(file = stringr::str_c(out, ".rds"))
-    } else {
-      df %>%
-        saveRDS(file = stringr::str_c(out, ".rds"))
-    }
+      purrr::reduce(full_join) %>%
+      saveRDS(file = stringr::str_c(out, ".rds"))
 
   }
 
