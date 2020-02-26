@@ -101,11 +101,19 @@ bio_phen <-
           field, stringr::str_c(
             stringr::str_c("^", field_subset), collapse = "|")))
 
+    n_baskets <- field_selection %>%
+      distinct(basket) %>%
+      nrow()
+
+    message("Reading data from ", n_baskets, " baskets ...")
+
     field_selection_nested <- field_selection %>%
       dplyr::filter(!stringr::str_detect(name, "eid")) %>%
       dplyr::group_by(basket) %>%
       tidyr::nest() %>%
       dplyr::mutate(csv = purrr::map(data, bio_reader))
+
+    message("Merging data and writing to ", out, ".rds ...")
 
     df <- field_selection_nested$csv %>%
       purrr::reduce(full_join) %>%
