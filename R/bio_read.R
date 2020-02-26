@@ -78,41 +78,28 @@ bio_field <- function(project_dir) {
 bio_phen <-
   function(project_dir, field_subset_file, out = "ukb_phenotype_subset") {
 
+    bio_reader <- function(data) {
+      p <- dplyr::pull(data, path)[1]
+      f <- c("eid", dplyr::pull(data, "field"))
+      t <- c("integer", dplyr::pull(data, "r_type"))
+      names(t) <- f
+
+      data.table::fread(
+        p, header = TRUE, data.table = FALSE, na = c("", "NA"),
+        nThread = data.table::getDTthreads(), select = f, colClasses = t
+      )
+    }
+
+
     field_finder <- bio_field(project_dir)
     field_subset <- data.table::fread(field_subset_file, header = FALSE) %>%
       dplyr::pull(1)
-
-    # field_subset_index <- match(field_subset, field_finder$field)
-    # field_cut <- stringr::str_c(field_subset_index, collapse = ",")
-    # field_awk <- stringr::str_c(
-    #   stringr::str_c("$", field_subset_index), collapse = ",")
 
     field_selection <- field_finder %>%
       dplyr::filter(
         stringr::str_detect(
           field, stringr::str_c(
             stringr::str_c("^", field_subset), collapse = "|")))
-
-    bio_reader <- function(data) {
-      p <- dplyr::pull(data, path)[1]
-      f <- dplyr::pull(data, "field")
-      t <- dplyr::pull(data, "r_type")
-      names(t) <- f
-
-      data.table::fread(
-        p, header = TRUE, select = c("eid", f), data.table = FALSE,
-        colClasses = c("integer", t),
-        na = c("", "NA"), nThread = data.table::getDTthreads())
-
-      # cmd = stringr::str_interp("cut -d',' -f${field_cut} ${p}"),
-      # header = TRUE, data.table = FALSE,
-      # na = c("", "NA"), nThread = data.table::getDTthreads())
-
-      # cmd = stringr::str_interp("awk -FS',' '{print ${field_awk}}' ${p}"),
-      # header = TRUE, data.table = FALSE,
-      # na = c("", "NA"), nThread = data.table::getDTthreads())
-    }
-
 
     field_selection_nested <- field_selection %>%
       dplyr::filter(!stringr::str_detect(name, "eid")) %>%
@@ -123,8 +110,7 @@ bio_phen <-
     df <- field_selection_nested$csv %>%
       purrr::reduce(full_join) %>%
       saveRDS(file = stringr::str_c(out, ".rds"))
-
-  }
+}
 
 
 
