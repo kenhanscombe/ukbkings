@@ -1,6 +1,6 @@
 
 utils::globalVariables(c("ukb_type", "basket", "field", "path", "name",
-                         "data", "df", ".", "withdraw"))
+                         "data", "df", ".", "withdraw", "eid"))
 
 
 #' Reads project-specific UKB field codes
@@ -116,8 +116,25 @@ bio_phen <-
     message("Merging data and writing to ", out, ".rds ...")
 
     df <- field_selection_nested$csv %>%
-      purrr::reduce(full_join) %>%
-      saveRDS(file = stringr::str_c(out, ".rds"))
+      purrr::reduce(full_join)
+
+    # withdrawals
+    withdraw_files <- list.files("raw", pattern = "^w.*csv", full.names = TRUE)
+
+    if (length(withdraw_files) > 0) {
+      withdraw_ids <- purrr::map_df(
+        withdraw_files, ~readr::read_csv(., col_names = "withdraw")) %>%
+        dplyr::pull(withdraw)
+
+      withdraw_data <- pull(df, eid) %in% withdraw_ids
+      df[withdraw_data, ] <- NA
+
+      df %>%
+        saveRDS(file = stringr::str_c(out, ".rds"))
+    } else {
+      df %>%
+        saveRDS(file = stringr::str_c(out, ".rds"))
+    }
 }
 
 
