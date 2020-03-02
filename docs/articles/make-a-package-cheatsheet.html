@@ -116,15 +116,16 @@
 <a class="sourceLine" id="cb3-2" data-line-number="2">usethis<span class="op">::</span><span class="kw"><a href="https://usethis.r-lib.org/reference/use_github.html">use_github</a></span>()</a></code></pre></div>
 <p><br></p>
 <p><strong>Testing</strong></p>
-<p>Add unit testing and create a first test file. <code>use_test</code></p>
+<p>Add unit testing and create a first test file. <code>use_test</code> prepends “test-” to the <test_file_name></test_file_name></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">usethis<span class="op">::</span><span class="kw"><a href="https://usethis.r-lib.org/reference/use_testthat.html">use_testthat</a></span>()</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">usethis<span class="op">::</span><span class="kw"><a href="https://usethis.r-lib.org/reference/use_testthat.html">use_test</a></span>(<span class="st">"&lt;test_file_name&gt;"</span>)</a></code></pre></div>
-<p><strong>Workflow:</strong></p>
+<p><em>Workflow:</em></p>
 <ol style="list-style-type: decimal">
 <li>Modify your code or tests.</li>
 <li>Test your package with Ctrl/Cmd + Shift + T or <code><a href="https://www.rdocumentation.org/packages/devtools/topics/test">devtools::test()</a></code>.</li>
 <li>Repeat until all tests pass.</li>
 </ol>
+<p>R package <a href="http://r-pkgs.had.co.nz/tests.html">testing</a></p>
 <p><br></p>
 <p><strong>Add example (or test data)</strong></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">usethis<span class="op">::</span><span class="kw"><a href="https://usethis.r-lib.org/reference/use_data.html">use_data_raw</a></span>()</a></code></pre></div>
@@ -132,7 +133,7 @@
 <p><strong>Documentation</strong></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">usethis<span class="op">::</span><span class="kw"><a href="https://usethis.r-lib.org/reference/use_package.html">use_package</a></span>()</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/document">document</a></span>()</a></code></pre></div>
-<p><strong>Workflow:</strong></p>
+<p><em>Workflow:</em></p>
 <ol style="list-style-type: decimal">
 <li>Add roxygen comments to your .R files.</li>
 <li>Run devtools::document() (or press Ctrl/Cmd + Shift + D in RStudio) to convert roxygen comments to .Rd files. (devtools::document() calls roxygen2::roxygenise() to do the hard work.)</li>

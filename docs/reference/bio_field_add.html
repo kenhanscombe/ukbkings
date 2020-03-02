@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ukbkings: KCL R interface to UKB data on Rosalind HPC — ukbkings • ukbkings</title>
+<title>Adds <strong>field</strong> column entries from a dataframe to a file — bio_field_add • ukbkings</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,12 +30,9 @@
 
 
 
-<meta property="og:title" content="ukbkings: KCL R interface to UKB data on Rosalind HPC — ukbkings" />
+<meta property="og:title" content="Adds <strong>field</strong> column entries from a dataframe to a file — bio_field_add" />
 
-<meta property="og:description" content="The ukbkings package provides a few basic tools to access UKB project data on
-Rosalind HPC, for UKB-approved KCL researchers and collaborators. Access to a
-particular project is restricted to named KCL researchers and collaborators,
-approved by the UKB, for a particular study." />
+<meta property="og:description" content="Adds field column entries from a dataframe to a file" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,27 +114,45 @@ approved by the UKB, for a particular study." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>ukbkings: KCL R interface to UKB data on Rosalind HPC</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kenhanscombe/ukbkings/blob/master/R/ukbkings.R'><code>R/ukbkings.R</code></a></small>
-    <div class="hidden name"><code>ukbkings.Rd</code></div>
+    <h1>Adds <strong>field</strong> column entries from a dataframe to a file</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kenhanscombe/ukbkings/blob/master/R/bio_read.R'><code>R/bio_read.R</code></a></small>
+    <div class="hidden name"><code>bio_field_add.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The ukbkings package provides a few basic tools to access UKB project data on
-Rosalind HPC, for UKB-approved KCL researchers and collaborators. Access to a
-particular project is restricted to named KCL researchers and collaborators,
-approved by the UKB, for a particular study.</p>
+    <p>Adds <strong>field</strong> column entries from a dataframe to a file</p>
     
     </div>
 
-        
+    <pre class="usage"><span class='fu'>bio_field_add</span>(<span class='no'>data</span>, <span class='kw'>out</span> <span class='kw'>=</span> <span class='st'>"ukb_field_subset.txt"</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>data</th>
+      <td><p>A dataframe with obligatory column <strong>field</strong>. (Ideally the output of <code>bio_field</code>.)</p></td>
+    </tr>
+    <tr>
+      <th>out</th>
+      <td><p>Field subset file name (including path). Default "ukb_field_subset", writes or appends fields one per line to "ukb_field_subset" in the current directory.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A file with one field per line (no header). If the file exists, the additional fields are appended.</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
 
   </div>
 </div>

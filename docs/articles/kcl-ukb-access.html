@@ -106,7 +106,7 @@
 <h2 class="hasAnchor">
 <a href="#ukbkings-installation" class="anchor"></a><strong>ukbkings</strong> installation</h2>
 <p>To retrieve your study specific data, start an interactive cluster session with sufficient virtual memory to manipulate the +25GB decrypted project data.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="ex">qrsh</span> -l h_vmem=30G</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="ex">srun</span> -p shared,brc --mem=30G --pty /bin/bash</a></code></pre></div>
 <p><br></p>
 <p>Navigate to your Rosalind user directory, run R, and install the R package ukbkings.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/remote-reexports">install_github</a></span>(<span class="st">"kenhanscombe/ukbkings"</span>, <span class="dt">dependencies =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
@@ -174,12 +174,11 @@
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 2 21000-1.0 ethnic_background_f21000_1_0</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 3 21000-2.0 ethnic_background_f21000_2_0</span></a></code></pre></div>
 <p><br></p>
-<p>Write to file</p>
+<p>Write to file with <code>bio_field_add</code> (creates file if it does not exist, or appends to existing file)</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">proj_fields <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(<span class="kw">str_detect</span>(field, <span class="st">"^21000-.*"</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">  </span><span class="kw">pull</span>(field) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="dt">file =</span> <span class="st">"&lt;selected_study_fields&gt;"</span>, <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
-<p><strong>Note</strong>: No need to add <code>eid</code> (the unique sample identifier) - it is automatically added when retrieving fields with <code>bio_data</code>.</p>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">  </span><span class="kw">bio_field_add</span>(<span class="st">"&lt;field_subset_file.txt&gt;"</span>)</a></code></pre></div>
+<p><strong>Note</strong>: No need to add <code>eid</code> (the unique sample identifier) - it is automatically added when retrieving fields with <code>bio_phen</code>.</p>
 <p><br></p>
 <p>Search the <code>name</code> column</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Search `name`</span></a>
@@ -197,17 +196,16 @@
 <p>Append to file</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">proj_fields <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(<span class="kw">str_detect</span>(name, <span class="st">"assessment_centre"</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">  </span><span class="kw">pull</span>(field) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="dt">file =</span> <span class="st">"&lt;selected_study_fields_file&gt;"</span>, <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, <span class="dt">append =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">  </span><span class="kw">bio_field_add</span>(<span class="st">"&lt;field_subset_file.txt&gt;"</span>)</a></code></pre></div>
 <p><br></p>
 </div>
 <div id="retrieve-study-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#retrieve-study-data" class="anchor"></a>Retrieve study data</h3>
 <p>Write a dataframe of selected study fields to you user directory.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">bio_data</span>(proj_dir, <span class="dt">fields =</span> <span class="st">"&lt;selected_study_fields_file&gt;"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">bio_phen</span>(proj_dir, <span class="dt">fields =</span> <span class="st">"&lt;selected_study_fields_file&gt;"</span>)</a></code></pre></div>
 <p><br></p>
-<p><code>bio_data</code> uses <code>saveRDS</code> to write a serialized version of your data. Use <code>readRDS</code> to “resurrect” your serialized data.</p>
+<p><code>bio_phen</code> uses <code>saveRDS</code> to write a serialized version of your data. Use <code>readRDS</code> to “resurrect” your serialized data as a dataframe.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(<span class="st">"&lt;study_data.rds&gt;"</span>)</a></code></pre></div>
 <p><br></p>
 </div>
@@ -276,9 +274,9 @@
 </ol>
 <p>The relational database management system used by the UKB to hold “record level” information.</p>
 <p><br></p>
-<div id="genotype-data" class="section level2">
+<div id="genotype-sample-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#genotype-data" class="anchor"></a>Genotype data</h2>
+<a href="#genotype-sample-data" class="anchor"></a>Genotype sample data</h2>
 </div>
 </div>
   </div>
@@ -294,7 +292,7 @@
       <li><a href="#ukb-showcase-and-catalogues">UKB showcase and catalogues</a></li>
       <li>
 <a href="#guides-and-resources">Guides and resources</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#genotype-data">Genotype data</a></li>
+<li><a href="#genotype-sample-data">Genotype sample data</a></li>
       </ul>
 </li>
       </ul>
