@@ -127,7 +127,7 @@ bio_phen <-
         dplyr::pull(withdraw)
 
       withdraw_data <- pull(df, eid) %in% withdraw_ids
-      df[withdraw_data, ] <- NA
+      df[withdraw_data, names(df) != "eid"] <- NA
 
       df %>%
         saveRDS(file = stringr::str_c(out, ".rds"))
