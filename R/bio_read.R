@@ -113,7 +113,7 @@ bio_phen <-
       tidyr::nest() %>%
       dplyr::mutate(csv = purrr::map(data, bio_reader))
 
-    message("Merging data and writing to ", out, ".rds ...")
+    message("Merging baskets ...")
 
     df <- field_selection_nested$csv %>%
       purrr::reduce(full_join)
@@ -127,11 +127,15 @@ bio_phen <-
         dplyr::pull(withdraw)
 
       withdraw_data <- pull(df, eid) %in% withdraw_ids
+
+      message("Removing withdrawn participant data ...")
       df[withdraw_data, names(df) != "eid"] <- NA
 
+      message("Writing data to ", out, ".rds ...")
       df %>%
         saveRDS(file = stringr::str_c(out, ".rds"))
     } else {
+      message("Writing data to ", out, ".rds ...")
       df %>%
         saveRDS(file = stringr::str_c(out, ".rds"))
     }
