@@ -53,7 +53,8 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
     dplyr::bind_rows(.id = "basket") %>%
     dplyr::mutate(
       r_type = col_type[ukb_type],
-      path = file.path(project_dir, stringr::str_c(basket, ".csv")))
+      path = file.path(project_dir, pheno_dir, stringr::str_c(basket, ".csv"))
+    )
 
   as.data.frame(field_finder)
 }
