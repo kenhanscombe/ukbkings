@@ -8,6 +8,7 @@ utils::globalVariables(c("ukb_type", "basket", "field", "path", "name",
 #' The field code lookup table associates with each field id, a desciptive name (which includes the field id, array, index), ukb_type, r_type, basket and the path to the csv file containing the field data.
 #'
 #' @param project_dir Path to the enclosing directory of a UKB project
+#' @param pheno_dir Path to the enclosing directory of the phenotype data.
 #'
 #' @return A dataframe with columns: ukb_type, r_type, path
 #'
@@ -18,13 +19,14 @@ utils::globalVariables(c("ukb_type", "basket", "field", "path", "name",
 #' @importFrom magrittr "%>%"
 #'
 #' @export
-bio_field <- function(project_dir) {
+bio_field <- function(project_dir, pheno_dir = "phenotypes") {
 
   if(!dir.exists(project_dir)) {
     stop("Invalid project directory path.", call. = FALSE)
   }
 
-  field_files <- list.files(project_dir, pattern = "ukb.*field_finder.txt",
+  field_files <- list.files(file.path(project_dir, pheno_dir),
+                            pattern = "ukb.*field_finder.txt",
                             full.names = TRUE)
 
   baskets <- gsub(
@@ -64,6 +66,7 @@ bio_field <- function(project_dir) {
 #'
 #' @param project_dir Path to the enclosing directory of a UKB project.
 #' @param field_subset_file A path to a one-per-line text file of fields (no header).
+#' @param pheno_dir Path to the enclosing directory of the phenotype data.
 #' @param out Name of phenotype subset file. Default "ukb_phenotype_subset", writes ukb_phenotype_subset.rds to the current directory.
 #'
 #' @details Read the serialized dataframe with readRDS("<name_of_phenotype_subset_file>.rds")
@@ -75,8 +78,8 @@ bio_field <- function(project_dir) {
 #' @importFrom tidyr nest
 #' @importFrom purrr map map_df reduce
 #' @export
-bio_phen <-
-  function(project_dir, field_subset_file, out = "ukb_phenotype_subset") {
+bio_phen <- function(project_dir, field_subset_file,
+                     pheno_dir = "phenotypes", out = "ukb_phenotype_subset") {
 
     bio_reader <- function(data) {
       p <- dplyr::pull(data, path)[1]
@@ -91,7 +94,7 @@ bio_phen <-
     }
 
 
-    field_finder <- bio_field(project_dir)
+    field_finder <- bio_field(file.path(project_dir, pheno_dir))
     field_subset <- data.table::fread(field_subset_file, header = FALSE) %>%
       dplyr::pull(1)
 
