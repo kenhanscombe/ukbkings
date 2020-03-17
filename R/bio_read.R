@@ -66,7 +66,6 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
 #'
 #' @param project_dir Path to the enclosing directory of a UKB project.
 #' @param field_subset_file A path to a one-per-line text file of fields (no header).
-#' @param pheno_dir Path to the enclosing directory of the phenotype data.
 #' @param out Name of phenotype subset file. Default "ukb_phenotype_subset", writes ukb_phenotype_subset.rds to the current directory.
 #'
 #' @details Read the serialized dataframe with readRDS("<name_of_phenotype_subset_file>.rds")
@@ -79,7 +78,7 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
 #' @importFrom purrr map map_df reduce
 #' @export
 bio_phen <- function(project_dir, field_subset_file,
-                     pheno_dir = "phenotypes", out = "ukb_phenotype_subset") {
+                     out = "ukb_phenotype_subset") {
 
     bio_reader <- function(data) {
       p <- dplyr::pull(data, path)[1]
@@ -94,7 +93,7 @@ bio_phen <- function(project_dir, field_subset_file,
     }
 
 
-    field_finder <- bio_field(file.path(project_dir, pheno_dir))
+    field_finder <- bio_field(project_dir)
     field_subset <- data.table::fread(field_subset_file, header = FALSE) %>%
       dplyr::pull(1)
 
