@@ -181,7 +181,7 @@ bio_field_add <- function(data, out = "ukb_field_subset.txt") {
 #' @export
 bio_gp <- function(project_dir, record, gp_dir = "raw/") {
 
-  if(length(list.files(gp_dir, pattern = "^gp_")) != 3) {
+  if (length(list.files(file.path(project_dir, gp_dir), pattern = "^gp_")) != 3) {
     stop("GP data is not available for this project.", call. = FALSE)
   }
 
