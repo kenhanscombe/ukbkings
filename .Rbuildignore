@@ -9,3 +9,6 @@
 ^docs$
 ^pkgdown$
 ^vignettes/make-a-package-cheatsheet\.Rmd$
+^environment.yml
+^codecov\.yml$
+^\.covrignore$

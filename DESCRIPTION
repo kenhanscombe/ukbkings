@@ -19,7 +19,8 @@ Suggests:
     testthat (>= 2.1.0),
     knitr,
     rmarkdown,
-    devtools
+    devtools,
+    covr
 RoxygenNote: 7.0.2
 Imports: 
     data.table,
@@ -33,3 +34,5 @@ Imports:
 URL: https://github.com/kenhanscombe/ukbkings
 BugReports: https://github.com/kenhanscombe/ukbkings/issues
 VignetteBuilder: knitr
+Depends: 
+    R (>= 3.2)
