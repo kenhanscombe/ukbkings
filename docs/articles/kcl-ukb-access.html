@@ -6,18 +6,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>How to access UKB data on Rosalind • ukbkings</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="How to access UKB data on Rosalind">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="ukbkings">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -63,8 +64,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/kenhanscombe/ukbkings">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/kenhanscombe/ukbkings/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -77,10 +78,11 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>How to access UKB data on Rosalind</h1>
+      <h1 data-toc-skip>How to access UKB data on Rosalind</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/kenhanscombe/ukbkings/blob/master/vignettes/kcl-ukb-access.Rmd"><code>vignettes/kcl-ukb-access.Rmd</code></a></small>
@@ -93,213 +95,150 @@
 <hr>
 <p><strong>Note. This document is only useful for UKB-approved KCL reasearchers and their collaborators, with an account on the Rosalind HPC cluster.</strong></p>
 <hr>
-<p>A UKB <strong>project</strong> corresponds to a single UKB application; a <strong>study</strong> fits within the scope of a project, and typically corresponds to a single publication. Each project potentially includes many studies. Project directories on Rosalind have roughly the same internal structure, including subdirectories for raw, decrypted and derived data. To access data for a particular UKB-approved project, KCL researchers and collaborators need to be named investigators/ collaborators on that particular project. Phenotype data in a project is accessed through the <strong>ukbkings R package</strong>. Genotype data is accessed via a symbolic link in the user’s directory, once permission has been granted.</p>
-<p>For security reasons, the layout of directories on Rosalind and specific path names are described in <strong>lustre_storage.doc</strong>, on Basecamp (Team: UK Biobank &gt; Docs &amp; Files).</p>
-<p><br></p>
-<div id="pre-requisites" class="section level2">
-<h2 class="hasAnchor">
-<a href="#pre-requisites" class="anchor"></a>Pre-requisites</h2>
-<p>You must have an account on Rosalind (contact <a href="rosalind-support@kcl.ac.uk">Rosalind support</a>), and access to the phenotype data in a specific project directory. You will need separate permission to access to the genotype data. For access to phenotype and genotype data contact <a href="ken.b.hanscombe@kcl.ac.uk">ken.b.hanscombe@kcl.ac.uk</a>.</p>
-<p><br></p>
-</div>
-<div id="ukbkings-installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#ukbkings-installation" class="anchor"></a><strong>ukbkings</strong> installation</h2>
-<p>To retrieve your study specific data, start an interactive cluster session with sufficient virtual memory to manipulate the +25GB decrypted project data.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="ex">srun</span> -p shared,brc --mem=30G --pty /bin/bash</a></code></pre></div>
-<p><br></p>
-<p>Navigate to your Rosalind user directory, run R, and install the R package ukbkings.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/remote-reexports">install_github</a></span>(<span class="st">"kenhanscombe/ukbkings"</span>, <span class="dt">dependencies =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p><br></p>
-<p>If you have any trouble installing the package or its dependencies, create a conda environment from <strong>ukbkings-env.yml</strong>. From bash,</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="fu">wget</span> https://github.com/kenhanscombe/ukbkings/blob/master/ukbkings-env.yml</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="ex">conda</span> env create -f ukbkings-env.yml</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="bu">source</span> activate ukbkings-env</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># run R, install ukbkings, inspect/ retrieve UKB data (see below)</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="bu">source</span> deactivate ukbkings-env</a></code></pre></div>
-<p>The environment created, <code>ukbkings-env</code>, includes R 3.6, the <code>ukbkings</code> package, and all base and essential R packages (<a href="https://docs.anaconda.com/anaconda/user-guide/tasks/using-r-language/">based on this setup</a>), as well as Python 3.7 and Snakemake 5.7. Once created use <code>source activate</code> to start it up, and <code>source deactivate</code> to tear it down.</p>
-<p><strong>Aside</strong>: It is considered good practice to have a self-contained environment for each analysis, with software installation and dependencies handled by an environment manager like <a href="https://docs.conda.io">conda</a>. You may find it useful to use this environment for your phenotype analysis.</p>
-<p><br></p>
-</div>
-<div id="phenotype-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#phenotype-data" class="anchor"></a>Phenotype data</h2>
-<p>To use the example data bundled with the package</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">proj_dir &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"testdata"</span>, <span class="dt">package =</span> <span class="st">"ukbkings"</span>)</a></code></pre></div>
-<p><br></p>
-<div id="field-to-name-data" class="section level3">
+<div id="tldr" class="section level3">
 <h3 class="hasAnchor">
-<a href="#field-to-name-data" class="anchor"></a>Field-to-name data</h3>
-<p>To get a dataframe of project fields</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># library(ukbkings)</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">proj_fields &lt;-<span class="st"> </span><span class="kw">bio_field</span>(proj_dir)</a>
+<a href="#tldr" class="anchor"></a>TL;DR</h3>
+<p>Install the package</p>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"kenhanscombe/ukbkings"</span>, <span class="kw">dependencies</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">force</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<p>Write a serialised R dataframe to file for your required fields.</p>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="../reference/bio_phen.html">bio_phen</a></span>(
+ <span class="kw">project_dir</span> <span class="kw">=</span> <span class="st">"&lt;path_to_project_directory&gt;"</span>,
+ <span class="kw">field</span> <span class="kw">=</span> <span class="st">"&lt;path_to_required_fields_file&gt;"</span>,  <span class="co"># one per line, no header</span>
+ <span class="kw">out</span> <span class="kw">=</span> <span class="st">"&lt;stem_of_output_file&gt;"</span>  <span class="co"># e.g. "data/ukb" writes "data/ukb.rds"</span>
+)</pre></body></html></div>
+<p>Read it into R, e.g.,</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="st">"data/ukb.rds"</span>)</pre></body></html></div>
+<p><strong>Note</strong>. <code>bio_phen</code> reads all withdrawals from a project subdirectory (w*.csv withdrawal files received from the UKB by email), and replaces their phenotype values with <code>NA</code>.</p>
+<p><br></p>
+</div>
+<div id="preamble" class="section level3">
+<h3 class="hasAnchor">
+<a href="#preamble" class="anchor"></a>PREAMBLE</h3>
+<p>Log in to Rosalind.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Local shell</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="fu">ssh</span> <span class="op">&lt;</span>username<span class="op">&gt;</span>@login3.rosalind.kcl.ac.uk</a></code></pre></div>
+<p>Change to your UKB user directory. If you do not have a UKB user directory, create one first at /scratch/groups/ukbiobank/Edinburgh_Data/usr/<em>&lt;username&gt;</em>. Start an interactive cluster session with sufficient memory to read the UKB data (I think you can get away with less, but I’ve not worked that out yet). Load the default cluster version of R (<code>module avail 2&amp;&gt;1 | grep R</code> currently <code>apps/R/3.6.0</code>) then start R.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Rosalind shell</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="bu">cd</span> /scratch/groups/ukbiobank/Edinburgh_Data/usr/<span class="op">&lt;</span>username<span class="op">&gt;</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="ex">srun</span> -p shared,brc --mem=30G --pty /bin/bash</a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(proj_fields)</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;     basket   field                                               name</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; 1 ukb12345     eid                                                eid</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 2 ukb12345  31-0.0                                        sex_f31_0_0</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; 3 ukb12345  54-0.0               uk_biobank_assessment_centre_f54_0_0</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; 4 ukb12345  54-1.0               uk_biobank_assessment_centre_f54_1_0</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; 5 ukb12345  54-2.0               uk_biobank_assessment_centre_f54_2_0</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; 6 ukb12345 189-0.0 townsend_deprivation_index_at_recruitment_f189_0_0</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt;               ukb_type  r_type</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; 1             Sequence integer</span></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; 2 Categorical (single) integer</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; 3 Categorical (single) integer</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; 4 Categorical (single) integer</span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; 5 Categorical (single) integer</span></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; 6           Continuous  double</span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt;                                                                path</span></a>
-<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; 1 /Users/ken/Documents/projects/ukbkings/inst/testdata/ukb12345.csv</span></a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; 2 /Users/ken/Documents/projects/ukbkings/inst/testdata/ukb12345.csv</span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; 3 /Users/ken/Documents/projects/ukbkings/inst/testdata/ukb12345.csv</span></a>
-<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; 4 /Users/ken/Documents/projects/ukbkings/inst/testdata/ukb12345.csv</span></a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; 5 /Users/ken/Documents/projects/ukbkings/inst/testdata/ukb12345.csv</span></a>
-<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; 6 /Users/ken/Documents/projects/ukbkings/inst/testdata/ukb12345.csv</span></a></code></pre></div>
-<p><br></p>
-<p>You will need to create a file in your user directory that contains the fields you require, one per line. You can use a pager to manually search through the available fields.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">proj_fields <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(field, name) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/page">page</a></span>(<span class="dt">method =</span> <span class="st">"print"</span>)</a></code></pre></div>
-<p><br></p>
-<p>Or, as <code>proj_fields</code> is a dataframe, you can use regular expressions to search the <code>field</code> or <code>name</code> columns. For all <em>index</em> and <em>array</em> entries of a particular field</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Search `field`</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">proj_fields <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(field, name) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(<span class="kw">str_detect</span>(field, <span class="st">"^21000-.*"</span>))</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;       field                         name</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 1 21000-0.0 ethnic_background_f21000_0_0</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 2 21000-1.0 ethnic_background_f21000_1_0</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 3 21000-2.0 ethnic_background_f21000_2_0</span></a></code></pre></div>
-<p><br></p>
-<p>Write to file with <code>bio_field_add</code> (creates file if it does not exist, or appends to existing file)</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">proj_fields <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(<span class="kw">str_detect</span>(field, <span class="st">"^21000-.*"</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">  </span><span class="kw">bio_field_add</span>(<span class="st">"&lt;field_subset_file.txt&gt;"</span>)</a></code></pre></div>
-<p><strong>Note</strong>: No need to add <code>eid</code> (the unique sample identifier) - it is automatically added when retrieving fields with <code>bio_phen</code>.</p>
-<p><br></p>
-<p>Search the <code>name</code> column</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Search `name`</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">proj_fields <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(field, name) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(<span class="kw">str_detect</span>(name, <span class="st">"assessment_centre"</span>))</a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt;       field                                           name</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; 1    54-0.0           uk_biobank_assessment_centre_f54_0_0</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; 2    54-1.0           uk_biobank_assessment_centre_f54_1_0</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; 3    54-2.0           uk_biobank_assessment_centre_f54_2_0</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; 4 21003-0.0 age_when_attended_assessment_centre_f21003_0_0</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; 5 21003-1.0 age_when_attended_assessment_centre_f21003_1_0</span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; 6 21003-2.0 age_when_attended_assessment_centre_f21003_2_0</span></a></code></pre></div>
-<p><br></p>
-<p>Append to file</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">proj_fields <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(<span class="kw">str_detect</span>(name, <span class="st">"assessment_centre"</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">  </span><span class="kw">bio_field_add</span>(<span class="st">"&lt;field_subset_file.txt&gt;"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="ex">module</span> load apps/R/3.6.0</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="ex">R</span></a></code></pre></div>
 <p><br></p>
 </div>
-<div id="retrieve-study-data" class="section level3">
+<div id="installation-setup" class="section level3">
 <h3 class="hasAnchor">
-<a href="#retrieve-study-data" class="anchor"></a>Retrieve study data</h3>
-<p>Write a dataframe of selected study fields to you user directory.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">bio_phen</span>(proj_dir, <span class="dt">fields =</span> <span class="st">"&lt;selected_study_fields_file&gt;"</span>)</a></code></pre></div>
+<a href="#installation-setup" class="anchor"></a>INSTALLATION/ SETUP</h3>
+<p><em><strong>Note</strong>. All code blocks below are R, unless otherwise specified.</em></p>
 <p><br></p>
-<p><code>bio_phen</code> uses <code>saveRDS</code> to write a serialized version of your data. Use <code>readRDS</code> to “resurrect” your serialized data as a dataframe.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(<span class="st">"&lt;study_data.rds&gt;"</span>)</a></code></pre></div>
+<p>Install from Github</p>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"kenhanscombe/ukbkings"</span>, <span class="kw">dependencies</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">force</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<hr>
+<p><em><strong>Note</strong>. If this fails, try create an environment from the included yml file. Activate it and try the install again.</em></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Rosalind shell</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="fu">wget</span> https://raw.githubusercontent.com/kenhanscombe/ukbkings/master/environment.yml</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="ex">conda</span> env create -f environment.yml</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="bu">source</span> activate ukb</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="ex">R</span></a></code></pre></div>
+<hr>
+<p>Load libraries. (I like to use tidyverse but it is not necessary, base R is fine)</p>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ukbkings</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyverse</span>)</pre></body></html></div>
+<p>Check help (press ‘q’ to exit).</p>
+<div class="sourceCode" id="cb9"><html><body><pre class="r">?<span class="no">ukbkings</span></pre></body></html></div>
+<p>List functions available with <code>ukbkings::</code> TAB TAB. All basic data collection functions start <code>bio_</code>. Check help on specific function, e.g.,</p>
+<div class="sourceCode" id="cb10"><html><body><pre class="r">?<span class="no">bio_phen</span></pre></body></html></div>
+<p><em><strong>Note</strong>. All functionality is also described on the <a href="https://kenhanscombe.github.io/ukbkings/">ukbkings webpage</a> under the <strong>Reference</strong> tab.</em></p>
+<p><br></p>
+<p>Point to the project directory, e.g., ukb18177_glanville</p>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">project_dir</span> <span class="kw">&lt;-</span> <span class="st">"/scratch/datasets/ukbiobank/ukb18177_glanville"</span></pre></body></html></div>
 <p><br></p>
 </div>
-<div id="categorical-level-codes" class="section level3">
+<div id="field-subset-file" class="section level3">
 <h3 class="hasAnchor">
-<a href="#categorical-level-codes" class="anchor"></a>Categorical level codes</h3>
+<a href="#field-subset-file" class="anchor"></a>FIELD SUBSET FILE</h3>
+<p>You need a file with required fields, one per line, no header.</p>
+<p><br></p>
+<p>Read the project field-to-name “field finder” file, inspect the variable metadata, and display the number of baskets included.</p>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bio_field.html">bio_field</a></span>(<span class="no">project_dir</span>)
+
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">f</span>)
+<span class="fu">glimpse</span>(<span class="no">f</span>)
+
+<span class="no">f</span> <span class="kw">%&gt;%</span>
+<span class="fu">distinct</span>(<span class="no">basket</span>)</pre></body></html></div>
+<p>Search for variables required and add their field codes to a file, one per line, no header. You can page through the file.</p>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">f</span> <span class="kw">%&gt;%</span>
+<span class="fu">select</span>(<span class="no">name</span>) <span class="kw">%&gt;%</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/page.html">page</a></span>(<span class="kw">method</span> <span class="kw">=</span> <span class="st">"print"</span>)</pre></body></html></div>
+<p>Or, search <code>name</code> column</p>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">f</span> <span class="kw">%&gt;%</span>
+<span class="fu">select</span>(<span class="no">field</span>, <span class="no">name</span>) <span class="kw">%&gt;%</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(<span class="fu">str_detect</span>(<span class="no">name</span>, <span class="st">"vegetables"</span>))
+
+<span class="no">f</span> <span class="kw">%&gt;%</span>
+<span class="fu">select</span>(<span class="no">field</span>, <span class="no">name</span>) <span class="kw">%&gt;%</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(<span class="fu">str_detect</span>(<span class="no">name</span>, <span class="st">"ldl|triglycerides"</span>))</pre></body></html></div>
+<p>Alternatively, search the <a href="http://biobank.ndph.ox.ac.uk/showcase/">UKB showcase</a> for a variable of interest then filter on the <code>field</code> column in the field-to-name dataframe (useful if multiple instances required). For example, if you search for “cholesterol medication”, the field stem you want is 6177</p>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">f</span> <span class="kw">%&gt;%</span>
+<span class="fu">select</span>(<span class="no">field</span>, <span class="no">name</span>) <span class="kw">%&gt;%</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(<span class="fu">str_detect</span>(<span class="no">field</span>, <span class="st">"6177"</span>))</pre></body></html></div>
+<p><code>bio_field_add</code> is a convenience function for creating the one per line required variables/fields file. By default the function appends fields. Create the field subset file in your UKB user directory /scratch/groups/ukbiobank/Edinburgh_Data/usr/<em>&lt;username&gt;</em>/</p>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">f</span> <span class="kw">%&gt;%</span>
+<span class="fu">select</span>(<span class="no">field</span>, <span class="no">name</span>) <span class="kw">%&gt;%</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(<span class="fu">str_detect</span>(<span class="no">field</span>, <span class="st">"6177"</span>)) <span class="kw">%&gt;%</span>
+<span class="fu"><a href="../reference/bio_field_add.html">bio_field_add</a></span>(<span class="st">"small_field_subset.txt"</span>)</pre></body></html></div>
+<p>Inspect the field selection file.</p>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span>(<span class="st">"cat small_field_subset.txt"</span>)</pre></body></html></div>
 <p><br></p>
 </div>
-</div>
-<div id="ukb-showcase-and-catalogues" class="section level2">
-<h2 class="hasAnchor">
-<a href="#ukb-showcase-and-catalogues" class="anchor"></a>UKB showcase and catalogues</h2>
-<p>Catalogues are listings of contents of the <a href="http://biobank.ctsu.ox.ac.uk/crystal/">UKB showcase</a>. There are 5 <a href="http://biobank.ndph.ox.ac.uk/showcase/catalogs.cgi">catalogues</a>:</p>
-<ul>
-<li>fields</li>
-<li>categories</li>
-<li>returns</li>
-<li>resources</li>
-<li>schema</li>
-</ul>
+<div id="write-read-data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#write-read-data" class="anchor"></a>WRITE/ READ DATA</h3>
+<p>Read required fields and save as an rds file in your user directory. Argument <code>out</code> should be a path to your UKB user directory</p>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="../reference/bio_phen.html">bio_phen</a></span>(
+ <span class="no">project_dir</span>,
+ <span class="kw">field</span> <span class="kw">=</span> <span class="st">"small_field_subset.txt"</span>,
+ <span class="kw">out</span> <span class="kw">=</span> <span class="st">"small_phenotype_subset"</span>
+)</pre></body></html></div>
+<p><em><strong>Note</strong>. Dates in the UKB data are recorded in a variety of formats, some of which are non-standard: “character string is not in a standard unambiguous format”, e.g., 2009-01-12T11:28:56. All date variables have been left in character format for the user to convert as needed.</em></p>
 <p><br></p>
-<ol style="list-style-type: decimal">
-<li><strong>Fields</strong></li>
-</ol>
-<p>List all variables, or columns in the phenotype data.</p>
-<p><br></p>
-<ol start="2" style="list-style-type: decimal">
-<li><strong>Categories</strong></li>
-</ol>
-<p>The <a href="http://biobank.ndph.ox.ac.uk/showcase/cats.cgi">Category Listings</a> group data into related sets: 14 Recommended, <strong>247 Origin</strong>, 12 Core, 9 Specialist, and 3 Miscellaneous categories. (Note. Individual fields are always at least 1 Origin category, and may be in none, one, or more categories of the others)</p>
-<p><br></p>
-<ol start="3" style="list-style-type: decimal">
-<li><strong>Returns</strong></li>
-</ol>
-<p>List returned datasets.</p>
-<p><br></p>
-<ol start="4" style="list-style-type: decimal">
-<li><strong>Resources</strong></li>
-</ol>
-<p>This is a list of information relating to particular categories, processes, topics or groups of fields. The full <a href="http://biobank.ndph.ox.ac.uk/showcase/docs.cgi?id=0">Resource Catalogue</a> is divided into 169 documents, 196 datasets, 820 graphics, 9 videos. (Note. this takes a minute to load.)</p>
-<p><br></p>
-<ol start="5" style="list-style-type: decimal">
-<li><strong>Schema</strong></li>
-</ol>
-<p>List meta-information about the showcase.</p>
+<p>Check the size of your file and read in your dataset</p>
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span>(<span class="st">"ls -lh small_phenotype_subset.rds"</span>)
+<span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="st">"small_phenotype_subset.rds"</span>)</pre></body></html></div>
 <p><br></p>
 </div>
-<div id="guides-and-resources" class="section level1">
-<h1 class="hasAnchor">
-<a href="#guides-and-resources" class="anchor"></a>Guides and resources</h1>
-<ol style="list-style-type: decimal">
-<li><a href="https://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=UnderstandingUKB.html">Understanding UK Biobank</a></li>
-<li><a href="https://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=accessing_data_guide">Accessing your data</a></li>
-<li><a href="http://biobank.ctsu.ox.ac.uk/crystal/refer.cgi?id=141140">HES data dictionary</a></li>
-<li><a href="https://biobank.ndph.ox.ac.uk/~bbdatan/Accessing_UKB_data_v2.0.pdf">Accessing UKB data v2.0</a></li>
-</ol>
-<p>For primary care data, see <strong>Section 5: Record-level hospital inpatient data and primary care (GP) data</strong></p>
-<ol start="5" style="list-style-type: decimal">
-<li><a href="http://biobank.ndph.ox.ac.uk/showcase/showcase/exinfo/ShowcaseUserGuide.pdf">Showcase User Guide</a></li>
-<li><a href="https://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=HESupdate_2019_09">Update of HES Data - September 2019</a></li>
-<li><a href="http://biobank.ndph.ox.ac.uk/showcase/help.cgi?cd=GLOSSARY">Glossary</a></li>
-</ol>
-<p><em>Other</em></p>
-<ol start="8" style="list-style-type: decimal">
-<li><a href="https://communities.actian.com/servlet/fileField?entityId=ka3330000008dbCAAQ&amp;field=Attachment1__Body__s">Ingres 10.2 SQL reference guide</a></li>
-</ol>
-<p>The relational database management system used by the UKB to hold “record level” information.</p>
+<div id="categorical-codes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#categorical-codes" class="anchor"></a>CATEGORICAL CODES</h3>
+<p>Categorical field codings are included in the field finder</p>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">f</span> <span class="kw">%&gt;%</span>
+ <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(<span class="no">field</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">df</span>)) <span class="kw">%&gt;%</span>
+ <span class="fu">select</span>(<span class="no">field</span>, <span class="no">categorical_coding</span>)</pre></body></html></div>
+<p>Retrieve numerical “Value” and and associated “Meaning” for each categorical code.</p>
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">cx</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bio_code.html">bio_code</a></span>(<span class="no">project_dir</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cx</span>)</pre></body></html></div>
+<p>Look up a particular coding</p>
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">cx</span> <span class="kw">%&gt;%</span>
+ <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(<span class="no">Coding</span> <span class="kw">==</span> <span class="fl">502</span>)</pre></body></html></div>
 <p><br></p>
-<div id="genotype-sample-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#genotype-sample-data" class="anchor"></a>Genotype sample data</h2>
 </div>
+<div id="gp-data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#gp-data" class="anchor"></a>GP DATA</h3>
+<p>If your project has access to primary care data, retrieve the clinical, registrations, scripts datasets with <code>bio_gp</code> e.g.</p>
+<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">px</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bio_gp.html">bio_gp</a></span>(<span class="no">project_dir</span>, <span class="st">"scripts"</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">px</span>)</pre></body></html></div>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#pre-requisites">Pre-requisites</a></li>
-      <li><a href="#ukbkings-installation"><strong>ukbkings</strong> installation</a></li>
-      <li><a href="#phenotype-data">Phenotype data</a></li>
-      <li><a href="#ukb-showcase-and-catalogues">UKB showcase and catalogues</a></li>
-      <li>
-<a href="#guides-and-resources">Guides and resources</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#genotype-sample-data">Genotype sample data</a></li>
-      </ul>
-</li>
-      </ul>
-</div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+
       </div>
 
 </div>
+
 
 
       <footer><div class="copyright">
@@ -307,12 +246,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>
