@@ -4,12 +4,19 @@
 \alias{bio_phen}
 \title{Reads and writes phenotype data for a subset of fields}
 \usage{
-bio_phen(project_dir, field_subset_file, out = "ukb_phenotype_subset")
+bio_phen(
+  project_dir,
+  field_subset_file,
+  pheno_dir = "phenotypes",
+  out = "ukb_phenotype_subset"
+)
 }
 \arguments{
 \item{project_dir}{Path to the enclosing directory of a UKB project.}
 
 \item{field_subset_file}{A path to a one-per-line text file of fields (no header).}
+
+\item{pheno_dir}{Path to the enclosing directory of the phenotype data.}
 
 \item{out}{Name of phenotype subset file. Default "ukb_phenotype_subset", writes ukb_phenotype_subset.rds to the current directory.}
 }

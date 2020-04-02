@@ -4,10 +4,12 @@
 \alias{bio_field}
 \title{Reads project-specific UKB field codes}
 \usage{
-bio_field(project_dir)
+bio_field(project_dir, pheno_dir = "phenotypes")
 }
 \arguments{
 \item{project_dir}{Path to the enclosing directory of a UKB project}
+
+\item{pheno_dir}{Path to the enclosing directory of the phenotype data.}
 }
 \value{
 A dataframe with columns: ukb_type, r_type, path
