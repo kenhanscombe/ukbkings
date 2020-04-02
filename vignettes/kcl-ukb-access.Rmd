@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   eval = FALSE,
+  echo = TRUE,
   message = FALSE
 )
 
@@ -28,224 +29,213 @@ devtools::load_all(".")
 
 ***
 
-A UKB **project** corresponds to a single UKB application; a **study** fits within the scope of a project, and typically corresponds to a single publication. Each project potentially includes many studies. Project directories on Rosalind have roughly the same internal structure, including subdirectories for raw, decrypted and derived data. To access data for a particular UKB-approved project, KCL researchers and collaborators need to be named investigators/ collaborators on that particular project. Phenotype data in a project is accessed through the **ukbkings R package**. Genotype data is accessed via a symbolic link in the user's directory, once permission has been granted.
+### TL;DR
 
-For security reasons, the layout of directories on Rosalind and specific path names are described in **lustre_storage.doc**, on Basecamp (Team: UK Biobank > Docs & Files).
+Install the package
+```{R}
+devtools::install_github("kenhanscombe/ukbkings", dependencies = TRUE, force = TRUE)
+```
+
+Write a serialised R dataframe to file for your required fields.
+```{R}
+bio_phen(
+ project_dir = "<path_to_project_directory>",
+ field = "<path_to_required_fields_file>",  # one per line, no header
+ out = "<stem_of_output_file>"  # e.g. "data/ukb" writes "data/ukb.rds"
+)
+```
+
+Read it into R, e.g.,
+```{R}
+df <- readRDS("data/ukb.rds")
+```
+
+**Note**. `bio_phen` reads all withdrawals from a project subdirectory (w*.csv withdrawal files received from the UKB by email), and replaces their phenotype values with `NA`.
 
 <br>
 
-## Pre-requisites
+### PREAMBLE
 
-You must have an account on Rosalind (contact [Rosalind support](rosalind-support@kcl.ac.uk)), and access to the phenotype data in a specific project directory. You will need separate permission to access to the genotype data. For access to phenotype and genotype data contact [ken.b.hanscombe@kcl.ac.uk](ken.b.hanscombe@kcl.ac.uk).
-
-<br>
-
-## **ukbkings** installation
-
-To retrieve your study specific data, start an interactive cluster session with sufficient virtual memory to manipulate the +25GB decrypted project data.
-
+Log in to Rosalind.
 ```{bash}
-qrsh -l h_vmem=30G
+# Local shell
+ssh <username>@login3.rosalind.kcl.ac.uk
 ```
 
-<br>
-
-Navigate to your Rosalind user directory, run R, and install the R package ukbkings.
-
-```{r}
-devtools::install_github("kenhanscombe/ukbkings", dependencies = TRUE)
-```
-
-<br>
-
-If you have any trouble installing the package or its dependencies, create a conda environment from **ukbkings-env.yml**. From bash,
-
+Change to your UKB user directory. If you do not have a UKB user directory, create one first at /scratch/groups/ukbiobank/Edinburgh_Data/usr/*\<username\>*. Start an interactive cluster session with sufficient memory to read the UKB data (I think you can get away with less, but I've not worked that out yet). Load the default cluster version of R (`module avail 2&>1 | grep R` currently `apps/R/3.6.0`) then start R.
 ```{bash}
-wget https://github.com/kenhanscombe/ukbkings/blob/master/ukbkings-env.yml
-conda env create -f ukbkings-env.yml
+# Rosalind shell
+cd /scratch/groups/ukbiobank/Edinburgh_Data/usr/<username>
+srun -p shared,brc --mem=30G --pty /bin/bash
 
-source activate ukbkings-env
-# run R, install ukbkings, inspect/ retrieve UKB data (see below)
-source deactivate ukbkings-env
-```
-
-The environment created, `ukbkings-env`, includes R 3.6, the `ukbkings` package, and all base and essential R packages ([based on this setup](https://docs.anaconda.com/anaconda/user-guide/tasks/using-r-language/)), as well as Python 3.7 and Snakemake 5.7. Once created use `source activate` to start it up, and `source deactivate` to tear it down.
-
-**Aside**: It is considered good practice to have a self-contained environment for each analysis, with software installation and dependencies handled by an environment manager like [conda](https://docs.conda.io). You may find it useful to use this environment for your phenotype analysis.
-
-<br>
-
-## Phenotype data
-
-
-To use the example data bundled with the package
-
-```{r eval=TRUE}
-proj_dir <- system.file("testdata", package = "ukbkings")
+module load apps/R/3.6.0
+R
 ```
 
 <br>
 
-### Field-to-name data
+### INSTALLATION/ SETUP
 
-To get a dataframe of project fields
+***Note**. All code blocks below are R, unless otherwise specified.*
 
-```{r eval=TRUE}
-# library(ukbkings)
+<br>
 
-proj_fields <- bio_field(proj_dir)
+Install from Github
+```{R}
+devtools::install_github("kenhanscombe/ukbkings", dependencies = TRUE, force = TRUE)
+```
 
-head(proj_fields)
+
+***
+
+***Note**. If this fails, try create an environment from the included yml file. Activate it and try the install again.*
+```{bash}
+# Rosalind shell
+wget https://raw.githubusercontent.com/kenhanscombe/ukbkings/master/environment.yml
+
+conda env create -f environment.yml
+source activate ukb
+R
+```
+
+***
+
+
+Load libraries. (I like to use tidyverse but it is not necessary, base R is fine)
+```{R}
+library(ukbkings)
+library(tidyverse)
+```
+
+Check help (press 'q' to exit).
+```{R}
+?ukbkings
+```
+
+List functions available with `ukbkings::` TAB TAB. All basic data collection functions start `bio_`. Check help on specific function, e.g.,
+```{R}
+?bio_phen
+```
+
+
+***Note**. All functionality is also described on the [ukbkings webpage](https://kenhanscombe.github.io/ukbkings/) under the **Reference** tab.*
+
+<br>
+
+Point to the project directory, e.g., ukb18177_glanville
+```{R}
+project_dir <- "/scratch/datasets/ukbiobank/ukb18177_glanville"
 ```
 
 <br>
 
-You will need to create a file in your user directory that contains the fields you require, one per line. You can use a pager to manually search through the available fields.
+### FIELD SUBSET FILE
 
+You need a file with required fields, one per line, no header.
+
+<br>
+
+Read the project field-to-name "field finder" file, inspect the variable metadata, and display the number of baskets included.
+```{R}
+f <- bio_field(project_dir)
+
+head(f)
+glimpse(f)
+
+f %>%
+distinct(basket)
+```
+
+Search for variables required and add their field codes to a file, one per line, no header. You can page through the file.
+```{R}
+f %>%
+select(name) %>%
+page(method = "print")
+```
+
+Or, search `name` column
+```{R}
+f %>%
+select(field, name) %>%
+filter(str_detect(name, "vegetables"))
+
+f %>%
+select(field, name) %>%
+filter(str_detect(name, "ldl|triglycerides"))
+```
+
+Alternatively, search the [UKB showcase](http://biobank.ndph.ox.ac.uk/showcase/) for a variable of interest then filter on the `field` column in the field-to-name dataframe (useful if multiple instances required). For example, if you search for "cholesterol medication", the field stem you want is 6177
+```{R}
+f %>%
+select(field, name) %>%
+filter(str_detect(field, "6177"))
+```
+
+`bio_field_add` is a convenience function for creating the one per line required variables/fields file. By default the function appends fields. Create the field subset file in your UKB user directory /scratch/groups/ukbiobank/Edinburgh_Data/usr/*\<username\>*/
+```{R}
+f %>%
+select(field, name) %>%
+filter(str_detect(field, "6177")) %>%
+bio_field_add("small_field_subset.txt")
+```
+
+Inspect the field selection file.
+```{R}
+system("cat small_field_subset.txt")
+```
+
+<br>
+
+### WRITE/ READ DATA
+
+Read required fields and save as an rds file in your user directory. Argument `out` should be a path to your UKB user directory
 ```{r}
-proj_fields %>% 
-  select(field, name) %>% 
-  page(method = "print")
+bio_phen(
+ project_dir,
+ field = "small_field_subset.txt",
+ out = "small_phenotype_subset"
+)
 ```
+
+***Note**. Dates in the UKB data are recorded in a variety of formats, some of which are non-standard: "character string is not in a standard unambiguous format", e.g., 2009-01-12T11:28:56. All date variables have been left in character format for the user to convert as needed.*
 
 <br>
 
-Or, as `proj_fields` is a dataframe, you can use regular expressions to search the `field` or `name` columns. For all *index* and *array* entries of a particular field
-
-```{r eval=TRUE}
-# Search `field`
-proj_fields %>%
-  select(field, name) %>%
-  filter(str_detect(field, "^21000-.*"))
-```
-
-<br>
-
-Write to file with `bio_field_add` (creates file if it does not exist, or appends to existing file)
-
+Check the size of your file and read in your dataset
 ```{r}
-proj_fields %>%
-  filter(str_detect(field, "^21000-.*")) %>% 
-  bio_field_add("<field_subset_file.txt>")
-```
-
-**Note**: No need to add `eid` (the unique sample identifier) - it is automatically added when retrieving fields with `bio_phen`.
-
-<br>
-
-Search the `name` column
-
-```{r eval=TRUE}
-# Search `name`
-proj_fields %>%
-  select(field, name) %>%
-  filter(str_detect(name, "assessment_centre"))
+system("ls -lh small_phenotype_subset.rds")
+df <- readRDS("small_phenotype_subset.rds")
 ```
 
 <br>
 
-Append to file
+### CATEGORICAL CODES
 
-```{r}
-proj_fields %>%
-  filter(str_detect(name, "assessment_centre")) %>%
-  bio_field_add("<field_subset_file.txt>")
+Categorical field codings are included in the field finder
+```{R}
+f %>%
+ filter(field %in% names(df)) %>%
+ select(field, categorical_coding)
+```
+
+Retrieve numerical "Value" and and associated "Meaning" for each categorical code.
+```{R}
+cx <- bio_code(project_dir)
+head(cx)
+```
+
+Look up a particular coding
+```{R}
+cx %>%
+ filter(Coding == 502)
 ```
 
 <br>
 
+### GP DATA
 
-### Retrieve study data
-
-Write a dataframe of selected study fields to you user directory.
-
-```{r}
-bio_phen(proj_dir, fields = "<selected_study_fields_file>")
+If your project has access to primary care data, retrieve the clinical, registrations, scripts datasets with `bio_gp` e.g.
+```{R}
+px <- bio_gp(project_dir, "scripts")
+head(px)
 ```
-
-<br>
-
-`bio_phen` uses `saveRDS` to write a serialized version of your data. Use `readRDS` to "resurrect" your serialized data as a dataframe.
-
-```{r}
-df <- readRDS("<study_data.rds>")
-```
-
-
-<br>
-
-
-### Categorical level codes
-
-<br>
-
-
-## UKB showcase and catalogues
-
-Catalogues are listings of contents of the [UKB showcase](http://biobank.ctsu.ox.ac.uk/crystal/). There are 5 [catalogues](http://biobank.ndph.ox.ac.uk/showcase/catalogs.cgi):
-
-- fields
-- categories
-- returns
-- resources
-- schema
-
-<br>
-
-
-1. **Fields**
-
-List all variables, or columns in the phenotype data. 
-
-<br>
-
-2. **Categories**
-
-The [Category Listings](http://biobank.ndph.ox.ac.uk/showcase/cats.cgi) group data into related sets: 14 Recommended, **247 Origin**, 12 Core, 9 Specialist, and 3 Miscellaneous categories. (Note. Individual fields are always at least 1 Origin category, and may be in none, one, or more categories of the others)
-
-<br>
-
-3. **Returns**
-
-List returned datasets.
-
-<br>
-
-4. **Resources**
-
-This is a list of information relating to particular categories, processes, topics or groups of fields. The full [Resource Catalogue](http://biobank.ndph.ox.ac.uk/showcase/docs.cgi?id=0) is divided into 169 documents, 196 datasets, 820 graphics, 9 videos. (Note. this takes a minute to load.)
-
-<br>
-
-5. **Schema**
-
-List meta-information about the showcase.
-
-<br>
-
-
-# Guides and resources
-
-1. [Understanding UK Biobank](https://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=UnderstandingUKB.html)
-2. [Accessing your data](https://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=accessing_data_guide)
-3. [HES data dictionary](http://biobank.ctsu.ox.ac.uk/crystal/refer.cgi?id=141140)
-4. [Accessing UKB data v2.0](https://biobank.ndph.ox.ac.uk/~bbdatan/Accessing_UKB_data_v2.0.pdf)
-
-For primary care data, see **Section 5: Record-level hospital inpatient data and primary care (GP) data**
-
-5. [Showcase User Guide](http://biobank.ndph.ox.ac.uk/showcase/showcase/exinfo/ShowcaseUserGuide.pdf)
-6. [Update of HES Data - September 2019](https://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=HESupdate_2019_09)
-7. [Glossary](http://biobank.ndph.ox.ac.uk/showcase/help.cgi?cd=GLOSSARY)
-
-*Other*
-
-8. [Ingres 10.2 SQL reference guide](https://communities.actian.com/servlet/fileField?entityId=ka3330000008dbCAAQ&field=Attachment1__Body__s)
-
-The relational database management system used by the UKB to hold "record level" information.
-
-
-<br>
-
-## Genotype sample data
-
-
