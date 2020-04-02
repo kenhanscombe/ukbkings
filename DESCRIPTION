@@ -35,4 +35,4 @@ URL: https://github.com/kenhanscombe/ukbkings
 BugReports: https://github.com/kenhanscombe/ukbkings/issues
 VignetteBuilder: knitr
 Depends: 
-    R (>= 3.2)
+    R (>= 3.4)
