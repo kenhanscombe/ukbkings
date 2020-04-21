@@ -27,7 +27,7 @@ Returns a dataframe of either the COVID-19 testing results, or codes associated 
 Record-level information for COVID-19 testing. Only available if these data have been requested for the particular project you have access to.
 }
 \details{
-UKB showcase documentation for \href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{data field 40100}describes the categorical columns of the COVID-19 results dataframe as follows:
+UKB showcase documentation for \href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{data field 40100} describes the categorical columns of the COVID-19 results dataframe as follows:
 \describe{
   \item{\bold{spectype}}{Coding 1853: COVID19 test locations. Locations/methods used to generate samples for COVID19 testing.}
   \item{\bold{result}}{Coding 1854: Test result. Result of a binary test.}

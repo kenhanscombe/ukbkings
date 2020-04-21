@@ -237,7 +237,7 @@ bio_code <- function(project_dir, code_dir = "resources/") {
 #' @param code_dir Path to the enclosing directory of the data coding files described in the UKB showcase notes under \href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{data field 40100}.
 #'
 #' @return Returns a dataframe of either the COVID-19 testing results, or codes associated with fields in the results dataframe, depending on the value of argument `data`.
-#' @details  UKB showcase documentation for \href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{data field 40100}describes the categorical columns of the COVID-19 results dataframe as follows:
+#' @details  UKB showcase documentation for \href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{data field 40100} describes the categorical columns of the COVID-19 results dataframe as follows:
 #' \describe{
 #'   \item{\bold{spectype}}{Coding 1853: COVID19 test locations. Locations/methods used to generate samples for COVID19 testing.}
 #'   \item{\bold{result}}{Coding 1854: Test result. Result of a binary test.}
