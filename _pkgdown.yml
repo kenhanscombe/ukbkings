@@ -1,1 +1,27 @@
 destination: docs
+
+reference:
+- contents:
+  - '`ukbkings`'
+
+- title: Query project data
+  desc: >
+    Functions to inpsect the field finder (includes field, name, type), add
+    fields to a one-per-line file for variables of interest, and check codes
+    for categorical variables.
+  contents:
+  - '`bio_field`'
+  - '`bio_field_add`'
+  - '`bio_code`'
+
+- title: Create a dataframe
+  desc: >
+    Retrieve data for fields of interest and write as serialised dataframe.
+  contents:
+  - '`bio_phen`'
+
+- title: Retrieve record-level data
+  desc: >
+    Functions to retrieve UKB record-level data.
+  contents:
+  - '`bio_gp`'

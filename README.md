@@ -1,4 +1,4 @@
-ukbkings <img src='man/figures/logo.png' align="right" alt = "" width="114" />
+ukbkings <img src='man/figures/logo.png' align="right" alt = "" width="123.5" />
 ===
 
 <!-- badges: start -->
