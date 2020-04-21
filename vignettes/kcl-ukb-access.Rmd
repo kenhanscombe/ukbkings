@@ -239,3 +239,20 @@ If your project has access to primary care data, retrieve the clinical, registra
 px <- bio_gp(project_dir, "scripts")
 head(px)
 ```
+
+<br>
+
+### COVID-19 DATA
+
+If your project has access to COVID-19 data, retrieve the results with `bio_covid`
+```{R}
+covid <- bio_covid(project_dir, "results")
+head(covid)
+```
+
+Descriptive meanings of the numerical values used to encode the categorical variables can be retrieved with `data = codes`
+
+```{R}
+covid_codes <- bio_covid(project_dir, "codes")
+head(covid_code)
+```

@@ -25,3 +25,4 @@ reference:
     Functions to retrieve UKB record-level data.
   contents:
   - '`bio_gp`'
+  - '`bio_covid`'

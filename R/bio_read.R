@@ -1,6 +1,7 @@
 
 utils::globalVariables(c("ukb_type", "basket", "field", "path", "name",
-                         "data", "df", ".", "withdraw", "eid"))
+                         "data", "df", ".", "withdraw", "eid",
+                         "results_column", "coding", "meaning", "value"))
 
 
 #' Reads project-specific UKB field codes
@@ -223,4 +224,56 @@ bio_code <- function(project_dir, code_dir = "resources/") {
   }
 
   data.table::fread(codings_showcase, sep = ",", header = TRUE)
+}
+
+
+#' Reads the COVID-19 data
+#'
+#' Record-level information for COVID-19 testing. Only available if these data have been requested for the particular project you have access to.
+#'
+#' @param project_dir Path to the enclosing directory of a UKB project.
+#' @param data A string specifying data required: "results" returns COVID-19 test results; "codes" returns the code meanings for the categorical variables.
+#' @param results_dir Path to the enclosing directory of the covid19_results.txt
+#' @param code_dir Path to the enclosing directory of the data coding files described in the UKB showcase notes under \href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{data field 40100}.
+#'
+#' @return Returns a dataframe of either the COVID-19 testing results, or codes associated with fields in the results dataframe, depending onthe value of argument `data`.
+#' @export
+bio_covid <- function(project_dir, data = "results", results_dir = "raw/",
+                      code_dir = "resources/covid19_codings/") {
+
+  covid_results <- file.path(project_dir, results_dir, "covid19_result.txt")
+
+  if(!file.exists(covid_results)) {
+    stop("COVID-19 data is not available for this project.", call. = FALSE)
+  }
+
+  if (data == "results") {
+    df <- data.table::fread(covid_results, header = TRUE, data.table = FALSE)
+  }
+
+  if (data == "codes") {
+    coding_files <- list.files(path = file.path(project_dir, code_dir),
+                               pattern = "coding", full.names = TRUE)
+    f <- function(path) {
+      code <- stringr::str_replace_all(basename(path), "coding|.tsv", "") %>%
+        as.integer()
+
+      data.table::fread(path, sep = "\t", header = TRUE) %>%
+        dplyr::mutate(
+          code = code,
+          results_column = dplyr::case_when(
+            code == 1853 ~ "spectype",
+            code == 1854 ~ "result",
+            code == 1855 ~ "origin",
+            code == 1856 ~ "laboratory"
+          )
+        ) %>%
+        dplyr::select(code, results_column, value = coding, meaning) %>%
+        arrange(code, value)
+    }
+
+    df <- purrr::map_df(coding_files, f)
+  }
+
+  return(df)
 }

@@ -1,4 +1,4 @@
-context("gpdata")
+context("GP data")
 
 tmp_dir <- tempdir()
 tmp <- testthat::setup(tempfile(tmpdir = tmp_dir))

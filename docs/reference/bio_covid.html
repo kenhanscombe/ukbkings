@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Reads the primary care data — bio_gp • ukbkings</title>
+<title>Reads the COVID-19 data — bio_covid • ukbkings</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Reads the primary care data — bio_gp" />
-<meta property="og:description" content="Detailed patient level diagnoses, prescriptions, etc. Only available if these data have been requested for the particular project you have access to." />
+<meta property="og:title" content="Reads the COVID-19 data — bio_covid" />
+<meta property="og:description" content="Record-level information for COVID-19 testing. Only available if these data have been requested for the particular project you have access to." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -131,16 +131,21 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Reads the primary care data</h1>
+    <h1>Reads the COVID-19 data</h1>
     <small class="dont-index">Source: <a href='https://github.com/kenhanscombe/ukbkings/blob/master/R/bio_read.R'><code>R/bio_read.R</code></a></small>
-    <div class="hidden name"><code>bio_gp.Rd</code></div>
+    <div class="hidden name"><code>bio_covid.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Detailed patient level diagnoses, prescriptions, etc. Only available if these data have been requested for the particular project you have access to.</p>
+    <p>Record-level information for COVID-19 testing. Only available if these data have been requested for the particular project you have access to.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bio_gp</span>(<span class='no'>project_dir</span>, <span class='no'>record</span>, <span class='kw'>gp_dir</span> <span class='kw'>=</span> <span class='st'>"raw/"</span>)</pre>
+    <pre class="usage"><span class='fu'>bio_covid</span>(
+  <span class='no'>project_dir</span>,
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"results"</span>,
+  <span class='kw'>results_dir</span> <span class='kw'>=</span> <span class='st'>"raw/"</span>,
+  <span class='kw'>code_dir</span> <span class='kw'>=</span> <span class='st'>"resources/covid19_codings/"</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,18 +155,22 @@
       <td><p>Path to the enclosing directory of a UKB project.</p></td>
     </tr>
     <tr>
-      <th>record</th>
-      <td><p>A string specifying which primary care records are required: "clinical", "registrations", "scripts".</p></td>
+      <th>data</th>
+      <td><p>A string specifying data required: "results" returns COVID-19 test results; "codes" returns the code meanings for the categorical variables.</p></td>
     </tr>
     <tr>
-      <th>gp_dir</th>
-      <td><p>Path to the enclosing directory of the primary care data.</p></td>
+      <th>results_dir</th>
+      <td><p>Path to the enclosing directory of the covid19_results.txt</p></td>
+    </tr>
+    <tr>
+      <th>code_dir</th>
+      <td><p>Path to the enclosing directory of the data coding files described in the UKB showcase notes under <a href='http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100'>data field 40100</a>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataframe. <strong>Note</strong>. clinical data has 123,669,371 rows and 8 columns; registrations data has 361,841 rows and 4 columns; scripts data has 57,709,810 rows and 8 columns.</p>
+    <p>Returns a dataframe of either the COVID-19 testing results, or codes associated with fields in the results dataframe, depending onthe value of argument `data`.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
