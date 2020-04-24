@@ -12,3 +12,5 @@
 ^environment.yml
 ^codecov\.yml$
 ^\.covrignore$
+^src$
+^Snakefile$
