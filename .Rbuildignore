@@ -14,3 +14,5 @@
 ^\.covrignore$
 ^src$
 ^Snakefile$
+^snake\.py$
+^setup\.py$
