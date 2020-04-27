@@ -1,5 +1,5 @@
 ---
-title: "How to access UKB data on Rosalind"
+title: "Access UKB data on Rosalind"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{How to access UKB phenotype data on KCL Rosalind HPC cluster}
@@ -26,6 +26,10 @@ devtools::load_all(".")
 ***
 
 **Note. This document is only useful for UKB-approved KCL reasearchers and their collaborators, with an account on the Rosalind HPC cluster.**
+
+<br>
+
+**Important.** The ukbkings package only works on a Rosalind UKB project directory that has been setup to use the package. See vignette("Setup UKB project on Rosalind") or [read the article on the package webpage](https://kenhanscombe.github.io/ukbkings/). NB. This step is typically run once, by the person who manages UKB data on Rosalind.
 
 ***
 

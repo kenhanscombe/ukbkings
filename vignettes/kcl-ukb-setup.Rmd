@@ -1,0 +1,52 @@
+---
+title: "Setup UKB project on Rosalind"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Setup UKB project on Rosalind}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE,
+  echo = TRUE,
+  message = FALSE
+)
+```
+
+***
+
+**Note. This document describes the one-time setup of a UKB project on Rosalind for access with ukbkings.**
+
+***
+
+### PRE-REQUISITES
+
+The UKB project **encrypted files** (.enc), associated **key files** (.key), and **withdrawals files** (w\<project-id\>_\<yyyymmdd\>.csv) must be copied into a subdirectory called raw/. Change the key file names to match the encrypted files, e.g., ukb1234.enc pairs with ukb1234.key. The first line in each key file should be the project id; the second line should be the decryption key.
+
+<br>
+
+### SETUP
+
+Download and run setup.py to create the project directory structure, collect required UKB programs and the Snakefile and associate scripts (which make up the data munging pipeline).
+
+```{bash}
+wget https://raw.githubusercontent.com/kenhanscombe/ukbkings/master/setup.py
+chmod +x setup.py
+./setup.py
+```
+
+<br>
+
+### MUNGE
+
+Run snake.py to process the UKB data.
+
+```{bash}
+./snake.py
+```
+
+The data should now be available from anywhere on Rosalind with the ukbkings package. See vignette("Access UKB data on Rosalind") or [read the article on the package webpage](https://kenhanscombe.github.io/ukbkings/).
