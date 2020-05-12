@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 
 import os
+import argparse
 
 if __name__ == "__main__":
+  parser = argparse.ArgumentParser()
+  parser.add_argument('dry', nargs='?', default='', help='"-n" for a dry-run.')
+  args = parser.parse_args()
+  
   os.system('snakemake \
              --jobs 99 \
              --cluster-config src/cluster.json \
@@ -14,4 +19,4 @@ if __name__ == "__main__":
                 --error={cluster.error} \
                 --out={cluster.out} \
                 --time {cluster.time} \
-                --mem=10G" -n')
+                --mem=10G" {}'.format(args.dry))
