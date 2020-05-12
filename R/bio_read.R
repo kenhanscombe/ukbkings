@@ -170,6 +170,27 @@ bio_field_add <- function(data, out = "ukb_field_subset.txt") {
 }
 
 
+#' Updates column names
+#'
+#' Renames a dataframe with UKB fields as column names with descriptive names.
+#'
+#' @param data A dataframe with UKB fields as column names. See \code{\link{bio_phen}}.
+#' @param field_finder A dataframe including a column of UKB fields and a column of descriptive names. See \code{\link{bio_field}}.
+#'
+#' @return A dataframe with UKB field column names replaced with descriptive column names.
+#' importFrom dplyr filter rename
+#' @seealso \code{\link{bio_phen}}, \code{\link{bio_field}}
+#' @export
+bio_field_to_name <- function(data, field_finder) {
+
+  field_subset <- names(data)
+  field_finder <- dplyr::filter(field_finder, field %in% field_subset)
+  name_old_new <- field_finder$field
+  names(name_old_new) <- field_finder$name
+  dplyr::rename(df, name_old_new)
+}
+
+
 #' Reads the primary care data
 #'
 #' Detailed patient level diagnoses, prescriptions, etc. Only available if these data have been requested for the particular project you have access to.
