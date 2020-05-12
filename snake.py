@@ -21,6 +21,7 @@ if __name__ == "__main__":
                        --out={cluster.out} \
                        --time {cluster.time} \
                        --mem=10G"'
+
   if args.dry_run:
     os.system(snakemake_call + ' -n')
   else:
