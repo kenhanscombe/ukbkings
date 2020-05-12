@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Adds <strong>field</strong> column entries from a dataframe to a file — bio_field_add • ukbkings</title>
+<title>Updates column names — bio_rename • ukbkings</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Adds <strong>field</strong> column entries from a dataframe to a file — bio_field_add" />
-<meta property="og:description" content="Adds field column entries from a dataframe to a file" />
+<meta property="og:title" content="Updates column names — bio_rename" />
+<meta property="og:description" content="Renames a dataframe with UKB fields as column names with descriptive names." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -131,33 +131,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Adds <strong>field</strong> column entries from a dataframe to a file</h1>
+    <h1>Updates column names</h1>
     <small class="dont-index">Source: <a href='https://github.com/kenhanscombe/ukbkings/blob/master/R/bio_read.R'><code>R/bio_read.R</code></a></small>
-    <div class="hidden name"><code>bio_field_add.Rd</code></div>
+    <div class="hidden name"><code>bio_rename.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Adds <strong>field</strong> column entries from a dataframe to a file</p>
+    <p>Renames a dataframe with UKB fields as column names with descriptive names.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bio_field_add</span>(<span class='no'>data</span>, <span class='kw'>out</span> <span class='kw'>=</span> <span class='st'>"ukb_field_subset.txt"</span>)</pre>
+    <pre class="usage"><span class='fu'>bio_rename</span>(<span class='no'>data</span>, <span class='no'>field_finder</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>A dataframe with obligatory column <strong>field</strong>. (Ideally the output of <code><a href='bio_field.html'>bio_field</a></code>.)</p></td>
+      <td><p>A dataframe with UKB fields as column names. See <code><a href='bio_phen.html'>bio_phen</a></code>.</p></td>
     </tr>
     <tr>
-      <th>out</th>
-      <td><p>Field subset file name (including path). Default "ukb_field_subset", writes or appends fields one per line to "ukb_field_subset" in the current directory.</p></td>
+      <th>field_finder</th>
+      <td><p>A dataframe including a column of UKB fields and a column of descriptive names. See <code><a href='bio_field.html'>bio_field</a></code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A file with one field per line (no header). If the file exists, the additional fields are appended.</p>
+    <p>A dataframe with UKB field column names replaced with descriptive column names.
+importFrom dplyr filter rename</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='bio_phen.html'>bio_phen</a></code>, <code><a href='bio_field.html'>bio_field</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

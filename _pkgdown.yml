@@ -19,6 +19,7 @@ reference:
     Retrieve data for fields of interest and write as serialised dataframe.
   contents:
   - '`bio_phen`'
+  - '`bio_rename`'
 
 - title: Retrieve record-level data
   desc: >

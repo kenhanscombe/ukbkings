@@ -181,7 +181,7 @@ bio_field_add <- function(data, out = "ukb_field_subset.txt") {
 #' importFrom dplyr filter rename
 #' @seealso \code{\link{bio_phen}}, \code{\link{bio_field}}
 #' @export
-bio_field_to_name <- function(data, field_finder) {
+bio_rename <- function(data, field_finder) {
 
   field_subset <- names(data)
   field_finder <- dplyr::filter(field_finder, field %in% field_subset)

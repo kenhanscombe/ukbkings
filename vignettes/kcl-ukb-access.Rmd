@@ -213,6 +213,14 @@ df <- readRDS("small_phenotype_subset.rds")
 
 <br>
 
+If required, rename columns from the default UKB field names to the descriptive names used in the field-to-name "field finder" `name` column.
+
+```{R}
+df <- bio_rename(df, f)
+```
+
+<br>
+
 ### CATEGORICAL CODES
 
 Categorical field codings are included in the field finder
