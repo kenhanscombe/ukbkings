@@ -33,6 +33,7 @@ os.system(
     wget -P resources/ -nd -O resources/ukbconv biobank.ndph.ox.ac.uk/showcase/util/ukbconv
 
     chmod +x snake.py
+    chmod +x link.py
     chmod +x src/munge_ukb.py
     chmod +x resources/ukb*
     """)
