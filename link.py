@@ -42,9 +42,9 @@ if __name__ == '__main__':
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('project')
-    parser.add_argument('fam')
-    parser.add_argument('sample')
+    parser.add_argument('-p', '--project', help='ukb project directory')
+    parser.add_argument('-f', '--fam', help='path to fam file')
+    parser.add_argument('-s', '--sample', help='path to sample file')
 
     args = parser.parse_args()
 
