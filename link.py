@@ -18,8 +18,8 @@ def create_links(project, fam, sample):
         mkdir genotyped
         mkdir imputed
 
-        ln -s fam genotyped/ukb{ukbid}.fam
-        ln -s sample imputed/ukb{ukbid}.sample
+        ln -s {fam} genotyped/ukb{ukbid}.fam
+        ln -s {sample} imputed/ukb{ukbid}.sample
         ln -s {imputed}ukb_sqc_v2.txt imputed/ukb_sqc.txt
         ln -s {imputed}ukb_sqc_v2_fields.txt imputed/ukb_sqc_fields.txt
 
@@ -27,7 +27,7 @@ def create_links(project, fam, sample):
         ln -s {genotyped}ukb_binary_v2.bed genotyped/ukb{ukbid}.bed
         ln -s {genotyped}ukb_binary_v2.bed genotyped/ukb{ukbid}.bim
 
-        for i in X XY 1 .. 22
+        for i in X XY $(seq 1 22)
         do
         ln -s {imputed}ukb_imp_chr"$i"_v3.bgen imputed/ukb_imp_chr"$i".bgen
         ln -s {imputed}ukb_imp_chr"$i"_v3.bgen.bgi imputed/ukb_imp_chr"$i".bgen.bgi
