@@ -3,7 +3,7 @@
 import os
 import re
 import argparse
-import link
+# import link
 
 
 parser = argparse.ArgumentParser()
