@@ -38,4 +38,4 @@ os.system(
     chmod +x resources/ukb*
     """)
 
-link.create_links(args.project, args.fam, args.sample)
+# link.create_links(args.project, args.fam, args.sample)
