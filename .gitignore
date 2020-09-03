@@ -1,6 +1,7 @@
 .Rproj.user
 .Rhistory
 .RData
+.vscode
 inst/doc
 doc
 Meta
