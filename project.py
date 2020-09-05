@@ -31,7 +31,7 @@ class Project:
             chmod +x src/munge_ukb.py
             chmod +x resources/ukb*''')
 
-    def link_genetics(self, ukbid, fam, sample, initialized=False):
+    def link_genetics(self, ukbid=None, fam=None, sample=None, initialized=False):
         """
         Creates symbolic links to genotyped and imputed genetic data.
 
