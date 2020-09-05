@@ -47,8 +47,8 @@ class Project:
         if not initialized:
             os.system(
                 f'''
-                mkdir genotyped
-                mkdir imputed
+                rm -rf genotyped; mkdir genotyped
+                rm -rf imputed; mkdir imputed
 
                 ln -s {imputed}ukb_sqc_v2.txt imputed/ukb_sqc.txt
                 ln -s {imputed}ukb_sqc_v2_fields.txt imputed/ukb_sqc_fields.txt
