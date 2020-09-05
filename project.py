@@ -74,7 +74,7 @@ def link_genetics(fam=None, sample=None, rel=None, initialized=False):
         os.system(f'ln -s {sample} imputed/ukb{project_id}.sample')
 
     if rel:
-        os.system(f'ln -s {rel} genotyped/ukb{project_id}.rel')
+        os.system(f'ln -s {rel} imputed/ukb{project_id}.rel')
 
 
 if __name__ == "__main__":
