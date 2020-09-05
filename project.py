@@ -11,9 +11,9 @@ def build_project():
     """Sets up the UKB project directory for use with ukbkings.
     """
     os.system('''
-        mkdir src
-        mkdir resources
-        mkdir log
+        rm -rf src; mkdir src
+        rm -rf resources; mkdir resources
+        rm -rf log; mkdir log
 
         wget -O Snakefile https://raw.githubusercontent.com/kenhanscombe/ukbkings/link-genetics/Snakefile
 
