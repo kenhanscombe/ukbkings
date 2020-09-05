@@ -42,7 +42,7 @@ class Project:
             sample (str): path to sample file
         """
         p = Path('.')
-        wd_basename = p.absolute().parent.name
+        wd_basename = p.absolute().name
         project_id = re.sub('ukb|_.*$', '', wd_basename)
         # ukbid = re.sub('^.*biobank/ukb|_.*$', '', project)
         genotyped = '/scratch/datasets/ukbiobank/June2017/Genotypes/'
