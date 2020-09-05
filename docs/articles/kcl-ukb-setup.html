@@ -100,29 +100,115 @@
     
     
 <hr>
-<p><strong>Note. This document describes the one-time setup of a UKB project on Rosalind for access with ukbkings.</strong></p>
+<p><strong>Note. This document describes the setup of a UKB project on Rosalind for access with ukbkings.</strong></p>
 <hr>
-<div id="pre-requisites" class="section level3">
-<h3 class="hasAnchor">
-<a href="#pre-requisites" class="anchor"></a>PRE-REQUISITES</h3>
-<p>The UKB project <strong>encrypted files</strong> (.enc), associated <strong>key files</strong> (.key), and <strong>withdrawals files</strong> (w&lt;project-id&gt;_&lt;yyyymmdd&gt;.csv) must be copied into a subdirectory called raw/. Change the key file names to match the encrypted files, e.g., ukb1234.enc pairs with ukb1234.key. The first line in each key file should be the project id; the second line should be the decryption key.</p>
+<div id="setup-a-project-directory" class="section level4">
+<h4 class="hasAnchor">
+<a href="#setup-a-project-directory" class="anchor"></a>Setup a project directory</h4>
+<p>Navigate to /scratch/datasets/ukbiobank, create a project directory usb&lt;<em>project_id</em>&gt;_&lt;<em>owner_name</em>&gt;, download and run <code>project.py</code>. This script will create the project directory structure in <strong>Figure 1</strong>, collect the data munging codebase, and download the required UKB programs and utilites. Files used by the data munging pipeline are stored in resources/ (UKB utilites: Codings_Showcase.csv, encoding.ukb, ukbunpack, ukbconv), src/ (munge_ukb.py, cluster.json), and log/.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="bu">cd</span> /scratch/datasets/ukbiobank</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="fu">mkdir</span> ukb_<span class="op">&lt;</span>project_id<span class="op">&gt;</span>_<span class="op">&lt;</span>owner_name<span class="op">&gt;</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="bu">cd</span> ukb_<span class="op">&lt;</span>project_id<span class="op">&gt;</span>_<span class="op">&lt;</span>owner_name<span class="op">&gt;</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="fu">wget</span> https://raw.githubusercontent.com/kenhanscombe/ukbkings/link_genetics/project.py</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="fu">chmod</span> +x project.py</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co"># Load Rosalind default python3 module</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="ex">module</span> load devtools/anaconda/2019.3-python3.7.3</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="ex">./project.py</span></a></code></pre></div>
+<p><br></p>
+<p style="font-family:menlo; color:white; font-size:85%">
+<span style="color:dodgerblue;">/scratch/datasets/ukbiobank/</span><br>
+||– <span style="color:dodgerblue">ukb&lt;<em>project_id</em>&gt;_&lt;<em>owner_name</em>&gt;/</span><br>
+|| ||– <span style="color:dodgerblue;">raw/</span><br>
+|| ||– <span style="color:dodgerblue;">resources/</span><br>
+|| ||– <span style="color:dodgerblue;">log/</span><br>
+|| ||– <span style="color:dodgerblue;">src/</span><br>
+|| ||– <span style="color:dodgerblue;">genotyped/</span><br>
+|| ||– <span style="color:dodgerblue;">imputed/</span><br>
+|| ||– <span style="color:dodgerblue;">phenotypes/</span><br>
+|| ||– <span style="color:limegreen;">project.py</span><br>
+|| ||– <span style="color:limegreen;">link.py</span><br>
+|| ||– <span style="color:limegreen;">snake.py</span><br>
+|| ||– <span style="color:dimgrey;">Snakefile</span>
+</p>
+<p><strong>Figure 1</strong> Project directory structure after running project.py</p>
 <p><br></p>
 </div>
-<div id="setup" class="section level3">
-<h3 class="hasAnchor">
-<a href="#setup" class="anchor"></a>SETUP</h3>
-<p>Download and run setup.py to create the project directory structure, collect required UKB programs and the Snakefile and associate scripts (which make up the data munging pipeline).</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="fu">wget</span> https://raw.githubusercontent.com/kenhanscombe/ukbkings/master/setup.py</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="fu">chmod</span> +x setup.py</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="ex">./setup.py</span></a></code></pre></div>
+<div id="include-project-data" class="section level4">
+<h4 class="hasAnchor">
+<a href="#include-project-data" class="anchor"></a>Include project data</h4>
+<p>The UKB project encrypted files (*.enc) and associated key files (*.key), and withdrawal files (w&lt;<em>project-id</em>&gt;_&lt;<em>yyyymmdd</em>&gt;.csv) must be copied into the subdirectory raw/. Change the key file names to match the encrypted files: ukb&lt;<em>project_id</em>&gt;.enc pairs with ukb&lt;<em>project_id</em>&gt;.key. The first line in each key file should be the project id; the second line should be the decryption key.</p>
 <p><br></p>
 </div>
-<div id="munge" class="section level3">
-<h3 class="hasAnchor">
-<a href="#munge" class="anchor"></a>MUNGE</h3>
-<p>Run snake.py to process the UKB data.</p>
+<div id="munge-the-ukb-data" class="section level4">
+<h4 class="hasAnchor">
+<a href="#munge-the-ukb-data" class="anchor"></a>Munge the UKB data</h4>
+<p>Process the encrypted UKB files into formats to be read by ukbkings and include softlinks to the shared UKB genotyped and imputed genetic data on Rosalind.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="ex">./snake.py</span></a></code></pre></div>
-<p>The data should now be available from anywhere on Rosalind with the ukbkings package. See vignette(“Access UKB data on Rosalind”) or <a href="https://kenhanscombe.github.io/ukbkings/">read the article on the package webpage</a>.</p>
+<p>The munged phenotype data are stored in phenotypes/, the genetic softlinks in genotyped/ and imputed/, and output information is written to log/ (<strong>Figure 2</strong>).</p>
+<p><br></p>
+<p style="font-family:menlo; color:white; font-size:85%">
+<span style="color:dodgerblue;">/scratch/datasets/ukbiobank/</span><br>
+||– <span style="color:dodgerblue">ukb&lt;<em>project_id</em>&gt;_&lt;<em>owner_name</em>&gt;/</span><br>
+||– ||– <span style="color:dimgrey">...</span><br>
+||– ||– <span style="color:dodgerblue">phenotypes/</span><br>
+||– ||– ||– <span style="color:dimgrey">ukb&lt;dataset_id&gt;.csv</span><br>
+||– ||– ||– <span style="color:dimgrey">ukb&lt;dataset_id&gt;.html</span><br>
+||– ||– ||– <span style="color:dimgrey">ukb&lt;dataset_id&gt;_field_finder.text</span><br>
+||– ||– <span style="color:dodgerblue">genotyped/</span><br>
+||– ||– ||– <span style="color:mediumturquoise">ukb&lt;project_id&gt;.bed</span><br>
+||– ||– ||– <span style="color:mediumturquoise">ukb&lt;project_id&gt;.bim</span><br>
+||– ||– <span style="color:dodgerblue">imputed/</span><br>
+||– ||– ||– <span style="color:mediumturquoise">ukb_sqc.txt</span><br>
+||– ||– ||– <span style="color:mediumturquoise">ukb_sqc_fields.txt</span><br>
+||– ||– ||– <span style="color:mediumturquoise">ukb_imp_chr*.bgen</span><br>
+||– ||– ||– <span style="color:mediumturquoise">ukb_imp_chr*.bgen.bgi</span><br>
+||– ||– ||– <span style="color:mediumturquoise">ukb_mfi_chr*.txt</span>
+</p>
+<p><strong>Figure 2</strong> Phenotype data and genetic data softlinks</p>
+<p><br></p>
+</div>
+<div id="add-softlinks-to-sample-information-and-relatedness-files" class="section level4">
+<h4 class="hasAnchor">
+<a href="#add-softlinks-to-sample-information-and-relatedness-files" class="anchor"></a>Add softlinks to sample information and relatedness files</h4>
+<p>Put the downloaded sample information files (.fam and .sample) and relatedness file (<em>rel</em>.dat/.txt) into raw/. Create softlinks to these project-specific files in genotyped/ and imputed/ (<strong>Figure 3</strong>).</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="ex">./link.py</span> -f <span class="op">&lt;</span>path_to_fam_file<span class="op">&gt;</span> -s <span class="op">&lt;</span>path_to_sample_file<span class="op">&gt;</span> -r <span class="op">&lt;</span>path_to_relatedness_file<span class="op">&gt;</span></a></code></pre></div>
+<p>You can link one or more of these files (they do not all need to be passed to the program).</p>
+<p><br></p>
+<p style="font-family:menlo; color:white; font-size:85%">
+<span style="color:dodgerblue;">/scratch/datasets/ukbiobank/</span><br>
+||– <span style="color:dodgerblue">ukb&lt;<em>project_id</em>&gt;_&lt;<em>owner_name</em>&gt;/</span><br>
+||– ||– <span style="color:dimgrey">...</span><br>
+||– ||– <span style="color:dodgerblue">genotyped/</span><br>
+||– ||– ||– <span style="color:mediumturquoise">ukb&lt;project_id&gt;.fam</span><br>
+||– ||– <span style="color:dodgerblue">imputed/</span><br>
+||– ||– ||– <span style="color:mediumturquoise">ukb&lt;project_id&gt;.sample</span><br>
+||– ||– ||– <span style="color:mediumturquoise">ukb&lt;project_id&gt;.rel</span>
+</p>
+<p><strong>Figure 3</strong> Project-specific sample information and relatedness softlinks</p>
+<p><br></p>
+</div>
+<div id="access-the-data-with-ukbkings" class="section level4">
+<h4 class="hasAnchor">
+<a href="#access-the-data-with-ukbkings" class="anchor"></a>Access the data with ukbkings</h4>
+<p>The data should now be available from anywhere on Rosalind through the <a href="https://kenhanscombe.github.io/ukbkings">ukbkings</a> R package. Read <a href="https://kenhanscombe.github.io/ukbkings/articles/kcl-ukb-access.html">Access UKB data on Rosalind</a> for a detailed description of usage. The same usage documentation is included in a package vignette. In R</p>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"kenhanscombe/ukbkings"</span>, <span class="kw">dependencies</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">force</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span>(<span class="st">"Access UKB data on Rosalind"</span>)</pre></body></html></div>
+<p><br></p>
+<hr>
+<p><br></p>
+</div>
+<div id="additional-withdrawals" class="section level4">
+<h4 class="hasAnchor">
+<a href="#additional-withdrawals" class="anchor"></a>Additional withdrawals</h4>
+<p>Each time an updated set of participant withdrawals is received, replace the w&lt;<em>project-id</em>&gt;_&lt;<em>yyyymmdd</em>&gt;.csv file in raw/ with the new file. To exclude the latest withdrawals you have to generate your dataset with ukbkings again. Be aware that if any researcher on your project does run the tool again (to grab some other data say), this would apply the latest set of withdrawals.</p>
+<p><br></p>
+</div>
+<div id="updates-to-phenotype-data" class="section level4">
+<h4 class="hasAnchor">
+<a href="#updates-to-phenotype-data" class="anchor"></a>Updates to phenotype data</h4>
+<p>If you receive any new data you would like to incorporate, place the new .enc and .key files (prepared as described in <a href="#include-project-data">Include project data</a>) into raw/ and re-run the data munging step (described in <a href="#munge-the-ukb-data">Munge the UKB data</a>).</p>
 </div>
   </div>
 
