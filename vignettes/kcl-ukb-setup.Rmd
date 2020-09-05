@@ -42,6 +42,7 @@ cd ukb_<project_id>_<owner_name>
 wget https://raw.githubusercontent.com/kenhanscombe/ukbkings/link_genetics/project.py
 chmod +x project.py
 
+# Load Rosalind default python3 module
 module load devtools/anaconda/2019.3-python3.7.3
 ./project.py
 ```
@@ -118,15 +119,18 @@ information is written to log/ (**Figure 2**).
 
 <br>
 
-#### Add softlinks to sample information files
+#### Add softlinks to sample information and relatedness files
 
 Put the downloaded sample information files (.fam and .sample)
-into raw/. Create softlinks to these project-specific files in
-genotyped/ and imputed/ respectively (**Figure 3**).
+and relatedness file (*rel*.dat/.txt) into raw/. Create softlinks to 
+these project-specific files in genotyped/ and imputed/ (**Figure 3**).
 
 ```{bash}
-./link.py -p <project_id> -f <path_to_fam_file> -s <path_to_sample_file>
+./link.py -f <path_to_fam_file> -s <path_to_sample_file> -r <path_to_relatedness_file>
 ```
+
+You can link one or more of these files (they do not all need to be 
+passed to the program).
 
 <br>
 
@@ -137,10 +141,11 @@ genotyped/ and imputed/ respectively (**Figure 3**).
 ||-- ||-- <span style="color:dodgerblue">genotyped/</span>  
 ||-- ||-- ||-- <span style="color:mediumturquoise">ukb\<project_id\>.fam</span>  
 ||-- ||-- <span style="color:dodgerblue">imputed/</span>  
-||-- ||-- ||-- <span style="color:mediumturquoise">ukb\<project_id\>.sample</span>
+||-- ||-- ||-- <span style="color:mediumturquoise">ukb\<project_id\>.sample</span>  
+||-- ||-- ||-- <span style="color:mediumturquoise">ukb\<project_id\>.rel</span>
 </p>
 
-**Figure 3** Project-specific sample information softlinks
+**Figure 3** Project-specific sample information  and relatedness softlinks
 
 <br>
 
