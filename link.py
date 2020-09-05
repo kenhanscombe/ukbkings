@@ -3,16 +3,17 @@
 import os
 import click
 
-from project import Project
+from project import link_genetics
 
 
 @click.command()
-@click.option('-f', '--fam', help='Path to .fam file.')
-@click.option('-s', '--sample', help='Path to .sample file.')
-def link_sample(fam, sample):
+@click.option('-f', '--fam', default=None, help='Path to fam file.')
+@click.option('-s', '--sample', default=None, help='Path to sample file.')
+@click.option('-r', '--rel', default=None, help='Path to relatedness file.')
+def link_sample(fam, sample, rel):
     """Adds softlinks to genetic sample data.
     """
-    link_genetics(fam=fam, sample=sample, initialized=True)
+    link_genetics(fam=fam, sample=sample, rel=rel, initialized=True)
     os.system('rm -rf __pycache__')
 
 

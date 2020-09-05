@@ -33,13 +33,14 @@ def build_project():
         chmod +x resources/ukb*''')
 
 
-def link_genetics(fam=None, sample=None, initialized=False):
+def link_genetics(fam=None, sample=None, rel=None, initialized=False):
     """
     Creates symbolic links to genotyped and imputed genetic data.
 
     Args:
         fam (str): path to fam file
         sample (str): path to sample file
+        rel (str): path to relatedness file
     """
     p = Path('.')
     wd_basename = p.absolute().name
@@ -71,6 +72,9 @@ def link_genetics(fam=None, sample=None, initialized=False):
 
     if sample:
         os.system(f'ln -s {sample} imputed/ukb{project_id}.sample')
+
+    if rel:
+        os.system(f'ln -s {rel} genotyped/ukb{project_id}.rel')
 
 
 if __name__ == "__main__":
