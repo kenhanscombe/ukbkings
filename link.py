@@ -13,6 +13,14 @@ from project import link_genetics
 def link_sample(fam, sample, rel):
     """Adds softlinks to genetic sample data.
     """
+    def print_help():
+        ctx = click.get_current_context()
+        click.echo(ctx.get_help())
+        ctx.exit()
+
+    if not (fam or sample or rel):
+        print_help()
+
     link_genetics(fam=fam, sample=sample, rel=rel, initialized=True)
     os.system('rm -rf __pycache__')
 
