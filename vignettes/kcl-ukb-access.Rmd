@@ -33,7 +33,7 @@ devtools::load_all(".")
 
 ***
 
-### TL;DR
+### tldr
 
 Install the package
 ```{R}
@@ -49,24 +49,23 @@ bio_phen(
 )
 ```
 
-Read it into R, e.g.,
+***Note**. `bio_phen` reads a withdrawal file from the project
+directory and replaces phenotype values for to-be-excluded samples
+with `NA`.*
+
+<br>
+
+Read the generated dataset into R.
 ```{R}
 df <- readRDS("data/ukb.rds")
 ```
 
-**Note**. `bio_phen` reads all withdrawals from a project subdirectory (w*.csv withdrawal files received from the UKB by email), and replaces their phenotype values with `NA`.
-
 <br>
 
-### PREAMBLE
+### Preamble
 
-Log in to Rosalind.
-```{bash}
-# Local shell
-ssh <username>@login3.rosalind.kcl.ac.uk
-```
-
-Change to your UKB user directory. If you do not have a UKB user directory, create one first at /scratch/groups/ukbiobank/Edinburgh_Data/usr/*\<username\>*. Start an interactive cluster session with sufficient memory to read the UKB data (I think you can get away with less, but I've not worked that out yet). Load the default cluster version of R (`module avail 2&>1 | grep R` currently `apps/R/3.6.0`) then start R.
+On Rosalind, change to your UKB user directory. If you do not have a
+UKB user directory, create one first at /scratch/groups/ukbiobank/Edinburgh_Data/usr/*\<username\>*. Start an interactive cluster session with sufficient memory to read the UKB data (I think you can get away with less, but I've not worked that out yet). Load the default cluster version of R (`module avail 2&>1 | grep R` currently `apps/R/3.6.0`) then start R.
 ```{bash}
 # Rosalind shell
 cd /scratch/groups/ukbiobank/Edinburgh_Data/usr/<username>
@@ -78,7 +77,7 @@ R
 
 <br>
 
-### INSTALLATION/ SETUP
+### Installation
 
 ***Note**. All code blocks below are R, unless otherwise specified.*
 
@@ -88,22 +87,6 @@ Install from Github
 ```{R}
 devtools::install_github("kenhanscombe/ukbkings", dependencies = TRUE, force = TRUE)
 ```
-
-
-***
-
-***Note**. If this fails, try create an environment from the included yml file. Activate it and try the install again.*
-```{bash}
-# Rosalind shell
-wget https://raw.githubusercontent.com/kenhanscombe/ukbkings/master/environment.yml
-
-conda env create -f environment.yml
-source activate ukb
-R
-```
-
-***
-
 
 Load libraries. (I like to use tidyverse but it is not necessary, base R is fine)
 ```{R}
@@ -116,24 +99,25 @@ Check help (press 'q' to exit).
 ?ukbkings
 ```
 
-List functions available with `ukbkings::` TAB TAB. All basic data collection functions start `bio_`. Check help on specific function, e.g.,
+***Note**. All included data and functionality is described in the
+package index and also described on the
+[ukbkings webpage](https://kenhanscombe.github.io/ukbkings/) under the **Reference** tab.*
+
+<br>
+
+Check help on specific function, e.g.,
 ```{R}
 ?bio_phen
 ```
 
-
-***Note**. All functionality is also described on the [ukbkings webpage](https://kenhanscombe.github.io/ukbkings/) under the **Reference** tab.*
-
-<br>
-
-Point to the project directory, e.g., ukb18177_glanville
+Point to the project directory.
 ```{R}
-project_dir <- "/scratch/datasets/ukbiobank/ukb18177_glanville"
+project_dir <- "/scratch/datasets/ukbiobank/ukb<project_id>_<ownername>"
 ```
 
 <br>
 
-### FIELD SUBSET FILE
+### Field subset file
 
 You need a file with required fields, one per line, no header.
 
@@ -190,7 +174,7 @@ system("cat small_field_subset.txt")
 
 <br>
 
-### WRITE/ READ DATA
+### Read and write data
 
 Read required fields and save as an rds file in your user directory. Argument `out` should be a path to your UKB user directory
 ```{r}
@@ -211,8 +195,6 @@ system("ls -lh small_phenotype_subset.rds")
 df <- readRDS("small_phenotype_subset.rds")
 ```
 
-<br>
-
 If required, rename columns from the default UKB field names to the descriptive names used in the field-to-name "field finder" `name` column.
 
 ```{R}
@@ -221,7 +203,7 @@ df <- bio_rename(df, f)
 
 <br>
 
-### CATEGORICAL CODES
+### Categorical codes
 
 Categorical field codings are included in the field finder
 ```{R}
@@ -244,7 +226,7 @@ cx %>%
 
 <br>
 
-### GP DATA
+### GP data
 
 If your project has access to primary care data, retrieve the clinical, registrations, scripts datasets with `bio_gp` e.g.
 ```{R}
@@ -254,7 +236,7 @@ head(px)
 
 <br>
 
-### COVID-19 DATA
+### COVID-19 data
 
 If your project has access to COVID-19 data, retrieve the results with `bio_covid`
 ```{R}

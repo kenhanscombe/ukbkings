@@ -1,7 +1,13 @@
+# R project settings / history / package meta
 .Rproj.user
 .Rhistory
 .RData
-.vscode
 inst/doc
 doc
 Meta
+
+# VS code workspace settings
+.vscode
+
+# Python byte-compiled / optimized / DLL files
+__pycache__/

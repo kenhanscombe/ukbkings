@@ -1,51 +1,29 @@
 #!/usr/bin/env python3
 
+import os
+import click
 
-def create_links(project, fam, sample):
-    """Creates symbolic links to genotyped and imputed genetic data.
+from project import link_genetics
 
-    Args:
-        project (str): ukb project directory
-        fam (str): path to fam file
-        sample (str): path to sample file
+
+@click.command()
+@click.option('-f', '--fam', default=None, help='Path to fam file.')
+@click.option('-s', '--sample', default=None, help='Path to sample file.')
+@click.option('-r', '--rel', default=None, help='Path to relatedness file.')
+def link_sample(fam, sample, rel):
+    """Adds softlinks to genetic sample data.
     """
-    ukbid = re.sub('^.*biobank/ukb|_.*$', '', project)
-    genotyped = '/scratch/datasets/ukbiobank/June2017/Genotypes/'
-    imputed = '/scratch/datasets/ukbiobank/June2017/Imputed/'
+    def print_help():
+        ctx = click.get_current_context()
+        click.echo(ctx.get_help())
+        ctx.exit()
 
-    os.system(
-        f"""
-        mkdir genotyped
-        mkdir imputed
+    if not (fam or sample or rel):
+        print_help()
 
-        ln -s {fam} genotyped/ukb{ukbid}.fam
-        ln -s {sample} imputed/ukb{ukbid}.sample
-        ln -s {imputed}ukb_sqc_v2.txt imputed/ukb_sqc.txt
-        ln -s {imputed}ukb_sqc_v2_fields.txt imputed/ukb_sqc_fields.txt
-
-
-        ln -s {genotyped}ukb_binary_v2.bed genotyped/ukb{ukbid}.bed
-        ln -s {genotyped}ukb_binary_v2.bed genotyped/ukb{ukbid}.bim
-
-        for i in X XY $(seq 1 22)
-        do
-        ln -s {imputed}ukb_imp_chr"$i"_v3.bgen imputed/ukb_imp_chr"$i".bgen
-        ln -s {imputed}ukb_imp_chr"$i"_v3.bgen.bgi imputed/ukb_imp_chr"$i".bgen.bgi
-        ln -s {imputed}ukb_mfi_chr"$i"_v3.txt imputed/ukb_mfi_chr"$i".txt
-        done
-        """)
+    link_genetics(fam=fam, sample=sample, rel=rel, initialized=True)
+    os.system('rm -rf __pycache__')
 
 
 if __name__ == '__main__':
-    import os
-    import re
-    import argparse
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-p', '--project', help='ukb project directory')
-    parser.add_argument('-f', '--fam', help='path to fam file')
-    parser.add_argument('-s', '--sample', help='path to sample file')
-
-    args = parser.parse_args()
-
-    create_links(args.project, args.fam, args.sample)
+    link_sample()
