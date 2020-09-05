@@ -4,6 +4,8 @@ import os
 import re
 import click
 
+from pathlib import Path
+
 
 class Project:
     def __init__(self):
@@ -31,15 +33,17 @@ class Project:
             chmod +x src/munge_ukb.py
             chmod +x resources/ukb*''')
 
-    def link_genetics(self, ukbid=None, fam=None, sample=None, initialized=False):
+    def link_genetics(self, fam=None, sample=None, initialized=False):
         """
         Creates symbolic links to genotyped and imputed genetic data.
 
         Args:
-            ukbid (str): ukb project id
             fam (str): path to fam file
             sample (str): path to sample file
         """
+        p = Path('.')
+        wd_basename = p.absolute().parent.name
+        project_id = re.sub('ukb|_.*$', '', wd_basename)
         # ukbid = re.sub('^.*biobank/ukb|_.*$', '', project)
         genotyped = '/scratch/datasets/ukbiobank/June2017/Genotypes/'
         imputed = '/scratch/datasets/ukbiobank/June2017/Imputed/'
@@ -53,8 +57,8 @@ class Project:
                 ln -s {imputed}ukb_sqc_v2.txt imputed/ukb_sqc.txt
                 ln -s {imputed}ukb_sqc_v2_fields.txt imputed/ukb_sqc_fields.txt
 
-                ln -s {genotyped}ukb_binary_v2.bed genotyped/ukb{ukbid}.bed
-                ln -s {genotyped}ukb_binary_v2.bim genotyped/ukb{ukbid}.bim
+                ln -s {genotyped}ukb_binary_v2.bed genotyped/ukb{project_id}.bed
+                ln -s {genotyped}ukb_binary_v2.bim genotyped/ukb{project_id}.bim
 
                 for i in X XY $(seq 1 22)
                 do
@@ -65,10 +69,10 @@ class Project:
                 ''')
 
         if fam:
-            os.system(f'ln -s {fam} genotyped/ukb{ukbid}.fam')
+            os.system(f'ln -s {fam} genotyped/ukb{project_id}.fam')
 
         if sample:
-            os.system(f'ln -s {sample} imputed/ukb{ukbid}.sample')
+            os.system(f'ln -s {sample} imputed/ukb{project_id}.sample')
 
 
 if __name__ == "__main__":
