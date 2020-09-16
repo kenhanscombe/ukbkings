@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Reads the COVID-19 data — bio_covid • ukbkings</title>
+<title>Changelog • ukbkings</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,7 @@
 
 
 
-<meta property="og:title" content="Reads the COVID-19 data — bio_covid" />
-<meta property="og:description" content="Record-level information for COVID-19 testing. Only available if these data have been requested for the particular project you have access to." />
+<meta property="og:title" content="Changelog" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -67,7 +66,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-topic">
+    <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -134,63 +133,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Reads the COVID-19 data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kenhanscombe/ukbkings/blob/master/R/bio_read.R'><code>R/bio_read.R</code></a></small>
-    <div class="hidden name"><code>bio_covid.Rd</code></div>
+      <h1 data-toc-skip>Changelog <small></small></h1>
+      <small>Source: <a href='https://github.com/kenhanscombe/ukbkings/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
-
-    <div class="ref-description">
-    <p>Record-level information for COVID-19 testing. Only available if these data have been requested for the particular project you have access to.</p>
-    </div>
-
-    <pre class="usage"><span class='fu'>bio_covid</span>(
-  <span class='no'>project_dir</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"results"</span>,
-  <span class='kw'>results_dir</span> <span class='kw'>=</span> <span class='st'>"raw/"</span>,
-  <span class='kw'>code_dir</span> <span class='kw'>=</span> <span class='st'>"resources/covid19_codings/"</span>
-)</pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>project_dir</th>
-      <td><p>Path to the enclosing directory of a UKB project.</p></td>
-    </tr>
-    <tr>
-      <th>data</th>
-      <td><p>A string specifying data required: "results" returns COVID-19 test results; "codes" returns the code meanings for the categorical variables.</p></td>
-    </tr>
-    <tr>
-      <th>results_dir</th>
-      <td><p>Path to the enclosing directory of the covid19_results.txt</p></td>
-    </tr>
-    <tr>
-      <th>code_dir</th>
-      <td><p>Path to the enclosing directory of the data coding files described in the UKB showcase notes under <a href='http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100'>data field 40100</a>.</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Returns a dataframe of either the COVID-19 testing results, or codes associated with fields in the results dataframe, depending on the value of argument `data`.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>UKB showcase documentation for <a href='http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100'>data field 40100</a> describes the categorical columns of the COVID-19 results dataframe as follows:</p><dl'>
-  <dt><b>spectype</b></dt><dd><p>Coding 1853: COVID19 test locations. Locations/methods used to generate samples for COVID19 testing.</p></dd>
-  <dt><b>result</b></dt><dd><p>Coding 1854: Test result. Result of a binary test.</p></dd>
-  <dt><b>origin</b></dt><dd><p>Coding 1855: Origin of test sample. Indicates where a participant was believed to be (or be doing) when their sample was taken.</p></dd>
-  <dt><b>laboratory</b></dt><dd><p>Coding 1856: COVID19 testing laboratories. Laboratories performing tests for COVID19.</p></dd>
-
-</dl>
-
 
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
+
 </div>
 
 

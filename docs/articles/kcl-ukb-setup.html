@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ukbkings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1</span>
       </span>
     </div>
 
@@ -67,6 +67,9 @@
       <a href="../articles/kcl-ukb-setup.html">Setup UKB project on Rosalind</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -110,7 +113,7 @@
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="fu">mkdir</span> ukb_<span class="op">&lt;</span>project_id<span class="op">&gt;</span>_<span class="op">&lt;</span>owner_name<span class="op">&gt;</span></a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="bu">cd</span> ukb_<span class="op">&lt;</span>project_id<span class="op">&gt;</span>_<span class="op">&lt;</span>owner_name<span class="op">&gt;</span></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="fu">wget</span> https://raw.githubusercontent.com/kenhanscombe/ukbkings/link_genetics/project.py</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="fu">wget</span> https://raw.githubusercontent.com/kenhanscombe/ukbkings/master/project.py</a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="fu">chmod</span> +x project.py</a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co"># Load Rosalind default python3 module</span></a>
@@ -139,14 +142,25 @@
 <h4 class="hasAnchor">
 <a href="#include-project-data" class="anchor"></a>Include project data</h4>
 <p>The UKB project encrypted files (*.enc) and associated key files (*.key), and withdrawal files (w&lt;<em>project-id</em>&gt;_&lt;<em>yyyymmdd</em>&gt;.csv) must be copied into the subdirectory raw/. Change the key file names to match the encrypted files: ukb&lt;<em>project_id</em>&gt;.enc pairs with ukb&lt;<em>project_id</em>&gt;.key. The first line in each key file should be the project id; the second line should be the decryption key.</p>
+<p>Use the UKB program ukgene to download project-specific sample information files (.fam and .sample) and relatedness file (<em>rel</em>.dat/.txt) into raw/. If the key file for your genetic data is k&lt;<em>project_id</em>&gt;.key</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="bu">cd</span> raw</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># fam</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="ex">../resources/ukgene</span> cal -c1 -m -ak<span class="op">&lt;</span>project_id<span class="op">&gt;</span>.key</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co"># sample</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="ex">../resources/ukgene</span> imp c1 -m -ak<span class="op">&lt;</span>project_id<span class="op">&gt;</span>.key</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co"># relatedness</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="ex">../resources/ukgene</span> rel -ak<span class="op">&lt;</span>project_id<span class="op">&gt;</span>.key</a></code></pre></div>
 <p><br></p>
 </div>
 <div id="munge-the-ukb-data" class="section level4">
 <h4 class="hasAnchor">
 <a href="#munge-the-ukb-data" class="anchor"></a>Munge the UKB data</h4>
-<p>Process the encrypted UKB files into formats to be read by ukbkings and include softlinks to the shared UKB genotyped and imputed genetic data on Rosalind.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="ex">./snake.py</span></a></code></pre></div>
-<p>The munged phenotype data are stored in phenotypes/, the genetic softlinks in genotyped/ and imputed/, and output information is written to log/ (<strong>Figure 2</strong>).</p>
+<p>Process the encrypted UKB files into formats to be read by ukbkings and include symlinks to the shared UKB genotyped and imputed genetic data on Rosalind.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="ex">./snake.py</span></a></code></pre></div>
+<p>The munged phenotype data are stored in phenotypes/, the genetic symlinks in genotyped/ and imputed/, and output information is written to log/ (<strong>Figure 2</strong>). For a dry run, in which no files are edited/ written to disk, only details of what would be munged is printed to standard output, use <code>./snake.py -n</code></p>
 <p><br></p>
 <p style="font-family:menlo; color:white; font-size:85%">
 <span style="color:dodgerblue;">/scratch/datasets/ukbiobank/</span><br>
@@ -166,14 +180,14 @@
 ||– ||– ||– <span style="color:mediumturquoise">ukb_imp_chr*.bgen.bgi</span><br>
 ||– ||– ||– <span style="color:mediumturquoise">ukb_mfi_chr*.txt</span>
 </p>
-<p><strong>Figure 2</strong> Phenotype data and genetic data softlinks</p>
+<p><strong>Figure 2</strong> Phenotype data and genetic data symlinks</p>
 <p><br></p>
 </div>
-<div id="add-softlinks-to-sample-information-and-relatedness-files" class="section level4">
+<div id="add-symlinks-to-sample-information-and-relatedness-files" class="section level4">
 <h4 class="hasAnchor">
-<a href="#add-softlinks-to-sample-information-and-relatedness-files" class="anchor"></a>Add softlinks to sample information and relatedness files</h4>
-<p>Put the downloaded sample information files (.fam and .sample) and relatedness file (<em>rel</em>.dat/.txt) into raw/. Create softlinks to these project-specific files in genotyped/ and imputed/ (<strong>Figure 3</strong>).</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="ex">./link.py</span> -f <span class="op">&lt;</span>path_to_fam_file<span class="op">&gt;</span> -s <span class="op">&lt;</span>path_to_sample_file<span class="op">&gt;</span> -r <span class="op">&lt;</span>path_to_relatedness_file<span class="op">&gt;</span></a></code></pre></div>
+<a href="#add-symlinks-to-sample-information-and-relatedness-files" class="anchor"></a>Add symlinks to sample information and relatedness files</h4>
+<p>Sample information files (.fam and .sample) and the relatedness file (<em>rel</em>.dat/.txt) should be in raw/. Create symlinks to these project-specific files in genotyped/ and imputed/ (<strong>Figure 3</strong>).</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="ex">./link.py</span> -f <span class="op">&lt;</span>path_to_fam_file<span class="op">&gt;</span> -s <span class="op">&lt;</span>path_to_sample_file<span class="op">&gt;</span> -r <span class="op">&lt;</span>path_to_relatedness_file<span class="op">&gt;</span></a></code></pre></div>
 <p>You can link one or more of these files (they do not all need to be passed to the program).</p>
 <p><br></p>
 <p style="font-family:menlo; color:white; font-size:85%">
@@ -186,14 +200,22 @@
 ||– ||– ||– <span style="color:mediumturquoise">ukb&lt;project_id&gt;.sample</span><br>
 ||– ||– ||– <span style="color:mediumturquoise">ukb&lt;project_id&gt;.rel</span>
 </p>
-<p><strong>Figure 3</strong> Project-specific sample information and relatedness softlinks</p>
+<p><strong>Figure 3</strong> Project-specific sample information and relatedness symlinks</p>
+<p><br></p>
+<p><strong>UKB genetic data resources:</strong></p>
+<ul>
+<li><a href="https://biobank.ctsu.ox.ac.uk/crystal/crystal/docs/ukbgene_instruct.html#aut">Accessing Genetic Data within UK Biobank</a></li>
+<li><a href="http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=531">Resource 531: Description of genetic data types</a></li>
+<li><a href="https://biobank.ctsu.ox.ac.uk/crystal/refer.cgi?id=664">Resource 664: Instructions for downloading genetic data using ukbgene</a></li>
+<li><a href="http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=667">Resource 667: UK Biobank Keyfile</a></li>
+</ul>
 <p><br></p>
 </div>
 <div id="access-the-data-with-ukbkings" class="section level4">
 <h4 class="hasAnchor">
 <a href="#access-the-data-with-ukbkings" class="anchor"></a>Access the data with ukbkings</h4>
 <p>The data should now be available from anywhere on Rosalind through the <a href="https://kenhanscombe.github.io/ukbkings">ukbkings</a> R package. Read <a href="https://kenhanscombe.github.io/ukbkings/articles/kcl-ukb-access.html">Access UKB data on Rosalind</a> for a detailed description of usage. The same usage documentation is included in a package vignette. In R</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"kenhanscombe/ukbkings"</span>, <span class="kw">dependencies</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">force</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"kenhanscombe/ukbkings"</span>, <span class="kw">dependencies</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">force</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span>(<span class="st">"Access UKB data on Rosalind"</span>)</pre></body></html></div>
 <p><br></p>
 <hr>
