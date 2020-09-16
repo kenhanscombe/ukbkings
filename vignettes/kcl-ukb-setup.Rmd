@@ -39,7 +39,7 @@ cd /scratch/datasets/ukbiobank
 mkdir ukb_<project_id>_<owner_name>
 cd ukb_<project_id>_<owner_name>
 
-wget https://raw.githubusercontent.com/kenhanscombe/ukbkings/link_genetics/project.py
+wget https://raw.githubusercontent.com/kenhanscombe/ukbkings/master/project.py
 chmod +x project.py
 
 # Load Rosalind default python3 module
@@ -78,12 +78,29 @@ to match the encrypted files: ukb\<*project_id*\>.enc pairs with
 ukb\<*project_id*\>.key. The first line in each key file should be
 the project id; the second line should be the decryption key.
 
+Use the UKB program ukgene to download project-specific sample
+information files (.fam and .sample) and relatedness file (*rel*.dat/.txt)
+into raw/. If the key file for your genetic data is k\<*project_id*\>.key
+
+```{bash}
+cd raw
+
+# fam
+../resources/ukgene cal -c1 -m -ak<project_id>.key
+
+# sample
+../resources/ukgene imp c1 -m -ak<project_id>.key
+
+# relatedness
+../resources/ukgene rel -ak<project_id>.key
+```
+
 <br>
 
 #### Munge the UKB data
 
 Process the encrypted UKB files into formats to be read by ukbkings
-and include softlinks to the shared UKB genotyped and imputed genetic
+and include symlinks to the shared UKB genotyped and imputed genetic
 data on Rosalind.
 
 ```{bash}
@@ -91,8 +108,10 @@ data on Rosalind.
 ```
 
 The munged phenotype data  are stored in phenotypes/, the genetic 
-softlinks in genotyped/ and imputed/, and output
-information is written to log/ (**Figure 2**).
+symlinks in genotyped/ and imputed/, and output
+information is written to log/ (**Figure 2**). For a dry run, in
+which no files are edited/ written to disk, only details of what
+would be munged is printed to standard output, use `./snake.py -n`
 
 <br>
 
@@ -115,15 +134,15 @@ information is written to log/ (**Figure 2**).
 ||-- ||-- ||-- <span style="color:mediumturquoise">ukb_mfi_chr\*.txt</span>
 </p>
 
-**Figure 2** Phenotype data and genetic data softlinks
+**Figure 2** Phenotype data and genetic data symlinks
 
 <br>
 
-#### Add softlinks to sample information and relatedness files
+#### Add symlinks to sample information and relatedness files
 
-Put the downloaded sample information files (.fam and .sample)
-and relatedness file (*rel*.dat/.txt) into raw/. Create softlinks to 
-these project-specific files in genotyped/ and imputed/ (**Figure 3**).
+Sample information files (.fam and .sample) and the relatedness file
+(*rel*.dat/.txt) should be in raw/. Create symlinks to these project-specific
+files in genotyped/ and imputed/ (**Figure 3**).
 
 ```{bash}
 ./link.py -f <path_to_fam_file> -s <path_to_sample_file> -r <path_to_relatedness_file>
@@ -145,7 +164,16 @@ passed to the program).
 ||-- ||-- ||-- <span style="color:mediumturquoise">ukb\<project_id\>.rel</span>
 </p>
 
-**Figure 3** Project-specific sample information  and relatedness softlinks
+**Figure 3** Project-specific sample information and relatedness symlinks
+
+<br>
+
+**UKB genetic data resources:**
+
+* [Accessing Genetic Data within UK Biobank](https://biobank.ctsu.ox.ac.uk/crystal/crystal/docs/ukbgene_instruct.html#aut)
+* [Resource 531: Description of genetic data types](http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=531)
+* [Resource 664: Instructions for downloading genetic data using ukbgene](https://biobank.ctsu.ox.ac.uk/crystal/refer.cgi?id=664)
+* [Resource 667: UK Biobank Keyfile](http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=667)
 
 <br>
 
