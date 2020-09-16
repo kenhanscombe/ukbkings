@@ -26,6 +26,7 @@ def build_project():
         wget -P resources/ -nd -O resources/encoding.ukb biobank.ctsu.ox.ac.uk/crystal/util/encoding.ukb
         wget -P resources/ -nd -O resources/ukbunpack biobank.ndph.ox.ac.uk/showcase/util/ukbunpack
         wget -P resources/ -nd -O resources/ukbconv biobank.ndph.ox.ac.uk/showcase/util/ukbconv
+        wget -P resources/ -nd -O resources/ukbgene biobank.ctsu.ox.ac.uk/crystal/util/ukbgene
 
         chmod +x snake.py
         chmod +x link.py
