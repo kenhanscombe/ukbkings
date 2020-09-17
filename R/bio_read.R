@@ -328,8 +328,6 @@ bio_covid <- function(project_dir, data = "results", covid_dir = "raw/",
 }
 
 
-
-
 #' Reads record-level HES in-patient data
 #'
 #' @description Record-level hospital episode statistics (HES) in-patient information.
@@ -379,5 +377,30 @@ bio_hesin <- function(project_dir, record, hesin_dir = "raw/") {
                       header = TRUE, data.table = FALSE)
   }
 
+  return(df)
+}
+
+
+#' Reads death records
+#'
+#' @param project_dir Path to the enclosing directory of a UKB project.
+#' @param record A string specifying which death data are required: "death" (default) includes date of death, "cause" includes ICD-10 cause of death.
+#' @param death_dir Path to the enclosing directory of the death data.
+#'
+#' @return A dataframe of including either the date of death, or cause of death.
+#' 
+#' @importFrom data.table fread
+#' @export
+bio_death <- function(project_dir, record = "death", death_dir = "raw/") {
+  if (record == "death") {
+    df <- data.table::fread(file.path(project_dir, death_dir, "death.txt"),
+                          header = TRUE, data.table = FALSE)
+  }
+  
+  if (record == "cause") {
+    df <- data.table::fread(file.path(project_dir, death_dir, "death_cause.txt"),
+                            header = TRUE, data.table = FALSE)
+  }
+  
   return(df)
 }
