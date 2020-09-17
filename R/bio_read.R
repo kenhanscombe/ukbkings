@@ -313,3 +313,66 @@ bio_covid <- function(project_dir, data = "results", results_dir = "raw/",
 
   return(df)
 }
+
+
+
+
+#' Reads record-level HES in-patient data
+#'
+#' @description Record-level hospital episode statistics (HES) in-patient information.
+#' 
+#' @param project_dir Path to the enclosing directory of a UKB project.
+#' @param record A string specifying which HES records are required: "critical", "delivery", "diag", "maternity", "oper", "psych", "hesin".
+#' @param hesin_dir Path to the enclosing directory of the primary care data.
+#'
+#' @return A dataframe of the requested record-level data.
+#' 
+#' @importFrom data.table fread
+#' @importFrom magrittr "%>%"
+#' @export
+bio_hesin <- function(project_dir, record, hesin_dir = "raw/") {
+  
+  if (record == "critical") {
+    df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_critical.txt"),
+                      header = TRUE) %>%
+      as.data.frame()
+  }
+  
+  if (record == "delivery") {
+    df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_delivery.txt"),
+                      header = TRUE) %>%
+      as.data.frame()
+  }
+  
+  if (record == "diag") {
+    df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_diag.txt"),
+                      header = TRUE) %>%
+      as.data.frame()
+  }
+  
+  if (record == "maternity") {
+    df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_maternity.txt"),
+                      header = TRUE) %>%
+      as.data.frame()
+  }
+  
+  if (record == "oper") {
+    df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_oper.txt"),
+                      header = TRUE) %>%
+      as.data.frame()
+  }
+  
+  if (record == "psych") {
+    df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_psych.txt"),
+                      header = TRUE) %>%
+      as.data.frame()
+  }
+  
+  if (record == "hesin") {
+    df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin.txt"),
+                      header = TRUE) %>%
+      as.data.frame()
+  }
+
+  return(df)
+}
