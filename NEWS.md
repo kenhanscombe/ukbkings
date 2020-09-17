@@ -15,6 +15,9 @@ All paths mentioned below are relative to /scratch/datasets/ukbiobank/\<*project
 
 * Project setup with project.py now also copies the UKB program `ukbgene` to the project directory resources/.
 
-**New functionality**
+**New/updated functionality**
+
+* `bio_covid` now returns additional codings (corresponding to new columns in the results data), and the new blood group dataset
 
 * `bio_hesin` reads HES in-patient record-level data if available for the project.
+
