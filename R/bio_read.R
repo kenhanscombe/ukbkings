@@ -253,18 +253,24 @@ bio_code <- function(project_dir, code_dir = "resources/") {
 #' @description Record-level information for COVID-19 testing. Only available if these data have been requested for the particular project you have access to.
 #'
 #' @param project_dir Path to the enclosing directory of a UKB project.
-#' @param data A string specifying data required: "results" returns COVID-19 test results; "codes" returns the code meanings for the categorical variables.
-#' @param results_dir Path to the enclosing directory of the covid19_results.txt
+#' @param data A string specifying data required: "results" returns COVID-19 test results; "misc" returns blood group extracted from imputed genotype; "codes" returns the code meanings for the categorical variables.
+#' @param covid_dir Path to the enclosing directory of the covid19_results.txt
 #' @param code_dir Path to the enclosing directory of the data coding files described in the UKB showcase notes under \href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{data field 40100}.
 #'
-#' @return Returns a dataframe of either the COVID-19 testing results, or codes associated with fields in the results dataframe, depending on the value of argument `data`.
+#' @return Returns a dataframe of either the COVID-19 testing results, blood group, or codes associated with fields in the results dataframe, depending on the value of argument `data`.
+#' 
 #' @details  UKB showcase documentation for \href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{data field 40100} describes the categorical columns of the COVID-19 results dataframe as follows:
 #' \describe{
 #'   \item{\bold{spectype}}{Coding 1853: COVID19 test locations. Locations/methods used to generate samples for COVID19 testing.}
 #'   \item{\bold{result}}{Coding 1854: Test result. Result of a binary test.}
 #'   \item{\bold{origin}}{Coding 1855: Origin of test sample. Indicates where a participant was believed to be (or be doing) when their sample was taken.}
 #'   \item{\bold{laboratory}}{Coding 1856: COVID19 testing laboratories. Laboratories performing tests for COVID19.}
+#'   \item{\bold{reqorg}}{Coding 3311: Requesting organisation. Organisations responsible for requesting blood tests.}
+#'   \item{\bold{acute}}{Coding 12: ACE boolean. True/False boolean value.}
+#'   \item{\bold{hosaq}}{Coding 21: Yes No or Unknown. Artificial coding, generated after data collection.}
 #' }
+#'
+#' @seealso \href{http://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=COVID19_tests}{COVID-19 test results data}, 
 #'
 #' @importFrom data.table fread
 #' @importFrom lubridate parse_date_time
@@ -272,19 +278,23 @@ bio_code <- function(project_dir, code_dir = "resources/") {
 #' @importFrom dplyr mutate case_when select arrange
 #' @importFrom purrr map_df
 #' @export
-bio_covid <- function(project_dir, data = "results", results_dir = "raw/",
-                      code_dir = "resources/covid19_codings/") {
+bio_covid <- function(project_dir, data = "results", covid_dir = "raw/",
+                      code_dir = "raw/") {
 
-  covid_results <- file.path(project_dir, results_dir, "covid19_result.txt")
-
-  if(!file.exists(covid_results)) {
-    stop("COVID-19 data is not available for this project.", call. = FALSE)
-  }
+  # if(!file.exists(covid_results)) {
+  #   stop("COVID-19 data is not available for this project.", call. = FALSE)
+  # }
 
   if (data == "results") {
+    covid_results <- file.path(project_dir, covid_dir, "covid19_result.txt")
     df <- data.table::fread(covid_results, header = TRUE, data.table = FALSE)
     df$specdate <- lubridate::parse_date_time(df$specdate,
                                               orders = "%d-%m-%Y")
+  }
+  
+  if (data == "misc") {
+    covid_results <- file.path(project_dir, covid_dir, "covid19_misc.txt")
+    df <- data.table::fread(covid_results, header = TRUE, data.table = FALSE)
   }
 
   if (data == "codes") {
@@ -294,14 +304,17 @@ bio_covid <- function(project_dir, data = "results", results_dir = "raw/",
       code <- stringr::str_replace_all(basename(path), "coding|.tsv", "") %>%
         as.integer()
 
-      data.table::fread(path, sep = "\t", header = TRUE) %>%
+      data.table::fread(path, sep = "\t", header = TRUE, colClasses = "ic") %>%
         dplyr::mutate(
           code = code,
           results_column = dplyr::case_when(
             code == 1853 ~ "spectype",
             code == 1854 ~ "result",
             code == 1855 ~ "origin",
-            code == 1856 ~ "laboratory"
+            code == 1856 ~ "laboratory",
+            code == 3311 ~ "reqorg",
+            code == 12 ~ "acute",
+            code == 21 ~ "hosaq"
           )
         ) %>%
         dplyr::select(code, results_column, value = coding, meaning) %>%
@@ -328,50 +341,42 @@ bio_covid <- function(project_dir, data = "results", results_dir = "raw/",
 #' @return A dataframe of the requested record-level data.
 #' 
 #' @importFrom data.table fread
-#' @importFrom magrittr "%>%"
 #' @export
 bio_hesin <- function(project_dir, record, hesin_dir = "raw/") {
   
   if (record == "critical") {
     df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_critical.txt"),
-                      header = TRUE) %>%
-      as.data.frame()
+                      header = TRUE, data.table = FALSE)
   }
   
   if (record == "delivery") {
     df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_delivery.txt"),
-                      header = TRUE) %>%
-      as.data.frame()
+                      header = TRUE, data.table = FALSE)
   }
   
   if (record == "diag") {
     df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_diag.txt"),
-                      header = TRUE) %>%
-      as.data.frame()
+                      header = TRUE, data.table = FALSE)
   }
   
   if (record == "maternity") {
     df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_maternity.txt"),
-                      header = TRUE) %>%
-      as.data.frame()
+                      header = TRUE, data.table = FALSE)
   }
   
   if (record == "oper") {
     df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_oper.txt"),
-                      header = TRUE) %>%
-      as.data.frame()
+                      header = TRUE, data.table = FALSE)
   }
   
   if (record == "psych") {
     df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_psych.txt"),
-                      header = TRUE) %>%
-      as.data.frame()
+                      header = TRUE, data.table = FALSE)
   }
   
   if (record == "hesin") {
     df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin.txt"),
-                      header = TRUE) %>%
-      as.data.frame()
+                      header = TRUE, data.table = FALSE)
   }
 
   return(df)
