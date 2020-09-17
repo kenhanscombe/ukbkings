@@ -17,7 +17,8 @@ All paths mentioned below are relative to /scratch/datasets/ukbiobank/\<*project
 
 **New/updated functionality**
 
-* `bio_covid` now returns additional codings (corresponding to new columns in the results data), and the new blood group dataset
+* `bio_covid` now returns additional codings (corresponding to new columns in the results data), and the new blood group dataset.
 
 * `bio_hesin` reads HES in-patient record-level data if available for the project.
 
+* `bio_death` reads death record data if available for the project.

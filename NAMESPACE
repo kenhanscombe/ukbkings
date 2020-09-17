@@ -2,6 +2,7 @@
 
 export(bio_code)
 export(bio_covid)
+export(bio_death)
 export(bio_field)
 export(bio_field_add)
 export(bio_gp)
