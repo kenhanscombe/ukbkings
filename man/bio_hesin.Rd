@@ -19,3 +19,9 @@ A dataframe of the requested record-level data.
 \description{
 Record-level hospital episode statistics (HES) in-patient information.
 }
+\seealso{
+\href{https://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=2000}{Category 2000},
+\href{https://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=2006}{Category 2006},
+\href{https://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=138483}{Resource 138483},
+\href{https://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=141140}{Resource 141140}
+}

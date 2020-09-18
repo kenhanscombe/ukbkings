@@ -19,3 +19,8 @@ A dataframe. \strong{Note}. clinical data has 123,669,371 rows and 8 columns; re
 \description{
 Detailed patient level diagnoses, prescriptions, etc. Only available if these data have been requested for the particular project you have access to.
 }
+\seealso{
+\href{http://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=3001}{Category 3001},
+\href{http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=591}{Resource 591},
+\href{http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=592}{Resource 592}
+}

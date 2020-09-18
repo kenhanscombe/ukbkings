@@ -105,9 +105,11 @@
 <hr>
 <p><strong>Note. This document describes the setup of a UKB project on Rosalind for access with ukbkings.</strong></p>
 <hr>
+<p><span style="color:dodgerblue;"><strong>Contents:</strong></span><br><a href="#setup-a-project-directory">1. Setup a project directory</a><br><a href="#include-project-data">2. Include project data</a><br><a href="#munge-the-ukb-data">3. Munge the UKB data</a><br><a href="#add-symlinks-to-sample-information-and-relatedness-files">4. Add symlinks to sample information and relatedness files</a><br><a href="#access-the-data-with-ukbkings">5. Access the data with ukbkings</a><br><a href="#additional-withdrawals">6. Additional withdrawals</a><br><a href="#updates-to-phenotype-data">7. Updates to phenotype data</a></p>
+<hr>
 <div id="setup-a-project-directory" class="section level4">
 <h4 class="hasAnchor">
-<a href="#setup-a-project-directory" class="anchor"></a>Setup a project directory</h4>
+<a href="#setup-a-project-directory" class="anchor"></a>1. Setup a project directory</h4>
 <p>Navigate to /scratch/datasets/ukbiobank, create a project directory usb&lt;<em>project_id</em>&gt;_&lt;<em>owner_name</em>&gt;, download and run <code>project.py</code>. This script will create the project directory structure in <strong>Figure 1</strong>, collect the data munging codebase, and download the required UKB programs and utilites. Files used by the data munging pipeline are stored in resources/ (UKB utilites: Codings_Showcase.csv, encoding.ukb, ukbunpack, ukbconv), src/ (munge_ukb.py, cluster.json), and log/.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="bu">cd</span> /scratch/datasets/ukbiobank</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="fu">mkdir</span> ukb_<span class="op">&lt;</span>project_id<span class="op">&gt;</span>_<span class="op">&lt;</span>owner_name<span class="op">&gt;</span></a>
@@ -140,26 +142,16 @@
 </div>
 <div id="include-project-data" class="section level4">
 <h4 class="hasAnchor">
-<a href="#include-project-data" class="anchor"></a>Include project data</h4>
+<a href="#include-project-data" class="anchor"></a>2. Include project data</h4>
 <p>The UKB project encrypted files (*.enc) and associated key files (*.key), and withdrawal files (w&lt;<em>project-id</em>&gt;_&lt;<em>yyyymmdd</em>&gt;.csv) must be copied into the subdirectory raw/. Change the key file names to match the encrypted files: ukb&lt;<em>project_id</em>&gt;.enc pairs with ukb&lt;<em>project_id</em>&gt;.key. The first line in each key file should be the project id; the second line should be the decryption key.</p>
-<p>Use the UKB program ukgene to download project-specific sample information files (.fam and .sample) and relatedness file (<em>rel</em>.dat/.txt) into raw/. If the key file for your genetic data is k&lt;<em>project_id</em>&gt;.key</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="bu">cd</span> raw</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># fam</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="ex">../resources/ukgene</span> cal -c1 -m -ak<span class="op">&lt;</span>project_id<span class="op">&gt;</span>.key</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co"># sample</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="ex">../resources/ukgene</span> imp c1 -m -ak<span class="op">&lt;</span>project_id<span class="op">&gt;</span>.key</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co"># relatedness</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="ex">../resources/ukgene</span> rel -ak<span class="op">&lt;</span>project_id<span class="op">&gt;</span>.key</a></code></pre></div>
+<p>Use the UKB program ukgene to download project-specific sample information files (.fam and .sample) and relatedness file (<em>rel</em>.dat/.txt) into raw/. If the key file for your genetic data is ukb.key, from raw/: <code>../resources/ukgene [cal/imp] -c1 -m -aukb.key</code> for sample information files; and <code>../resources/ukgene rel -aukb.key</code> for the relatedness file.</p>
 <p><br></p>
 </div>
 <div id="munge-the-ukb-data" class="section level4">
 <h4 class="hasAnchor">
-<a href="#munge-the-ukb-data" class="anchor"></a>Munge the UKB data</h4>
+<a href="#munge-the-ukb-data" class="anchor"></a>3. Munge the UKB data</h4>
 <p>Process the encrypted UKB files into formats to be read by ukbkings and include symlinks to the shared UKB genotyped and imputed genetic data on Rosalind.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="ex">./snake.py</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="ex">./snake.py</span></a></code></pre></div>
 <p>The munged phenotype data are stored in phenotypes/, the genetic symlinks in genotyped/ and imputed/, and output information is written to log/ (<strong>Figure 2</strong>). For a dry run, in which no files are edited/ written to disk, only details of what would be munged is printed to standard output, use <code>./snake.py -n</code></p>
 <p><br></p>
 <p style="font-family:menlo; color:white; font-size:85%">
@@ -185,9 +177,9 @@
 </div>
 <div id="add-symlinks-to-sample-information-and-relatedness-files" class="section level4">
 <h4 class="hasAnchor">
-<a href="#add-symlinks-to-sample-information-and-relatedness-files" class="anchor"></a>Add symlinks to sample information and relatedness files</h4>
+<a href="#add-symlinks-to-sample-information-and-relatedness-files" class="anchor"></a>4. Add symlinks to sample information and relatedness files</h4>
 <p>Sample information files (.fam and .sample) and the relatedness file (<em>rel</em>.dat/.txt) should be in raw/. Create symlinks to these project-specific files in genotyped/ and imputed/ (<strong>Figure 3</strong>).</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="ex">./link.py</span> -f <span class="op">&lt;</span>path_to_fam_file<span class="op">&gt;</span> -s <span class="op">&lt;</span>path_to_sample_file<span class="op">&gt;</span> -r <span class="op">&lt;</span>path_to_relatedness_file<span class="op">&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="ex">./link.py</span> -f <span class="op">&lt;</span>path_to_fam_file<span class="op">&gt;</span> -s <span class="op">&lt;</span>path_to_sample_file<span class="op">&gt;</span> -r <span class="op">&lt;</span>path_to_relatedness_file<span class="op">&gt;</span></a></code></pre></div>
 <p>You can link one or more of these files (they do not all need to be passed to the program).</p>
 <p><br></p>
 <p style="font-family:menlo; color:white; font-size:85%">
@@ -213,9 +205,9 @@
 </div>
 <div id="access-the-data-with-ukbkings" class="section level4">
 <h4 class="hasAnchor">
-<a href="#access-the-data-with-ukbkings" class="anchor"></a>Access the data with ukbkings</h4>
+<a href="#access-the-data-with-ukbkings" class="anchor"></a>5. Access the data with ukbkings</h4>
 <p>The data should now be available from anywhere on Rosalind through the <a href="https://kenhanscombe.github.io/ukbkings">ukbkings</a> R package. Read <a href="https://kenhanscombe.github.io/ukbkings/articles/kcl-ukb-access.html">Access UKB data on Rosalind</a> for a detailed description of usage. The same usage documentation is included in a package vignette. In R</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"kenhanscombe/ukbkings"</span>, <span class="kw">dependencies</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">force</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"kenhanscombe/ukbkings"</span>, <span class="kw">dependencies</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">force</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span>(<span class="st">"Access UKB data on Rosalind"</span>)</pre></body></html></div>
 <p><br></p>
 <hr>
@@ -223,14 +215,14 @@
 </div>
 <div id="additional-withdrawals" class="section level4">
 <h4 class="hasAnchor">
-<a href="#additional-withdrawals" class="anchor"></a>Additional withdrawals</h4>
+<a href="#additional-withdrawals" class="anchor"></a>6. Additional withdrawals</h4>
 <p>Each time an updated set of participant withdrawals is received, replace the w&lt;<em>project-id</em>&gt;_&lt;<em>yyyymmdd</em>&gt;.csv file in raw/ with the new file. To exclude the latest withdrawals you have to generate your dataset with ukbkings again. Be aware that if any researcher on your project does run the tool again (to grab some other data say), this would apply the latest set of withdrawals.</p>
 <p><br></p>
 </div>
 <div id="updates-to-phenotype-data" class="section level4">
 <h4 class="hasAnchor">
-<a href="#updates-to-phenotype-data" class="anchor"></a>Updates to phenotype data</h4>
-<p>If you receive any new data you would like to incorporate, place the new .enc and .key files (prepared as described in <a href="#include-project-data">Include project data</a>) into raw/ and re-run the data munging step (described in <a href="#munge-the-ukb-data">Munge the UKB data</a>).</p>
+<a href="#updates-to-phenotype-data" class="anchor"></a>7. Updates to phenotype data</h4>
+<p>If you receive any new data you would like to incorporate, place the new .enc and .key files (prepared as described in [Include project data]) into raw/ and re-run the data munging step (described in [Munge the UKB data]).</p>
 </div>
   </div>
 

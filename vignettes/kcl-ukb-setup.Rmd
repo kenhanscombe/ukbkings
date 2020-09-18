@@ -23,7 +23,18 @@ knitr::opts_chunk$set(
 
 ***
 
-#### Setup a project directory
+<span style="color:dodgerblue;">**Contents:**</span>  
+[1. Setup a project directory]  
+[2. Include project data]  
+[3. Munge the UKB data]  
+[4. Add symlinks to sample information and relatedness files]  
+[5. Access the data with ukbkings]  
+[6. Additional withdrawals]  
+[7. Updates to phenotype data]
+
+***
+
+#### 1. Setup a project directory
 
 Navigate to /scratch/datasets/ukbiobank, create a project
 directory usb\<*project_id*\>_\<*owner_name*\>, download and run
@@ -69,7 +80,7 @@ module load devtools/anaconda/2019.3-python3.7.3
 
 <br>
 
-#### Include project data
+#### 2. Include project data
 
 The UKB project encrypted files (\*.enc) and associated key files
 (\*.key), and withdrawal files (w\<*project-id*\>_\<*yyyymmdd*\>.csv)
@@ -80,24 +91,11 @@ the project id; the second line should be the decryption key.
 
 Use the UKB program ukgene to download project-specific sample
 information files (.fam and .sample) and relatedness file (*rel*.dat/.txt)
-into raw/. If the key file for your genetic data is k\<*project_id*\>.key
-
-```{bash}
-cd raw
-
-# fam
-../resources/ukgene cal -c1 -m -ak<project_id>.key
-
-# sample
-../resources/ukgene imp c1 -m -ak<project_id>.key
-
-# relatedness
-../resources/ukgene rel -ak<project_id>.key
-```
+into raw/. If the key file for your genetic data is ukb.key, from raw/: `../resources/ukgene [cal/imp] -c1 -m -aukb.key` for sample information files; and `../resources/ukgene rel -aukb.key` for the relatedness file.
 
 <br>
 
-#### Munge the UKB data
+#### 3. Munge the UKB data
 
 Process the encrypted UKB files into formats to be read by ukbkings
 and include symlinks to the shared UKB genotyped and imputed genetic
@@ -138,7 +136,7 @@ would be munged is printed to standard output, use `./snake.py -n`
 
 <br>
 
-#### Add symlinks to sample information and relatedness files
+#### 4. Add symlinks to sample information and relatedness files
 
 Sample information files (.fam and .sample) and the relatedness file
 (*rel*.dat/.txt) should be in raw/. Create symlinks to these project-specific
@@ -177,7 +175,7 @@ passed to the program).
 
 <br>
 
-#### Access the data with ukbkings
+#### 5. Access the data with ukbkings
 
 The data should now be available from anywhere on Rosalind through
 the [ukbkings](https://kenhanscombe.github.io/ukbkings) R package. Read
@@ -196,7 +194,7 @@ vignette("Access UKB data on Rosalind")
 
 <br>
 
-#### Additional withdrawals
+#### 6. Additional withdrawals
 
 Each time an updated set of participant withdrawals is received,
 replace the w\<*project-id*\>_\<*yyyymmdd*\>.csv file in raw/ with
@@ -207,7 +205,7 @@ this would apply the latest set of withdrawals.
 
 <br>
 
-#### Updates to phenotype data
+#### 7. Updates to phenotype data
 
 If you receive any new data you would like to incorporate, place the
 new .enc and .key files (prepared as described in [Include

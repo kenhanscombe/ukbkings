@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Reads the primary care data — bio_gp • ukbkings</title>
+<title>Reads death records — bio_death • ukbkings</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Reads the primary care data — bio_gp" />
-<meta property="og:description" content="Detailed patient level diagnoses, prescriptions, etc. Only available if these data have been requested for the particular project you have access to." />
+<meta property="og:title" content="Reads death records — bio_death" />
+<meta property="og:description" content="Reads death records" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -134,16 +134,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Reads the primary care data</h1>
+    <h1>Reads death records</h1>
     <small class="dont-index">Source: <a href='https://github.com/kenhanscombe/ukbkings/blob/master/R/bio_read.R'><code>R/bio_read.R</code></a></small>
-    <div class="hidden name"><code>bio_gp.Rd</code></div>
+    <div class="hidden name"><code>bio_death.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Detailed patient level diagnoses, prescriptions, etc. Only available if these data have been requested for the particular project you have access to.</p>
+    <p>Reads death records</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bio_gp</span>(<span class='no'>project_dir</span>, <span class='no'>record</span>, <span class='kw'>gp_dir</span> <span class='kw'>=</span> <span class='st'>"raw/"</span>)</pre>
+    <pre class="usage"><span class='fu'>bio_death</span>(<span class='no'>project_dir</span>, <span class='kw'>record</span> <span class='kw'>=</span> <span class='st'>"death"</span>, <span class='kw'>death_dir</span> <span class='kw'>=</span> <span class='st'>"raw/"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,22 +154,21 @@
     </tr>
     <tr>
       <th>record</th>
-      <td><p>A string specifying which primary care records are required: "clinical", "registrations", "scripts".</p></td>
+      <td><p>A string specifying which death data are required: "death" (default) includes date of death, "cause" includes ICD-10 cause of death.</p></td>
     </tr>
     <tr>
-      <th>gp_dir</th>
-      <td><p>Path to the enclosing directory of the primary care data.</p></td>
+      <th>death_dir</th>
+      <td><p>Path to the enclosing directory of the death data.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataframe. <strong>Note</strong>. clinical data has 123,669,371 rows and 8 columns; registrations data has 361,841 rows and 4 columns; scripts data has 57,709,810 rows and 8 columns.</p>
+    <p>A dataframe of including either the date of death, or cause of death.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='http://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=3001'>Category 3001</a>,
-<a href='http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=591'>Resource 591</a>,
-<a href='http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=592'>Resource 592</a></p></div>
+    <div class='dont-index'><p><a href='https://biobank.ctsu.ox.ac.uk/crystal/label.cgi?id=100093'>Category 100093</a>,
+<a href='https://biobank.ctsu.ox.ac.uk/crystal/refer.cgi?id=134993'>Resource 134993</a></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

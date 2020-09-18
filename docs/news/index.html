@@ -137,6 +137,34 @@
       <small>Source: <a href='https://github.com/kenhanscombe/ukbkings/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="ukbkings-development-version" class="section level1">
+<h1 class="page-header" data-toc-text="development version">
+<a href="#ukbkings-development-version" class="anchor"></a>ukbkings (development version)</h1>
+<p><strong>Note. All paths mentioned in the Changelog are relative to /scratch/datasets/ukbiobank/&lt;<em>project_dir</em>&gt;/.</strong></p>
+<ul>
+<li>
+<code>bio_gen_info</code> prints information on the genetic data available</li>
+</ul>
+</div>
+    <div id="ukbkings-0-1" class="section level1">
+<h1 class="page-header" data-toc-text="0.1">
+<a href="#ukbkings-0-1" class="anchor"></a>ukbkings 0.1</h1>
+<p><strong>24.09.2020 Ken B. Hanscombe</strong></p>
+<ul>
+<li>Updated documentation for project setup and data access can be found under the Articles tab on the <a href="https://kenhanscombe.github.io/ukbkings/">ukbkings page</a>. These can also be read as vignettes within the installed R package</li>
+</ul>
+<p><em>New/updated functionality</em></p>
+<ul>
+<li><p><code>bio_covid</code> now returns additional codings (corresponding to new columns in the results data), and the new blood group dataset.</p></li>
+<li><p><code>bio_hesin</code> reads HES in-patient record-level data if available for the project.</p></li>
+<li><p><code>bio_death</code> reads death record data if available for the project.</p></li>
+</ul>
+<p><em>Genetic data</em></p>
+<ul>
+<li><p>Symlinks to genotyped and imputed genetic data are included in genotyped/ and imputed/ respectively. Project managers can add symlinks to fam, sample and relatedness files with link.py (see <code>python ./link.py --help</code> and the Article “Setup a UKB project on Rosalind”).</p></li>
+<li><p>resources/ now includes a the UKB program <code>ukbgene</code> used to retrieve UKB “link” files (.fam, .sample) and relatedness data.</p></li>
+</ul>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

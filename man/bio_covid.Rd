@@ -34,5 +34,6 @@ UKB showcase documentation for \href{http://biobank.ndph.ox.ac.uk/showcase/field
 }
 }
 \seealso{
-\href{http://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=COVID19_tests}{COVID-19 test results data},
+\href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{Data field 40100},
+\href{http://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=COVID19_tests}{COVID-19 test results data}
 }
