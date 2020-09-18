@@ -25,15 +25,27 @@ devtools::load_all(".")
 
 ***
 
-**Note. This document is only useful for UKB-approved KCL reasearchers and their collaborators, with an account on the Rosalind HPC cluster.**
+**Important. This document is only useful for UKB-approved KCL reasearchers and their collaborators, with an account on the Rosalind HPC cluster.**
 
-<br>
-
-**Important.** The ukbkings package only works on a Rosalind UKB project directory that has been setup to use the package. See vignette("Setup UKB project on Rosalind") or [read the article on the package webpage](https://kenhanscombe.github.io/ukbkings/). NB. This step is typically run once, by the person who manages UKB data on Rosalind.
+The ukbkings package works with a Rosalind UKB project directory that has been setup to use the package. See vignette("Setup UKB project on Rosalind") or read the documentation under Articles.
 
 ***
 
-### tldr
+<span style="color:dodgerblue;">**Contents:**</span>  
+[0. tldr]  
+[1. Preamble]  
+[2. Installation]  
+[3. Field subset file]  
+[4. Read and write data]  
+[5. Categorical codes]  
+[6. GP data]  
+[7. COVID-19 data]  
+[8. HES in-patient data]  
+[9. Death data]
+
+***
+
+### 0. tldr
 
 Install the package
 ```{R}
@@ -62,7 +74,7 @@ df <- readRDS("data/ukb.rds")
 
 <br>
 
-### Preamble
+### 1. Preamble
 
 On Rosalind, change to your UKB user directory. If you do not have a
 UKB user directory, create one first at /scratch/groups/ukbiobank/Edinburgh_Data/usr/*\<username\>*. Start an interactive cluster session with sufficient memory to read the UKB data (I think you can get away with less, but I've not worked that out yet). Load the default cluster version of R (`module avail 2&>1 | grep R` currently `apps/R/3.6.0`) then start R.
@@ -77,7 +89,7 @@ R
 
 <br>
 
-### Installation
+### 2. Installation
 
 ***Note**. All code blocks below are R, unless otherwise specified.*
 
@@ -117,7 +129,7 @@ project_dir <- "/scratch/datasets/ukbiobank/ukb<project_id>_<ownername>"
 
 <br>
 
-### Field subset file
+### 3. Field subset file
 
 You need a file with required fields, one per line, no header.
 
@@ -174,7 +186,7 @@ system("cat small_field_subset.txt")
 
 <br>
 
-### Read and write data
+### 4. Read and write data
 
 Read required fields and save as an rds file in your user directory. Argument `out` should be a path to your UKB user directory
 ```{r}
@@ -203,7 +215,7 @@ df <- bio_rename(df, f)
 
 <br>
 
-### Categorical codes
+### 5. Categorical codes
 
 Categorical field codings are included in the field finder
 ```{R}
@@ -226,27 +238,85 @@ cx %>%
 
 <br>
 
-### GP data
+### 6. GP data
 
-If your project has access to primary care data, retrieve the clinical, registrations, scripts datasets with `bio_gp` e.g.
+If your project has access to primary care data, retrieve the clinical, registrations, scripts datasets with `bio_gp`
 ```{R}
-px <- bio_gp(project_dir, "scripts")
-head(px)
+gp_clinical <- bio_gp(project_dir, "clinical")
+gp_registrations <- bio_gp(project_dir, "registrations")
+gp_scripts <- bio_gp(project_dir, "scripts")
 ```
 
 <br>
 
-### COVID-19 data
+For details see UKB documentation:
+
+* [Category 3001](http://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=3001)
+* [Resource 591: Primary Care Linked Data](http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=591)
+* [Resource 592: Clinical coding classification systems and maps](http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=592)
+
+<br>
+
+### 7. COVID-19 data
 
 If your project has access to COVID-19 data, retrieve the results with `bio_covid`
 ```{R}
 covid <- bio_covid(project_dir, "results")
-head(covid)
+```
+
+Read in the particapant blood group data extracted from imputed genotype
+```{r}
+covid_misc <- bio_covid(project_dir, "misc")
 ```
 
 Descriptive meanings of the numerical values used to encode the categorical variables can be retrieved with `data = codes`
-
 ```{R}
 covid_codes <- bio_covid(project_dir, "codes")
-head(covid_code)
 ```
+
+<br>
+
+For details see UKB documentation:
+
+* [Data field 40100](http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100)  
+* [COVID-19 test results data](http://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=COVID19_tests)
+
+<br>
+
+### 8. HES in-patient data
+
+To retrieve detailed information on hospital episode statistic use `bio_hesin`
+```{r}
+hesin_critical <- bio_hesin(project_dir, "critical")
+hesin_delivery <- bio_hesin(project_dir, "delivery")
+hesin_diag <- bio_hesin(project_dir, "diag")
+# etc.
+```
+
+For all available data see `?bio_hesin`
+
+<br>
+
+For details see UKB documentation:
+
+* [Category 2000](https://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=2000)
+* [Category 2006](https://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=2006)
+* [Resource 138483: Hospital Episode Statistics](https://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=138483)
+* [Resource 141140: HES Data Dictionary](https://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=141140)
+
+<br>
+
+### 9. Death data
+
+For data on date and cause of death (ICD10) obtained through linkage to national death registries, use `bio_death`
+```{r}
+death_date <- bio_death(project_dir, "death")
+death_cause <- bio_death(project_dir, "cause")
+```
+
+<br>
+
+For details see UKB documentation:
+
+* [Category 100093](https://biobank.ctsu.ox.ac.uk/crystal/label.cgi?id=100093)
+* [Resource 134993: Health Outcomes Report](https://biobank.ctsu.ox.ac.uk/crystal/refer.cgi?id=134993)

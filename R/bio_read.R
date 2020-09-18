@@ -191,6 +191,29 @@ bio_rename <- function(data, field_finder) {
 }
 
 
+#' Reads the UKB showcase codings for categorical variables
+#'
+#' @param project_dir Path to the enclosing directory of a UKB project.
+#' @param code_dir Path to the enclosing directory of the Codings_Showcase.csv.
+#'
+#' @return A dataframe with header Coding, Value, Meaning
+#'
+#' @importFrom data.table fread
+#' @export
+bio_code <- function(project_dir, code_dir = "resources/") {
+
+  codings_showcase <- file.path(project_dir, code_dir, "Codings_Showcase.csv")
+
+  if(!file.exists(codings_showcase)) {
+    stop(
+      stringr::str_interp(c("Required file ${codings_showcase} ",
+                            "does not exist.")), call. = FALSE)
+  }
+
+  data.table::fread(codings_showcase, sep = ",", header = TRUE)
+}
+
+
 #' Reads the primary care data
 #'
 #' Detailed patient level diagnoses, prescriptions, etc. Only available if these data have been requested for the particular project you have access to.
@@ -200,6 +223,10 @@ bio_rename <- function(data, field_finder) {
 #' @param record A string specifying which primary care records are required: "clinical", "registrations", "scripts".
 #'
 #' @return A dataframe. \strong{Note}. clinical data has 123,669,371 rows and 8 columns; registrations data has 361,841 rows and 4 columns; scripts data has 57,709,810 rows and 8 columns.
+#'
+#' @seealso \href{http://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=3001}{Category 3001},
+#' \href{http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=591}{Resource 591},
+#' \href{http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=592}{Resource 592}
 #'
 #' @export
 bio_gp <- function(project_dir, record, gp_dir = "raw/") {
@@ -225,29 +252,6 @@ bio_gp <- function(project_dir, record, gp_dir = "raw/") {
 }
 
 
-#' Reads the UKB showcase codings for categorical variables
-#'
-#' @param project_dir Path to the enclosing directory of a UKB project.
-#' @param code_dir Path to the enclosing directory of the Codings_Showcase.csv.
-#'
-#' @return A dataframe with header Coding, Value, Meaning
-#'
-#' @importFrom data.table fread
-#' @export
-bio_code <- function(project_dir, code_dir = "resources/") {
-
-  codings_showcase <- file.path(project_dir, code_dir, "Codings_Showcase.csv")
-
-  if(!file.exists(codings_showcase)) {
-    stop(
-      stringr::str_interp(c("Required file ${codings_showcase} ",
-      "does not exist.")), call. = FALSE)
-  }
-
-  data.table::fread(codings_showcase, sep = ",", header = TRUE)
-}
-
-
 #' Reads the COVID-19 data
 #'
 #' @description Record-level information for COVID-19 testing. Only available if these data have been requested for the particular project you have access to.
@@ -258,7 +262,7 @@ bio_code <- function(project_dir, code_dir = "resources/") {
 #' @param code_dir Path to the enclosing directory of the data coding files described in the UKB showcase notes under \href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{data field 40100}.
 #'
 #' @return Returns a dataframe of either the COVID-19 testing results, blood group, or codes associated with fields in the results dataframe, depending on the value of argument `data`.
-#' 
+#'
 #' @details  UKB showcase documentation for \href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{data field 40100} describes the categorical columns of the COVID-19 results dataframe as follows:
 #' \describe{
 #'   \item{\bold{spectype}}{Coding 1853: COVID19 test locations. Locations/methods used to generate samples for COVID19 testing.}
@@ -270,7 +274,8 @@ bio_code <- function(project_dir, code_dir = "resources/") {
 #'   \item{\bold{hosaq}}{Coding 21: Yes No or Unknown. Artificial coding, generated after data collection.}
 #' }
 #'
-#' @seealso \href{http://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=COVID19_tests}{COVID-19 test results data}, 
+#' @seealso \href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{Data field 40100},
+#' \href{http://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=COVID19_tests}{COVID-19 test results data}
 #'
 #' @importFrom data.table fread
 #' @importFrom lubridate parse_date_time
@@ -291,7 +296,7 @@ bio_covid <- function(project_dir, data = "results", covid_dir = "raw/",
     df$specdate <- lubridate::parse_date_time(df$specdate,
                                               orders = "%d-%m-%Y")
   }
-  
+
   if (data == "misc") {
     covid_results <- file.path(project_dir, covid_dir, "covid19_misc.txt")
     df <- data.table::fread(covid_results, header = TRUE, data.table = FALSE)
@@ -331,47 +336,52 @@ bio_covid <- function(project_dir, data = "results", covid_dir = "raw/",
 #' Reads record-level HES in-patient data
 #'
 #' @description Record-level hospital episode statistics (HES) in-patient information.
-#' 
+#'
 #' @param project_dir Path to the enclosing directory of a UKB project.
 #' @param record A string specifying which HES records are required: "critical", "delivery", "diag", "maternity", "oper", "psych", "hesin".
 #' @param hesin_dir Path to the enclosing directory of the primary care data.
 #'
 #' @return A dataframe of the requested record-level data.
-#' 
+#'
+#' @seealso \href{https://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=2000}{Category 2000},
+#' \href{https://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=2006}{Category 2006},
+#' \href{https://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=138483}{Resource 138483},
+#' \href{https://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=141140}{Resource 141140}
+#'
 #' @importFrom data.table fread
 #' @export
 bio_hesin <- function(project_dir, record, hesin_dir = "raw/") {
-  
+
   if (record == "critical") {
     df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_critical.txt"),
                       header = TRUE, data.table = FALSE)
   }
-  
+
   if (record == "delivery") {
     df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_delivery.txt"),
                       header = TRUE, data.table = FALSE)
   }
-  
+
   if (record == "diag") {
     df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_diag.txt"),
                       header = TRUE, data.table = FALSE)
   }
-  
+
   if (record == "maternity") {
     df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_maternity.txt"),
                       header = TRUE, data.table = FALSE)
   }
-  
+
   if (record == "oper") {
     df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_oper.txt"),
                       header = TRUE, data.table = FALSE)
   }
-  
+
   if (record == "psych") {
     df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin_psych.txt"),
                       header = TRUE, data.table = FALSE)
   }
-  
+
   if (record == "hesin") {
     df <- data.table::fread(file.path(project_dir, hesin_dir, "hesin.txt"),
                       header = TRUE, data.table = FALSE)
@@ -388,7 +398,10 @@ bio_hesin <- function(project_dir, record, hesin_dir = "raw/") {
 #' @param death_dir Path to the enclosing directory of the death data.
 #'
 #' @return A dataframe of including either the date of death, or cause of death.
-#' 
+#'
+#' @seealso \href{https://biobank.ctsu.ox.ac.uk/crystal/label.cgi?id=100093}{Category 100093},
+#' \href{https://biobank.ctsu.ox.ac.uk/crystal/refer.cgi?id=134993}{Resource 134993}
+#'
 #' @importFrom data.table fread
 #' @export
 bio_death <- function(project_dir, record = "death", death_dir = "raw/") {
@@ -396,11 +409,11 @@ bio_death <- function(project_dir, record = "death", death_dir = "raw/") {
     df <- data.table::fread(file.path(project_dir, death_dir, "death.txt"),
                           header = TRUE, data.table = FALSE)
   }
-  
+
   if (record == "cause") {
     df <- data.table::fread(file.path(project_dir, death_dir, "death_cause.txt"),
                             header = TRUE, data.table = FALSE)
   }
-  
+
   return(df)
 }

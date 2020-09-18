@@ -19,3 +19,7 @@ A dataframe of including either the date of death, or cause of death.
 \description{
 Reads death records
 }
+\seealso{
+\href{https://biobank.ctsu.ox.ac.uk/crystal/label.cgi?id=100093}{Category 100093},
+\href{https://biobank.ctsu.ox.ac.uk/crystal/refer.cgi?id=134993}{Resource 134993}
+}

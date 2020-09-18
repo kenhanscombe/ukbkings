@@ -27,3 +27,5 @@ reference:
   contents:
   - '`bio_gp`'
   - '`bio_covid`'
+  - '`bio_hesin`'
+  - '`bio_death`'
