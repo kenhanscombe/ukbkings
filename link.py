@@ -7,9 +7,9 @@ from project import link_genetics
 
 
 @click.command()
-@click.option('-f', '--fam', default=None, help='Path to fam file.')
-@click.option('-s', '--sample', default=None, help='Path to sample file.')
-@click.option('-r', '--rel', default=None, help='Path to relatedness file.')
+@click.option('-f', '--fam', default=None, help='Name of the fam file')
+@click.option('-s', '--sample', default=None, help='Name of the sample file.')
+@click.option('-r', '--rel', default=None, help='Name of the relatedness file.')
 def link_sample(fam, sample, rel):
     """Adds softlinks to genetic sample data.
     """
