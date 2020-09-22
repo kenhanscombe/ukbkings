@@ -143,7 +143,7 @@ Sample information files (.fam and .sample) and the relatedness file
 files in genotyped/ and imputed/ (**Figure 3**).
 
 ```{bash}
-./link.py -f <path_to_fam_file> -s <path_to_sample_file> -r <path_to_relatedness_file>
+./link.py -f <fam_file_name> -s <sample_file_name> -r <relatedness_file_name>
 ```
 
 You can link one or more of these files (they do not all need to be 
