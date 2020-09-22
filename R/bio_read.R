@@ -286,9 +286,10 @@ bio_gp <- function(project_dir, record, gp_dir = "raw/") {
 bio_covid <- function(project_dir, data = "results", covid_dir = "raw/",
                       code_dir = "raw/") {
 
-  # if(!file.exists(covid_results)) {
-  #   stop("COVID-19 data is not available for this project.", call. = FALSE)
-  # }
+  if(!file.exists(
+    file.path(project_dir, covid_dir, "covid19_result.txt"))) {
+    stop("COVID-19 data is not available for this project.", call. = FALSE)
+  }
 
   if (data == "results") {
     covid_results <- file.path(project_dir, covid_dir, "covid19_result.txt")
@@ -422,13 +423,15 @@ bio_death <- function(project_dir, record = "death", death_dir = "raw/") {
 # Genetic data:
 
 
-#' Prints paths to genetic data
+#' Lists project genetic directory contents
+#'
+#' @description The listed files in genotyped/ and imputed/ are symlinks to the central KCL UKB genetic data. Symlinks to the sample information files .fam and .sample are included in the genotyped/ and imputed/ directories respectively. Relatedness and sample QC files are included the imputed/ directory.
 #'
 #' @param project_dir Path to the enclosing directory of a UKB project.
 #'
 #' @importFrom stringr str_interp
 #' @export
-bio_gen <- function(project_dir) {
+bio_gen_ls <- function(project_dir) {
   cat("-------------------------", "\n", "\n")
   cat("Paths to UKB genetic data", "\n")
   cat("-------------------------", "\n", "\n")
@@ -438,7 +441,7 @@ bio_gen <- function(project_dir) {
            stringr::str_interp("${project_dir}/genotyped/")), "\n")
   system(stringr::str_interp("ls -1 --color ${project_dir}/genotyped/"))
   cat("\n")
-  
+
   cat("imputed:", "\n")
   cat(gsub("//", "/",
            stringr::str_interp("${project_dir}/imputed/")), "\n")
