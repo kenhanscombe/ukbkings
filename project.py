@@ -54,11 +54,11 @@ def link_genetics(fam=None, sample=None, rel=None, initialized=False):
             rm -rf genotyped; mkdir genotyped
             rm -rf imputed; mkdir imputed
 
-            ln -s {imputed}ukb_sqc_v2.txt imputed/ukb_sqc.txt
-            ln -s {imputed}ukb_sqc_v2_fields.txt imputed/ukb_sqc_fields.txt
+            ln -s {imputed}ukb_sqc_v2.txt imputed/ukb_sqc_v2.txt
+            ln -s {imputed}ukb_sqc_v2_fields.txt imputed/ukb_sqc_v2_fields.txt
 
-            ln -s {genotyped}ukb_binary_v2.bed genotyped/ukb{project_id}.bed
-            ln -s {genotyped}ukb_binary_v2.bim genotyped/ukb{project_id}.bim
+            ln -s {genotyped}ukb_binary_v2.bed genotyped/ukb_binary_v2.bed
+            ln -s {genotyped}ukb_binary_v2.bim genotyped/ukb_binary_v2.bim
 
             for i in X Y XY MT $(seq 1 22)
             do
