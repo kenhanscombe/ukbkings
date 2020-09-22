@@ -114,7 +114,7 @@
 <p>Install the package</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"kenhanscombe/ukbkings"</span>, <span class="kw">dependencies</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">force</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <p>Write a serialised R dataframe to file for your required fields.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="../reference/bio_phen.html">bio_phen</a></span>(
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu">bio_phen</span>(
  <span class="kw">project_dir</span> <span class="kw">=</span> <span class="st">"&lt;path_to_project_directory&gt;"</span>,
  <span class="kw">field</span> <span class="kw">=</span> <span class="st">"&lt;path_to_required_fields_file&gt;"</span>,  <span class="co"># one per line, no header</span>
  <span class="kw">out</span> <span class="kw">=</span> <span class="st">"&lt;stem_of_output_file&gt;"</span>  <span class="co"># e.g. "data/ukb" writes "data/ukb.rds"</span>
@@ -163,7 +163,7 @@
 <p>You need a file with required fields, one per line, no header.</p>
 <p><br></p>
 <p>Read the project field-to-name “field finder” file, inspect the variable metadata, and display the number of baskets included.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bio_field.html">bio_field</a></span>(<span class="no">project_dir</span>)
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ukbkings/man/bio_field.html">bio_field</a></span>(<span class="no">project_dir</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">f</span>)
 <span class="fu">glimpse</span>(<span class="no">f</span>)
@@ -190,7 +190,7 @@
 <div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">f</span> <span class="kw">%&gt;%</span>
 <span class="fu">select</span>(<span class="no">field</span>, <span class="no">name</span>) <span class="kw">%&gt;%</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(<span class="fu">str_detect</span>(<span class="no">field</span>, <span class="st">"6177"</span>)) <span class="kw">%&gt;%</span>
-<span class="fu"><a href="../reference/bio_field_add.html">bio_field_add</a></span>(<span class="st">"small_field_subset.txt"</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/pkg/ukbkings/man/bio_field_add.html">bio_field_add</a></span>(<span class="st">"small_field_subset.txt"</span>)</pre></body></html></div>
 <p>Inspect the field selection file.</p>
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span>(<span class="st">"cat small_field_subset.txt"</span>)</pre></body></html></div>
 <p><br></p>
@@ -199,7 +199,7 @@
 <h3 class="hasAnchor">
 <a href="#read-and-write-data" class="anchor"></a>4. Read and write data</h3>
 <p>Read required fields and save as an rds file in your user directory. Argument <code>out</code> should be a path to your UKB user directory</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="../reference/bio_phen.html">bio_phen</a></span>(
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/ukbkings/man/bio_phen.html">bio_phen</a></span>(
  <span class="no">project_dir</span>,
  <span class="kw">field</span> <span class="kw">=</span> <span class="st">"small_field_subset.txt"</span>,
  <span class="kw">out</span> <span class="kw">=</span> <span class="st">"small_phenotype_subset"</span>
@@ -210,7 +210,7 @@
 <div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span>(<span class="st">"ls -lh small_phenotype_subset.rds"</span>)
 <span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="st">"small_phenotype_subset.rds"</span>)</pre></body></html></div>
 <p>If required, rename columns from the default UKB field names to the descriptive names used in the field-to-name “field finder” <code>name</code> column.</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bio_rename.html">bio_rename</a></span>(<span class="no">df</span>, <span class="no">f</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ukbkings/man/bio_rename.html">bio_rename</a></span>(<span class="no">df</span>, <span class="no">f</span>)</pre></body></html></div>
 <p><br></p>
 </div>
 <div id="categorical-codes" class="section level3">
@@ -221,7 +221,7 @@
  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(<span class="no">field</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">df</span>)) <span class="kw">%&gt;%</span>
  <span class="fu">select</span>(<span class="no">field</span>, <span class="no">categorical_coding</span>)</pre></body></html></div>
 <p>Retrieve numerical “Value” and and associated “Meaning” for each categorical code.</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">cx</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bio_code.html">bio_code</a></span>(<span class="no">project_dir</span>)
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">cx</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ukbkings/man/bio_code.html">bio_code</a></span>(<span class="no">project_dir</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cx</span>)</pre></body></html></div>
 <p>Look up a particular coding</p>
 <div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">cx</span> <span class="kw">%&gt;%</span>
@@ -232,9 +232,9 @@
 <h3 class="hasAnchor">
 <a href="#gp-data" class="anchor"></a>6. GP data</h3>
 <p>If your project has access to primary care data, retrieve the clinical, registrations, scripts datasets with <code>bio_gp</code></p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">gp_clinical</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bio_gp.html">bio_gp</a></span>(<span class="no">project_dir</span>, <span class="st">"clinical"</span>)
-<span class="no">gp_registrations</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bio_gp.html">bio_gp</a></span>(<span class="no">project_dir</span>, <span class="st">"registrations"</span>)
-<span class="no">gp_scripts</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bio_gp.html">bio_gp</a></span>(<span class="no">project_dir</span>, <span class="st">"scripts"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">gp_clinical</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ukbkings/man/bio_gp.html">bio_gp</a></span>(<span class="no">project_dir</span>, <span class="st">"clinical"</span>)
+<span class="no">gp_registrations</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ukbkings/man/bio_gp.html">bio_gp</a></span>(<span class="no">project_dir</span>, <span class="st">"registrations"</span>)
+<span class="no">gp_scripts</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ukbkings/man/bio_gp.html">bio_gp</a></span>(<span class="no">project_dir</span>, <span class="st">"scripts"</span>)</pre></body></html></div>
 <p><br></p>
 <p>For details see UKB documentation:</p>
 <ul>
@@ -248,11 +248,11 @@
 <h3 class="hasAnchor">
 <a href="#covid-19-data" class="anchor"></a>7. COVID-19 data</h3>
 <p>If your project has access to COVID-19 data, retrieve the results with <code>bio_covid</code></p>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">covid</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bio_covid.html">bio_covid</a></span>(<span class="no">project_dir</span>, <span class="st">"results"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">covid</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ukbkings/man/bio_covid.html">bio_covid</a></span>(<span class="no">project_dir</span>, <span class="st">"results"</span>)</pre></body></html></div>
 <p>Read in the particapant blood group data extracted from imputed genotype</p>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">covid_misc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bio_covid.html">bio_covid</a></span>(<span class="no">project_dir</span>, <span class="st">"misc"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">covid_misc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ukbkings/man/bio_covid.html">bio_covid</a></span>(<span class="no">project_dir</span>, <span class="st">"misc"</span>)</pre></body></html></div>
 <p>Descriptive meanings of the numerical values used to encode the categorical variables can be retrieved with <code>data = codes</code></p>
-<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="no">covid_codes</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bio_covid.html">bio_covid</a></span>(<span class="no">project_dir</span>, <span class="st">"codes"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="no">covid_codes</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ukbkings/man/bio_covid.html">bio_covid</a></span>(<span class="no">project_dir</span>, <span class="st">"codes"</span>)</pre></body></html></div>
 <p><br></p>
 <p>For details see UKB documentation:</p>
 <ul>
@@ -267,11 +267,11 @@
 <h3 class="hasAnchor">
 <a href="#hes-in-patient-data" class="anchor"></a>8. HES in-patient data</h3>
 <p>To retrieve detailed information on hospital episode statistic use <code>bio_hesin</code></p>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">hesin_critical</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bio_hesin.html">bio_hesin</a></span>(<span class="no">project_dir</span>, <span class="st">"critical"</span>)
-<span class="no">hesin_delivery</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bio_hesin.html">bio_hesin</a></span>(<span class="no">project_dir</span>, <span class="st">"delivery"</span>)
-<span class="no">hesin_diag</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bio_hesin.html">bio_hesin</a></span>(<span class="no">project_dir</span>, <span class="st">"diag"</span>)
+<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">hesin_critical</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ukbkings/man/bio_hesin.html">bio_hesin</a></span>(<span class="no">project_dir</span>, <span class="st">"critical"</span>)
+<span class="no">hesin_delivery</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ukbkings/man/bio_hesin.html">bio_hesin</a></span>(<span class="no">project_dir</span>, <span class="st">"delivery"</span>)
+<span class="no">hesin_diag</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ukbkings/man/bio_hesin.html">bio_hesin</a></span>(<span class="no">project_dir</span>, <span class="st">"diag"</span>)
 <span class="co"># etc.</span></pre></body></html></div>
-<p>For all available data see <code><a href="../reference/bio_hesin.html">?bio_hesin</a></code></p>
+<p>For all available data see <code><a href="https://rdrr.io/pkg/ukbkings/man/bio_hesin.html">?bio_hesin</a></code></p>
 <p><br></p>
 <p>For details see UKB documentation:</p>
 <ul>
@@ -286,8 +286,8 @@
 <h3 class="hasAnchor">
 <a href="#death-data" class="anchor"></a>9. Death data</h3>
 <p>For data on date and cause of death (ICD10) obtained through linkage to national death registries, use <code>bio_death</code></p>
-<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="no">death_date</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bio_death.html">bio_death</a></span>(<span class="no">project_dir</span>, <span class="st">"death"</span>)
-<span class="no">death_cause</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bio_death.html">bio_death</a></span>(<span class="no">project_dir</span>, <span class="st">"cause"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="no">death_date</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ukbkings/man/bio_death.html">bio_death</a></span>(<span class="no">project_dir</span>, <span class="st">"death"</span>)
+<span class="no">death_cause</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ukbkings/man/bio_death.html">bio_death</a></span>(<span class="no">project_dir</span>, <span class="st">"cause"</span>)</pre></body></html></div>
 <p><br></p>
 <p>For details see UKB documentation:</p>
 <ul>
