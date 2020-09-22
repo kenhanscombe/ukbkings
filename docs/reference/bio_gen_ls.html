@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • ukbkings</title>
+<title>Lists project genetic directory contents — bio_gen_ls • ukbkings</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,8 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Lists project genetic directory contents — bio_gen_ls" />
+<meta property="og:description" content="The listed files in genotyped/ and imputed/ are symlinks to the central KCL UKB genetic data. Symlinks to the sample information files .fam and .sample are included in the genotyped/ and imputed/ directories respectively. Relatedness and sample QC files are included the imputed/ directory." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -66,7 +67,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -133,46 +134,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/kenhanscombe/ukbkings/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Lists project genetic directory contents</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kenhanscombe/ukbkings/blob/master/R/bio_read.R'><code>R/bio_read.R</code></a></small>
+    <div class="hidden name"><code>bio_gen_ls.Rd</code></div>
     </div>
 
-    <div id="ukbkings-development-version" class="section level1">
-<h1 class="page-header" data-toc-text="development version">
-<a href="#ukbkings-development-version" class="anchor"></a>ukbkings (development version)</h1>
-<p><strong>Note. All paths mentioned in the Changelog are relative to /scratch/datasets/ukbiobank/&lt;<em>project_dir</em>&gt;/.</strong></p>
-<ul>
-<li>
-<code>bio_gen_ls</code> lists project genetic directory contents</li>
-</ul>
-</div>
-    <div id="ukbkings-0-1" class="section level1">
-<h1 class="page-header" data-toc-text="0.1">
-<a href="#ukbkings-0-1" class="anchor"></a>ukbkings 0.1</h1>
-<p><strong>24.09.2020 Ken B. Hanscombe</strong></p>
-<ul>
-<li>Updated documentation for project setup and data access can be found under the Articles tab on the <a href="https://kenhanscombe.github.io/ukbkings/">ukbkings page</a>. These can also be read as vignettes within the installed R package</li>
-</ul>
-<p><em>New/updated functionality</em></p>
-<ul>
-<li><p><code>bio_covid</code> now returns additional codings (corresponding to new columns in the results data), and the new blood group dataset.</p></li>
-<li><p><code>bio_hesin</code> reads HES in-patient record-level data if available for the project.</p></li>
-<li><p><code>bio_death</code> reads death record data if available for the project.</p></li>
-</ul>
-<p><em>Genetic data</em></p>
-<ul>
-<li><p>Symlinks to genotyped and imputed genetic data are included in genotyped/ and imputed/ respectively. Project managers can add symlinks to fam, sample and relatedness files with link.py (see <code>python ./link.py --help</code> and the Article “Setup a UKB project on Rosalind”).</p></li>
-<li><p>resources/ now includes a the UKB program <code>ukbgene</code> used to retrieve UKB “link” files (.fam, .sample) and relatedness data.</p></li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>The listed files in genotyped/ and imputed/ are symlinks to the central KCL UKB genetic data. Symlinks to the sample information files .fam and .sample are included in the genotyped/ and imputed/ directories respectively. Relatedness and sample QC files are included the imputed/ directory.</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>bio_gen_ls</span>(<span class='no'>project_dir</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>project_dir</th>
+      <td><p>Path to the enclosing directory of a UKB project.</p></td>
+    </tr>
+    </table>
+
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 
