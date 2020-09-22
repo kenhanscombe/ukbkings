@@ -50,7 +50,7 @@ cd /scratch/datasets/ukbiobank
 mkdir ukb_<project_id>_<owner_name>
 cd ukb_<project_id>_<owner_name>
 
-wget https://raw.githubusercontent.com/kenhanscombe/ukbkings/master/project.py
+wget -O project.py https://raw.githubusercontent.com/kenhanscombe/ukbkings/master/project.py
 chmod +x project.py
 
 # Load Rosalind default python3 module
