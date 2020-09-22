@@ -115,7 +115,7 @@
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="fu">mkdir</span> ukb_<span class="op">&lt;</span>project_id<span class="op">&gt;</span>_<span class="op">&lt;</span>owner_name<span class="op">&gt;</span></a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="bu">cd</span> ukb_<span class="op">&lt;</span>project_id<span class="op">&gt;</span>_<span class="op">&lt;</span>owner_name<span class="op">&gt;</span></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="fu">wget</span> https://raw.githubusercontent.com/kenhanscombe/ukbkings/master/project.py</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="fu">wget</span> -O project.py https://raw.githubusercontent.com/kenhanscombe/ukbkings/master/project.py</a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="fu">chmod</span> +x project.py</a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co"># Load Rosalind default python3 module</span></a>
@@ -179,7 +179,7 @@
 <h4 class="hasAnchor">
 <a href="#add-symlinks-to-sample-information-and-relatedness-files" class="anchor"></a>4. Add symlinks to sample information and relatedness files</h4>
 <p>Sample information files (.fam and .sample) and the relatedness file (<em>rel</em>.dat/.txt) should be in raw/. Create symlinks to these project-specific files in genotyped/ and imputed/ (<strong>Figure 3</strong>).</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="ex">./link.py</span> -f <span class="op">&lt;</span>path_to_fam_file<span class="op">&gt;</span> -s <span class="op">&lt;</span>path_to_sample_file<span class="op">&gt;</span> -r <span class="op">&lt;</span>path_to_relatedness_file<span class="op">&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="ex">./link.py</span> -f <span class="op">&lt;</span>fam_file_name<span class="op">&gt;</span> -s <span class="op">&lt;</span>sample_file_name<span class="op">&gt;</span> -r <span class="op">&lt;</span>relatedness_file_name<span class="op">&gt;</span></a></code></pre></div>
 <p>You can link one or more of these files (they do not all need to be passed to the program).</p>
 <p><br></p>
 <p style="font-family:menlo; color:white; font-size:85%">
