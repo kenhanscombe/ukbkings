@@ -60,7 +60,7 @@ def link_genetics(fam=None, sample=None, rel=None, initialized=False):
             ln -s {genotyped}ukb_binary_v2.bed genotyped/ukb_binary_v2.bed
             ln -s {genotyped}ukb_binary_v2.bim genotyped/ukb_binary_v2.bim
 
-            for i in X Y XY MT $(seq 1 22)
+            for i in X XY $(seq 1 22)
             do
             ln -s {imputed}ukb_imp_chr"$i"_v3.bgen imputed/ukb_imp_chr"$i".bgen
             ln -s {imputed}ukb_imp_chr"$i"_v3.bgen.bgi imputed/ukb_imp_chr"$i".bgen.bgi
