@@ -3,7 +3,7 @@ ukbkings <img src='man/figures/logo.png' align="right" alt = "" width="123.5" />
 
 <!-- badges: start -->
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![Travis build status](https://travis-ci.org/kenhanscombe/ukbkings.svg?branch=master)](https://travis-ci.org/kenhanscombe/ukbkings)
+[![Travis build status](https://travis-ci.com/kenhanscombe/ukbkings.svg?branch=master)](https://travis-ci.com/kenhanscombe/ukbkings)
 [![Codecov test coverage](https://codecov.io/gh/kenhanscombe/ukbkings/branch/master/graph/badge.svg)](https://codecov.io/gh/kenhanscombe/ukbkings?branch=master)
 <!-- badges: end -->
 
