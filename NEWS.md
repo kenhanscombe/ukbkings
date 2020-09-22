@@ -2,7 +2,7 @@
 
 **Note. All paths mentioned in the Changelog are relative to /scratch/datasets/ukbiobank/\<*project_dir*\>/.**
 
-* `bio_gen_info` prints information on the genetic data available
+* `bio_gen_ls` lists project genetic directory contents
 
 
 # ukbkings 0.1
