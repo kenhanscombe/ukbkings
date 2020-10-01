@@ -4,6 +4,8 @@
 
 * `bio_gen_ls` lists project genetic directory contents
 
+* `bio_code` updated path to resources/, which includes Codings_Showcase.csv
+
 
 # ukbkings 0.1
 
