@@ -193,16 +193,15 @@ bio_rename <- function(data, field_finder) {
 
 #' Reads the UKB showcase codings for categorical variables
 #'
-#' @param project_dir Path to the enclosing directory of a UKB project.
 #' @param code_dir Path to the enclosing directory of the Codings_Showcase.csv.
 #'
 #' @return A dataframe with header Coding, Value, Meaning
 #'
 #' @importFrom data.table fread
 #' @export
-bio_code <- function(project_dir, code_dir = "resources/") {
+bio_code <- function(code_dir = "/scratch/datasets/ukbiobank/resources") {
 
-  codings_showcase <- file.path(project_dir, code_dir, "Codings_Showcase.csv")
+  codings_showcase <- file.path(code_dir, "Codings_Showcase.csv")
 
   if(!file.exists(codings_showcase)) {
     stop(
