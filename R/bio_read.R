@@ -201,7 +201,8 @@ bio_rename <- function(data, field_finder) {
 #' @export
 bio_code <- function(code_dir = "/scratch/datasets/ukbiobank/resources") {
 
-  codings_showcase <- file.path(code_dir, "Codings_Showcase.csv")
+  codings_showcase <- file.path(normalizePath(code_dir),
+                                "Codings_Showcase.csv")
 
   if(!file.exists(codings_showcase)) {
     stop(
