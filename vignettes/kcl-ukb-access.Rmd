@@ -22,12 +22,16 @@ requireNamespace("stringr", quietly = TRUE)
 devtools::load_all(".")
 ```
 
-
 ***
 
-**Important. This document is only useful for UKB-approved KCL reasearchers and their collaborators, with an account on the Rosalind HPC cluster.**
+**Important. This document is only useful for UKB-approved KCL
+reasearchers and their collaborators, with an account on the Rosalind
+HPC cluster.**
 
-The ukbkings package works with a Rosalind UKB project directory that has been setup to use the package. See vignette("Setup UKB project on Rosalind") or read the documentation under Articles.
+The ukbkings package works with a Rosalind UKB project directory that
+has been setup to use the package. See
+[ukbproject](https://github.com/kenhanscombe/ukbproject) for setup
+of the directory structure of a UKB project on Rosalind.
 
 ***
 
@@ -41,7 +45,8 @@ The ukbkings package works with a Rosalind UKB project directory that has been s
 [6. GP data]  
 [7. COVID-19 data]  
 [8. HES in-patient data]  
-[9. Death data]
+[9. Death data]  
+[10. Genetic data]
 
 ***
 
@@ -77,7 +82,12 @@ df <- readRDS("data/ukb.rds")
 ### 1. Preamble
 
 On Rosalind, change to your UKB user directory. If you do not have a
-UKB user directory, create one first at /scratch/groups/ukbiobank/Edinburgh_Data/usr/*\<username\>*. Start an interactive cluster session with sufficient memory to read the UKB data (I think you can get away with less, but I've not worked that out yet). Load the default cluster version of R (`module avail 2&>1 | grep R` currently `apps/R/3.6.0`) then start R.
+UKB user directory, create one first at
+/scratch/groups/ukbiobank/Edinburgh_Data/usr/*\<username\>*. Start an
+interactive cluster session with sufficient memory to read the UKB data
+(I think you can get away with less, but I've not worked that out yet).
+Load the default cluster version of R (`module avail 2&>1 | grep R`
+currently `apps/R/3.6.0`) then start R.
 ```{bash}
 # Rosalind shell
 cd /scratch/groups/ukbiobank/Edinburgh_Data/usr/<username>
@@ -100,7 +110,8 @@ Install from Github
 devtools::install_github("kenhanscombe/ukbkings", dependencies = TRUE, force = TRUE)
 ```
 
-Load libraries. (I like to use tidyverse but it is not necessary, base R is fine)
+Load libraries. (I like to use tidyverse but it is not necessary, base
+R is fine)
 ```{R}
 library(ukbkings)
 library(tidyverse)
@@ -113,7 +124,8 @@ Check help (press 'q' to exit).
 
 ***Note**. All included data and functionality is described in the
 package index and also described on the
-[ukbkings webpage](https://kenhanscombe.github.io/ukbkings/) under the **Reference** tab.*
+[ukbkings webpage](https://kenhanscombe.github.io/ukbkings/) under the
+**Reference** tab.*
 
 <br>
 
@@ -124,7 +136,7 @@ Check help on specific function, e.g.,
 
 Point to the project directory.
 ```{R}
-project_dir <- "/scratch/datasets/ukbiobank/ukb<project_id>_<ownername>"
+project_dir <- "/scratch/datasets/ukbiobank/ukb<project_id>"
 ```
 
 <br>
@@ -135,7 +147,8 @@ You need a file with required fields, one per line, no header.
 
 <br>
 
-Read the project field-to-name "field finder" file, inspect the variable metadata, and display the number of baskets included.
+Read the project field-to-name "field finder" file, inspect the
+variable metadata, and display the number of baskets included.
 ```{R}
 f <- bio_field(project_dir)
 
@@ -146,7 +159,8 @@ f %>%
 distinct(basket)
 ```
 
-Search for variables required and add their field codes to a file, one per line, no header. You can page through the file.
+Search for variables required and add their field codes to a file, one
+per line, no header. You can page through the file.
 ```{R}
 f %>%
 select(name) %>%
@@ -164,14 +178,21 @@ select(field, name) %>%
 filter(str_detect(name, "ldl|triglycerides"))
 ```
 
-Alternatively, search the [UKB showcase](http://biobank.ndph.ox.ac.uk/showcase/) for a variable of interest then filter on the `field` column in the field-to-name dataframe (useful if multiple instances required). For example, if you search for "cholesterol medication", the field stem you want is 6177
+Alternatively, search the
+[UKB showcase](http://biobank.ndph.ox.ac.uk/showcase/) for a variable
+of interest then filter on the `field` column in the field-to-name
+dataframe (useful if multiple instances required). For example, if you
+search for "cholesterol medication", the field stem you want is 6177.
 ```{R}
 f %>%
 select(field, name) %>%
 filter(str_detect(field, "6177"))
 ```
 
-`bio_field_add` is a convenience function for creating the one per line required variables/fields file. By default the function appends fields. Create the field subset file in your UKB user directory /scratch/groups/ukbiobank/Edinburgh_Data/usr/*\<username\>*/
+`bio_field_add` is a convenience function for creating the one per line
+required variables/fields file. By default the function appends fields.
+Create the field subset file in your UKB user directory
+/scratch/groups/ukbiobank/Edinburgh_Data/usr/*\<username\>*/
 ```{R}
 f %>%
 select(field, name) %>%
@@ -188,7 +209,8 @@ system("cat small_field_subset.txt")
 
 ### 4. Read and write data
 
-Read required fields and save as an rds file in your user directory. Argument `out` should be a path to your UKB user directory
+Read required fields and save as an rds file in your user directory.
+Argument `out` should be a path to your UKB user directory
 ```{r}
 bio_phen(
  project_dir,
@@ -197,7 +219,10 @@ bio_phen(
 )
 ```
 
-***Note**. Dates in the UKB data are recorded in a variety of formats, some of which are non-standard: "character string is not in a standard unambiguous format", e.g., 2009-01-12T11:28:56. All date variables have been left in character format for the user to convert as needed.*
+***Note**. Dates in the UKB data are recorded in a variety of formats,
+some of which are non-standard: "character string is not in a standard
+unambiguous format", e.g., 2009-01-12T11:28:56. All date variables have
+been left in character format for the user to convert as needed.*
 
 <br>
 
@@ -207,8 +232,9 @@ system("ls -lh small_phenotype_subset.rds")
 df <- readRDS("small_phenotype_subset.rds")
 ```
 
-If required, rename columns from the default UKB field names to the descriptive names used in the field-to-name "field finder" `name` column.
-
+If required, rename columns from the default UKB field names to the
+descriptive names used in the field-to-name "field finder" `name`
+column.
 ```{R}
 df <- bio_rename(df, f)
 ```
@@ -217,20 +243,21 @@ df <- bio_rename(df, f)
 
 ### 5. Categorical codes
 
-Categorical field codings are included in the field finder
+Categorical field codings are included in the field finder.
 ```{R}
 f %>%
  filter(field %in% names(df)) %>%
  select(field, categorical_coding)
 ```
 
-Retrieve numerical "Value" and and associated "Meaning" for each categorical code.
+Retrieve numerical "Value" and and associated "Meaning" for each
+categorical code.
 ```{R}
 cx <- bio_code(project_dir)
 head(cx)
 ```
 
-Look up a particular coding
+Look up a particular coding.
 ```{R}
 cx %>%
  filter(Coding == 502)
@@ -240,7 +267,8 @@ cx %>%
 
 ### 6. GP data
 
-If your project has access to primary care data, retrieve the clinical, registrations, scripts datasets with `bio_gp`
+If your project has access to primary care data, retrieve the clinical,
+registrations, scripts datasets with `bio_gp`.
 ```{R}
 gp_clinical <- bio_gp(project_dir, "clinical")
 gp_registrations <- bio_gp(project_dir, "registrations")
@@ -259,33 +287,40 @@ For details see UKB documentation:
 
 ### 7. COVID-19 data
 
-If your project has access to COVID-19 data, retrieve the results with `bio_covid`
+If your project has access to COVID-19 data, retrieve the results with
+`bio_covid`.
 ```{R}
 covid <- bio_covid(project_dir, "results")
 ```
 
-Read in the particapant blood group data extracted from imputed genotype
+Read in the participant blood group data extracted from imputed
+genotype.
 ```{r}
 covid_misc <- bio_covid(project_dir, "misc")
 ```
 
-Descriptive meanings of the numerical values used to encode the categorical variables can be retrieved with `data = codes`
+Descriptive meanings of the numerical values used to encode the
+categorical variables can be retrieved with `data = codes`.
 ```{R}
 covid_codes <- bio_covid(project_dir, "codes")
 ```
+
+For all available data see `?bio_covid`.
 
 <br>
 
 For details see UKB documentation:
 
-* [Data field 40100](http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100)  
+* [Data field 40100](http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100)
 * [COVID-19 test results data](http://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=COVID19_tests)
+* [Resource 3151: Primary Care (GP) Data for COVID-19 Research](https://biobank.ndph.ox.ac.uk/ukb/refer.cgi?id=3151)
 
 <br>
 
 ### 8. HES in-patient data
 
-To retrieve detailed information on hospital episode statistic use `bio_hesin`
+To retrieve detailed information on hospital episode statistics use
+`bio_hesin`.
 ```{r}
 hesin_critical <- bio_hesin(project_dir, "critical")
 hesin_delivery <- bio_hesin(project_dir, "delivery")
@@ -293,7 +328,7 @@ hesin_diag <- bio_hesin(project_dir, "diag")
 # etc.
 ```
 
-For all available data see `?bio_hesin`
+For all available data see `?bio_hesin`.
 
 <br>
 
@@ -308,7 +343,8 @@ For details see UKB documentation:
 
 ### 9. Death data
 
-For data on date and cause of death (ICD10) obtained through linkage to national death registries, use `bio_death`
+For data on date and cause of death (ICD10) obtained through linkage to
+national death registries, use `bio_death`.
 ```{r}
 death_date <- bio_death(project_dir, "death")
 death_cause <- bio_death(project_dir, "cause")
@@ -320,3 +356,12 @@ For details see UKB documentation:
 
 * [Category 100093](https://biobank.ctsu.ox.ac.uk/crystal/label.cgi?id=100093)
 * [Resource 134993: Health Outcomes Report](https://biobank.ctsu.ox.ac.uk/crystal/refer.cgi?id=134993)
+
+<br>
+
+### 10. Genetic data
+
+For paths to the genetic data available for the project
+```{r}
+bio_gen_ls(project_dir)
+```

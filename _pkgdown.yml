@@ -29,3 +29,9 @@ reference:
   - '`bio_covid`'
   - '`bio_hesin`'
   - '`bio_death`'
+
+- title: Query genetic data
+  desc: >
+    Functions to inspect the genetic data available for a UKB project.
+  contents:
+  - '`bio_gen_ls`'
