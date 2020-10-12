@@ -7,12 +7,16 @@
 bio_field_add(data, out = "ukb_field_subset.txt")
 }
 \arguments{
-\item{data}{A dataframe with obligatory column \strong{field}. (Ideally the output of \code{\link{bio_field}}.)}
+\item{data}{A dataframe with obligatory column \strong{field}.
+(Ideally the output of \code{\link{bio_field}}.)}
 
-\item{out}{Field subset file name (including path). Default "ukb_field_subset", writes or appends fields one per line to "ukb_field_subset" in the current directory.}
+\item{out}{Field subset file name (including path). Default
+"ukb_field_subset", writes or appends fields one per line to
+"ukb_field_subset" in the current directory.}
 }
 \value{
-A file with one field per line (no header). If the file exists, the additional fields are appended.
+A file with one field per line (no header). If the file
+exists, the additional fields are appended.
 }
 \description{
 Adds \strong{field} column entries from a dataframe to a file

@@ -7,7 +7,8 @@
 bio_code(code_dir = "/scratch/datasets/ukbiobank/resources")
 }
 \arguments{
-\item{code_dir}{Path to the enclosing directory of the Codings_Showcase.csv.}
+\item{code_dir}{Path to the enclosing directory of the
+Codings_Showcase.csv.}
 }
 \value{
 A dataframe with header Coding, Value, Meaning

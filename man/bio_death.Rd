@@ -9,12 +9,15 @@ bio_death(project_dir, record = "death", death_dir = "raw/")
 \arguments{
 \item{project_dir}{Path to the enclosing directory of a UKB project.}
 
-\item{record}{A string specifying which death data are required: "death" (default) includes date of death, "cause" includes ICD-10 cause of death.}
+\item{record}{A string specifying which death data are required:
+"death" (default) includes date of death, "cause" includes ICD-10
+cause of death.}
 
 \item{death_dir}{Path to the enclosing directory of the death data.}
 }
 \value{
-A dataframe of including either the date of death, or cause of death.
+A dataframe of including either the date of death, or cause
+of death.
 }
 \description{
 Reads death records

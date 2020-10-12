@@ -9,20 +9,31 @@ bio_covid(project_dir, data = "results", covid_dir = "raw/", code_dir = "raw/")
 \arguments{
 \item{project_dir}{Path to the enclosing directory of a UKB project.}
 
-\item{data}{A string specifying data required: "results" returns COVID-19 test results; "misc" returns blood group extracted from imputed genotype; "codes" returns the code meanings for the categorical variables.}
+\item{data}{A string specifying data required: "results", "misc",
+"tppscripts", "tppclinical", "emisscripts", "emisclinical", "codes".}
 
-\item{covid_dir}{Path to the enclosing directory of the covid19_results.txt}
+\item{covid_dir}{Path to the enclosing directory of the
+covid19_results.txt}
 
-\item{code_dir}{Path to the enclosing directory of the data coding files described in the UKB showcase notes under \href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{data field 40100}.}
+\item{code_dir}{Path to the enclosing directory of the data coding
+files described in the UKB showcase notes under
+\href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{data field 40100}.}
 }
 \value{
-Returns a dataframe of either the COVID-19 testing results, blood group, or codes associated with fields in the results dataframe, depending on the value of argument `data`.
+Returns a dataframe of either the COVID-19 testing results,
+blood group, or codes associated with fields in the results
+dataframe, depending on the value of argument `data`.
 }
 \description{
-Record-level information for COVID-19 testing. Only available if these data have been requested for the particular project you have access to.
+Record-level information for COVID-19 testing. Only
+available if these data have been requested for the particular
+project you have access to.
 }
 \details{
-UKB showcase documentation for \href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{data field 40100} describes the categorical columns of the COVID-19 results dataframe as follows:
+UKB showcase documentation for
+\href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{data field 40100}
+describes the categorical columns of the COVID-19 results dataframe
+as follows:
 \describe{
   \item{\bold{spectype}}{Coding 1853: COVID19 test locations. Locations/methods used to generate samples for COVID19 testing.}
   \item{\bold{result}}{Coding 1854: Test result. Result of a binary test.}
@@ -32,6 +43,22 @@ UKB showcase documentation for \href{http://biobank.ndph.ox.ac.uk/showcase/field
   \item{\bold{acute}}{Coding 12: ACE boolean. True/False boolean value.}
   \item{\bold{hosaq}}{Coding 21: Yes No or Unknown. Artificial coding, generated after data collection.}
 }
+
+The \code{data} option returns various parts of the COVID-19 data:
+"results" returns COVID-19 test results; "misc" returns blood group
+extracted from imputed genotype; "tppscripts" and "emisscripts"
+return information on the issuing of prescription medication for the
+TPP and EMIS suppliers respectively; "tppclinical" and
+"emisclinical" return data on primary care events, such as
+consultations, diagnoses, history, symptoms, procedures, laboratory
+tests and administrative information for the TPP and EMIS suppliers
+respectively; "codes" returns the code meanings for the categorical
+variables.
+
+For details of the structure of the data, the various GP coding systems,
+and UKB categorical codes used for each variable see
+\href{https://biobank.ndph.ox.ac.uk/ukb/refer.cgi?id=3151}{Resource 3151},
+Primary Care Data for COVID-19 Research.
 }
 \seealso{
 \href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{Data field 40100},
