@@ -7,16 +7,19 @@
 bio_rename(data, field_finder)
 }
 \arguments{
-\item{data}{A dataframe with UKB fields as column names. See \code{\link{bio_phen}}.}
+\item{data}{A dataframe with UKB fields as column names. See
+\code{\link{bio_phen}}.}
 
-\item{field_finder}{A dataframe including a column of UKB fields and a column of descriptive names. See \code{\link{bio_field}}.}
+\item{field_finder}{A dataframe including a column of UKB fields and
+a column of descriptive names. See \code{\link{bio_field}}.}
 }
 \value{
-A dataframe with UKB field column names replaced with descriptive column names.
-importFrom dplyr filter rename
+A dataframe with UKB field column names replaced with
+descriptive column names.
 }
 \description{
-Renames a dataframe with UKB fields as column names with descriptive names.
+Renames a dataframe with UKB fields as column names with descriptive
+names.
 }
 \seealso{
 \code{\link{bio_phen}}, \code{\link{bio_field}}

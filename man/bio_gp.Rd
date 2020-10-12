@@ -9,15 +9,21 @@ bio_gp(project_dir, record, gp_dir = "raw/")
 \arguments{
 \item{project_dir}{Path to the enclosing directory of a UKB project.}
 
-\item{record}{A string specifying which primary care records are required: "clinical", "registrations", "scripts".}
+\item{record}{A string specifying which primary care records are
+required: "clinical", "registrations", "scripts".}
 
-\item{gp_dir}{Path to the enclosing directory of the primary care data.}
+\item{gp_dir}{Path to the enclosing directory of the primary care
+data.}
 }
 \value{
-A dataframe. \strong{Note}. clinical data has 123,669,371 rows and 8 columns; registrations data has 361,841 rows and 4 columns; scripts data has 57,709,810 rows and 8 columns.
+A dataframe. \strong{Note}. clinical data has 123,669,371
+rows and 8 columns; registrations data has 361,841 rows and 4
+columns; scripts data has 57,709,810 rows and 8 columns.
 }
 \description{
-Detailed patient level diagnoses, prescriptions, etc. Only available if these data have been requested for the particular project you have access to.
+Detailed patient level diagnoses, prescriptions, etc. Only available
+if these data have been requested for the particular project you
+have access to.
 }
 \seealso{
 \href{http://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=3001}{Category 3001},

@@ -9,11 +9,15 @@ bio_field(project_dir, pheno_dir = "phenotypes")
 \arguments{
 \item{project_dir}{Path to the enclosing directory of a UKB project}
 
-\item{pheno_dir}{Path to the enclosing directory of the phenotype data.}
+\item{pheno_dir}{Path to the enclosing directory of the phenotype
+data.}
 }
 \value{
 A dataframe with columns: ukb_type, r_type, path
 }
 \description{
-The field code lookup table associates with each field id, a desciptive name (which includes the field id, array, index), ukb_type, r_type, basket and the path to the csv file containing the field data.
+The field code lookup table associates with each field id, a
+desciptive name (which includes the field id, array, index),
+ukb_type, r_type, basket and the path to the csv file containing the
+field data.
 }

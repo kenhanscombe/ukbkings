@@ -10,5 +10,9 @@ bio_gen_ls(project_dir)
 \item{project_dir}{Path to the enclosing directory of a UKB project.}
 }
 \description{
-The listed files in genotyped/ and imputed/ are symlinks to the central KCL UKB genetic data. Symlinks to the sample information files .fam and .sample are included in the genotyped/ and imputed/ directories respectively. Relatedness and sample QC files are included the imputed/ directory.
+The listed files in genotyped/ and imputed/ are
+symlinks to the central KCL UKB genetic data. Symlinks to the sample
+information files .fam and .sample are included in the genotyped/
+and imputed/ directories respectively. Relatedness and sample QC
+files are included the imputed/ directory.
 }

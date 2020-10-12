@@ -9,15 +9,19 @@ bio_hesin(project_dir, record, hesin_dir = "raw/")
 \arguments{
 \item{project_dir}{Path to the enclosing directory of a UKB project.}
 
-\item{record}{A string specifying which HES records are required: "critical", "delivery", "diag", "maternity", "oper", "psych", "hesin".}
+\item{record}{A string specifying which HES records are required:
+"critical", "delivery", "diag", "maternity", "oper", "psych",
+"hesin".}
 
-\item{hesin_dir}{Path to the enclosing directory of the primary care data.}
+\item{hesin_dir}{Path to the enclosing directory of the primary care
+data.}
 }
 \value{
 A dataframe of the requested record-level data.
 }
 \description{
-Record-level hospital episode statistics (HES) in-patient information.
+Record-level hospital episode statistics (HES)
+in-patient information.
 }
 \seealso{
 \href{https://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=2000}{Category 2000},

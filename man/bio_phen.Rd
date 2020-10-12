@@ -14,16 +14,21 @@ bio_phen(
 \arguments{
 \item{project_dir}{Path to the enclosing directory of a UKB project.}
 
-\item{field_subset_file}{A path to a one-per-line text file of fields (no header).}
+\item{field_subset_file}{A path to a one-per-line text file of
+fields (no header).}
 
-\item{pheno_dir}{Path to the enclosing directory of the phenotype data.}
+\item{pheno_dir}{Path to the enclosing directory of the phenotype
+data.}
 
-\item{out}{Name of phenotype subset file. Default "ukb_phenotype_subset", writes ukb_phenotype_subset.rds to the current directory.}
+\item{out}{Name of phenotype subset file. Default
+"ukb_phenotype_subset", writes ukb_phenotype_subset.rds to the
+current directory.}
 }
 \description{
 Reads supplied fields from UKB project data and writes a serialized
 dataframe to a .rds file.
 }
 \details{
-Read the serialized dataframe with readRDS("<name_of_phenotype_subset_file>.rds")
+Read the serialized dataframe with
+readRDS("<name_of_phenotype_subset_file>.rds")
 }
