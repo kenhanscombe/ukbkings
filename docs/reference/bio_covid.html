@@ -47,7 +47,9 @@
 
 
 <meta property="og:title" content="Reads the COVID-19 data — bio_covid" />
-<meta property="og:description" content="Record-level information for COVID-19 testing. Only available if these data have been requested for the particular project you have access to." />
+<meta property="og:description" content="Record-level information for COVID-19 testing. Only
+available if these data have been requested for the particular
+project you have access to." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -105,9 +107,6 @@
     <li>
       <a href="../articles/kcl-ukb-access.html">Access UKB data on Rosalind</a>
     </li>
-    <li>
-      <a href="../articles/kcl-ukb-setup.html">Setup UKB project on Rosalind</a>
-    </li>
   </ul>
 </li>
 <li>
@@ -140,7 +139,9 @@
     </div>
 
     <div class="ref-description">
-    <p>Record-level information for COVID-19 testing. Only available if these data have been requested for the particular project you have access to.</p>
+    <p>Record-level information for COVID-19 testing. Only
+available if these data have been requested for the particular
+project you have access to.</p>
     </div>
 
     <pre class="usage"><span class='fu'>bio_covid</span>(<span class='no'>project_dir</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"results"</span>, <span class='kw'>covid_dir</span> <span class='kw'>=</span> <span class='st'>"raw/"</span>, <span class='kw'>code_dir</span> <span class='kw'>=</span> <span class='st'>"raw/"</span>)</pre>
@@ -154,24 +155,33 @@
     </tr>
     <tr>
       <th>data</th>
-      <td><p>A string specifying data required: "results" returns COVID-19 test results; "misc" returns blood group extracted from imputed genotype; "codes" returns the code meanings for the categorical variables.</p></td>
+      <td><p>A string specifying data required: "results", "misc",
+"tppscripts", "tppclinical", "emisscripts", "emisclinical", "codes".</p></td>
     </tr>
     <tr>
       <th>covid_dir</th>
-      <td><p>Path to the enclosing directory of the covid19_results.txt</p></td>
+      <td><p>Path to the enclosing directory of the
+covid19_results.txt</p></td>
     </tr>
     <tr>
       <th>code_dir</th>
-      <td><p>Path to the enclosing directory of the data coding files described in the UKB showcase notes under <a href='http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100'>data field 40100</a>.</p></td>
+      <td><p>Path to the enclosing directory of the data coding
+files described in the UKB showcase notes under
+<a href='http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100'>data field 40100</a>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a dataframe of either the COVID-19 testing results, blood group, or codes associated with fields in the results dataframe, depending on the value of argument `data`.</p>
+    <p>Returns a dataframe of either the COVID-19 testing results,
+blood group, or codes associated with fields in the results
+dataframe, depending on the value of argument `data`.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>UKB showcase documentation for <a href='http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100'>data field 40100</a> describes the categorical columns of the COVID-19 results dataframe as follows:</p><dl'>
+    <p>UKB showcase documentation for
+<a href='http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100'>data field 40100</a>
+describes the categorical columns of the COVID-19 results dataframe
+as follows:</p><dl'>
   <dt><b>spectype</b></dt><dd><p>Coding 1853: COVID19 test locations. Locations/methods used to generate samples for COVID19 testing.</p></dd>
   <dt><b>result</b></dt><dd><p>Coding 1854: Test result. Result of a binary test.</p></dd>
   <dt><b>origin</b></dt><dd><p>Coding 1855: Origin of test sample. Indicates where a participant was believed to be (or be doing) when their sample was taken.</p></dd>
@@ -182,6 +192,20 @@
 
 </dl>
 
+<p>The <code>data</code> option returns various parts of the COVID-19 data:
+"results" returns COVID-19 test results; "misc" returns blood group
+extracted from imputed genotype; "tppscripts" and "emisscripts"
+return information on the issuing of prescription medication for the
+TPP and EMIS suppliers respectively; "tppclinical" and
+"emisclinical" return data on primary care events, such as
+consultations, diagnoses, history, symptoms, procedures, laboratory
+tests and administrative information for the TPP and EMIS suppliers
+respectively; "codes" returns the code meanings for the categorical
+variables.</p>
+<p>For details of the structure of the data, the various GP coding systems,
+and UKB categorical codes used for each variable see
+<a href='https://biobank.ndph.ox.ac.uk/ukb/refer.cgi?id=3151'>Resource 3151</a>,
+Primary Care Data for COVID-19 Research.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100'>Data field 40100</a>,

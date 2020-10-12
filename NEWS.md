@@ -3,13 +3,16 @@
 **Note. All paths mentioned in the Changelog are relative to
 /scratch/datasets/ukbiobank/\<*project_dir*\>/.**
 
+* Removed all project setup to
+[ukbproject](https://github.com/kenhanscombe/ukbproject)
+
+* `bio_covid` now also reads "Primary Care Data for COVID-19 Research":
+TPP and EMIS prescriptions and GP (clinical) data
+
 * `bio_gen_ls` lists project genetic directory contents
 
 * `bio_code` updated path to resources/, which includes
 Codings_Showcase.csv
-
-* `bio_covid` now also reads "Primary Care Data for COVID-19 Research":
-TPP and EMIS prescriptions and GP (clinical) data
 
 
 # ukbkings 0.1
