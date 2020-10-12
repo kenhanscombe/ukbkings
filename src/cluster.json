@@ -1,9 +1,0 @@
-{
-    "__default__": {
-        "name": "munge_ukb",
-        "partition": "brc,shared",
-        "time": "10:00:00",
-        "error": "log/slurm_munge_ukb.error",
-        "out": "log/slurm_munge_ukb.out"
-    }
-}

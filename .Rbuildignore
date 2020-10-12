@@ -16,3 +16,4 @@
 ^Snakefile$
 ^snake\.py$
 ^setup\.py$
+^.vscode
