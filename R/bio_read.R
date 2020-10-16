@@ -72,7 +72,8 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
 #'
 #' @param project_dir Path to the enclosing directory of a UKB project.
 #' @param field_subset_file A path to a one-per-line text file of
-#' fields (no header).
+#' fields (no header). Fields can be specified as
+#' f.\emph{field.index.array}, or \emph{field-index.array}.
 #' @param pheno_dir Path to the enclosing directory of the phenotype
 #' data.
 #' @param out Name of phenotype subset file. Default
@@ -87,7 +88,7 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
 #' @importFrom readr read_csv
 #' @importFrom stringr str_detect str_c str_interp
 #' @importFrom tidyr nest
-#' @importFrom purrr map map_df reduce
+#' @importFrom purrr map map_df map_chr reduce
 #' @export
 bio_phen <- function(project_dir, field_subset_file,
                      pheno_dir = "phenotypes", out = "ukb_phenotype_subset") {
@@ -106,8 +107,20 @@ bio_phen <- function(project_dir, field_subset_file,
 
 
     field_finder <- bio_field(project_dir, pheno_dir)
+
     field_subset <- data.table::fread(field_subset_file, header = FALSE) %>%
-      dplyr::pull(1)
+        dplyr::pull(1)
+
+    field_subset <- purrr::map_chr(field_subset,
+        ~ {
+            ifelse(
+                str_detect(., "f\\."), 
+                str_remove(., pattern = "^f\\.") %>%
+                str_replace(pattern = "\\.", replacement = "-"),
+                .
+            )
+        }
+    )
 
     field_selection <- field_finder %>%
       dplyr::filter(

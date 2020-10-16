@@ -15,7 +15,8 @@ bio_phen(
 \item{project_dir}{Path to the enclosing directory of a UKB project.}
 
 \item{field_subset_file}{A path to a one-per-line text file of
-fields (no header).}
+fields (no header). Fields can be specified as
+f.\emph{field.index.array}, or \emph{field-index.array}.}
 
 \item{pheno_dir}{Path to the enclosing directory of the phenotype
 data.}
