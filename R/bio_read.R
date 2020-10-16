@@ -62,7 +62,19 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
                              stringr::str_c(basket, ".csv"))
         )
 
-    as.data.frame(field_finder)
+    f <- as.data.frame(field_finder) 
+    dups <- f$field[duplicated(f$field)]
+    dups <- dups[!(dups %in% "eid")]
+    dups <- unique(dups)
+
+    f$duplicated <- f$field %in% dups
+
+    f %>%
+        tidyr::unite(field_basket, field, basket, remove = FALSE) %>%
+        rowwise() %>%
+        mutate(field_unique = ifelse(duplicated, field_basket, field)) %>%
+        select(-field_basket, -duplicated) %>%
+        as.data.frame()
 }
 
 
