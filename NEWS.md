@@ -1,5 +1,11 @@
 # ukbkings (development version)
 
+* `bio_phen` accepts fields specified as either *field*-*index*.*array*
+(as used in the `ukbconv` conversion to csv) or
+f.*field*.*index*.*array* (as used in the `ukbconv` conversion to r/tab)
+
+***
+
 **Note. All paths mentioned in the Changelog are relative to
 /scratch/datasets/ukbiobank/\<*project_dir*\>/.**
 
