@@ -26,42 +26,43 @@ utils::globalVariables(c("ukb_type", "basket", "field", "path", "name",
 #' @export
 bio_field <- function(project_dir, pheno_dir = "phenotypes") {
 
-  if(!dir.exists(project_dir)) {
-    stop("Invalid project directory path.", call. = FALSE)
-  }
+    if(!dir.exists(project_dir)) {
+        stop("Invalid project directory path.", call. = FALSE)
+    }
 
-  field_files <- list.files(file.path(project_dir, pheno_dir),
-                            pattern = "ukb.*field_finder.txt",
-                            full.names = TRUE)
+    finder_paths <- list.files(file.path(project_dir, pheno_dir),
+                               pattern = "ukb.*field_finder.txt",
+                               full.names = TRUE)
+    finder_names <- list.files(file.path(project_dir, pheno_dir),
+                               pattern = "ukb.*field_finder.txt")
 
-  baskets <- gsub(
-    stringr::str_interp("/|${project_dir}|phenotypes|_field_finder.txt"),
-    "", field_files)
+    baskets <- stringr::str_remove("_field_finder.txt", finder_names)
 
-  col_type <- c(
-    "Sequence" = "integer",
-    "Integer" = "integer",
-    "Categorical (single)" = "integer",
-    "Categorical (multiple)" = "integer",
-    "Continuous" = "double",
-    "Text" = "character",
-    "Date" = "character",
-    "Time" = "character",
-    "Compound" = "character",
-    "Binary object" = "character",
-    "Records" = "character",
-    "Curve" = "character"
-  )
-
-  field_finder <- purrr::map(field_files, ~ data.table::fread(.)) %>%
-    rlang::set_names(baskets) %>%
-    dplyr::bind_rows(.id = "basket") %>%
-    dplyr::mutate(
-      r_type = col_type[ukb_type],
-      path = file.path(project_dir, pheno_dir, stringr::str_c(basket, ".csv"))
+    col_type <- c(
+        "Sequence" = "integer",
+        "Integer" = "integer",
+        "Categorical (single)" = "character",
+        "Categorical (multiple)" = "character",
+        "Continuous" = "double",
+        "Text" = "character",
+        "Date" = "character",
+        "Time" = "character",
+        "Compound" = "character",
+        "Binary object" = "character",
+        "Records" = "character",
+        "Curve" = "character"
     )
 
-  as.data.frame(field_finder)
+    field_finder <- purrr::map(finder_paths, ~ data.table::fread(.)) %>%
+        rlang::set_names(baskets) %>%
+        dplyr::bind_rows(.id = "basket") %>%
+        dplyr::mutate(
+            r_type = col_type[ukb_type],
+            path = file.path(project_dir, pheno_dir,
+                             stringr::str_c(basket, ".csv"))
+        )
+
+    as.data.frame(field_finder)
 }
 
 
