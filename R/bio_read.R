@@ -17,7 +17,7 @@ utils::globalVariables(c("ukb_type", "basket", "field", "path", "name",
 #'
 #' @return A dataframe with columns: ukb_type, r_type, path
 #'
-#' @import stringr dplyr
+#' @import stringr dplyr replace
 #' @importFrom data.table fread
 #' @importFrom rlang set_names
 #' @importFrom purrr map
@@ -33,10 +33,10 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
   field_files <- list.files(file.path(project_dir, pheno_dir),
                             pattern = "ukb.*field_finder.txt",
                             full.names = TRUE)
+  field_files_names <- list.files(file.path(project_dir, pheno_dir),
+                            pattern = "ukb.*field_finder.txt")
 
-  baskets <- gsub(
-    stringr::str_interp("/|${project_dir}|phenotypes|_field_finder.txt"),
-    "", field_files)
+  baskets <- stringr::str_replace(field_files_names, "_field_finder.txt", "")
 
   col_type <- c(
     "Sequence" = "integer",
