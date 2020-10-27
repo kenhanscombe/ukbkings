@@ -1,6 +1,6 @@
 
 utils::globalVariables(c("ukb_type", "basket", "field", "path", "name",
-                         "data", "df", ".", "withdraw", "eid",
+                         "data", "df", ".", "withdraw", "eid", "r_type",
                          "results_column", "coding", "meaning", "value"))
 
 
@@ -36,7 +36,7 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
     finder_names <- list.files(file.path(project_dir, pheno_dir),
                                pattern = "ukb.*field_finder.txt")
 
-    baskets <- stringr::str_remove("_field_finder.txt", finder_names)
+    baskets <- stringr::str_remove(finder_names, "_field_finder.txt")
 
     col_type <- c(
         "Sequence" = "integer",
@@ -62,6 +62,7 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
                              stringr::str_c(basket, ".csv"))
         )
 
+    # as.data.frame(field_finder)
     f <- as.data.frame(field_finder) 
     dups <- f$field[duplicated(f$field)]
     dups <- dups[!(dups %in% "eid")]
@@ -73,6 +74,7 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
         tidyr::unite(field_basket, field, basket, remove = FALSE) %>%
         rowwise() %>%
         mutate(field_unique = ifelse(duplicated, field_basket, field)) %>%
+        ungroup() %>%
         select(-field_basket, -duplicated) %>%
         as.data.frame()
 }
@@ -106,57 +108,61 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
 bio_phen <- function(project_dir, field_subset_file,
                      pheno_dir = "phenotypes", out = "ukb_phenotype_subset") {
 
-    bio_reader <- function(data) {
-      p <- dplyr::pull(data, path)[1]
-      f <- c("eid", dplyr::pull(data, "field"))
-      t <- c("integer", dplyr::pull(data, "r_type"))
-      names(t) <- f
+    bio_reader <- function(data, column_names) {
+        p <- dplyr::pull(data, path)[1]
+        f <- dplyr::pull(data, field)
+        t <- dplyr::pull(data, r_type)
+        names(t) <- f
 
-      data.table::fread(
-        p, header = TRUE, data.table = FALSE, na = c("", "NA"),
-        nThread = data.table::getDTthreads(), select = f, colClasses = t
-      )
+        data.table::fread(
+            p, header = TRUE, data.table = FALSE, na = c("", "NA"),
+            nThread = data.table::getDTthreads(), select = f, colClasses = t,
+            col.names = column_names
+        )
     }
 
-
+    # Read field finder and retrieve unique names
     field_finder <- bio_field(project_dir, pheno_dir)
 
+    # Read user supplied fields subset
     field_subset <- data.table::fread(field_subset_file, header = FALSE) %>%
-        dplyr::pull(1)
-
-    field_subset <- purrr::map_chr(field_subset,
-        ~ {
-            ifelse(
-                str_detect(., "f\\."), 
-                str_remove(., pattern = "^f\\.") %>%
-                str_replace(pattern = "\\.", replacement = "-"),
-                .
-            )
-        }
-    )
+        dplyr::pull(1) %>%
+        unique() %>%
+        c("eid"[!"eid" %in% .], .)
+    
+    # Translate fields specified as f.field.index.array
+    field_subset <- purrr::map_chr(field_subset, ~ {ifelse(
+        str_detect(., "f\\."),
+        str_remove(., pattern = "^f\\.") %>%
+            str_replace(pattern = "\\.", replacement = "-"),
+        .)})
 
     field_selection <- field_finder %>%
-      dplyr::filter(
-        stringr::str_detect(
-          field, stringr::str_c(
-            stringr::str_c("^", field_subset), collapse = "|")))
+        dplyr::filter(stringr::str_detect(field,
+            stringr::str_c(stringr::str_c("^", field_subset), collapse = "|")))
 
     n_baskets <- field_selection %>%
-      distinct(basket) %>%
+      dplyr::group_by(basket) %>%
+      tidyr::nest() %>%
+      dplyr::filter(dim(data[[1]])[1] > 1) %>%
       nrow()
 
     message("Reading data from ", n_baskets, " baskets ...")
 
     field_selection_nested <- field_selection %>%
-      dplyr::filter(!stringr::str_detect(name, "eid")) %>%
       dplyr::group_by(basket) %>%
       tidyr::nest() %>%
-      dplyr::mutate(csv = purrr::map(data, bio_reader))
+      dplyr::filter(dim(data[[1]])[1] > 1) %>%
+      dplyr::mutate(
+          column_names = map(data, ~ as.data.frame(.) %>%
+                             pull(field_unique))) %>%
+      dplyr::mutate(csv = purrr::map2(data, column_names, bio_reader))
 
     message("Merging baskets ...")
 
     df <- field_selection_nested$csv %>%
-      purrr::reduce(full_join)
+      purrr::reduce(full_join, by = "eid") %>%
+      dplyr::mutate_if(is.character, list(~na_if(., "")))
 
     # withdrawals
     withdraw_files <- list.files("raw", pattern = "^w.*csv", full.names = TRUE)
@@ -164,21 +170,21 @@ bio_phen <- function(project_dir, field_subset_file,
     if (length(withdraw_files) > 0) {
       withdraw_ids <- purrr::map_df(
         withdraw_files, ~readr::read_csv(., col_names = "withdraw")) %>%
-        dplyr::pull(withdraw)
-
+      dplyr::pull(withdraw)
+      
       withdraw_data <- pull(df, eid) %in% withdraw_ids
-
+      
       message("Removing withdrawn participant data ...")
       df[withdraw_data, names(df) != "eid"] <- NA
-
+      
       message("Writing data to ", out, ".rds ...")
       df %>%
         saveRDS(file = stringr::str_c(out, ".rds"))
-    } else {
-      message("Writing data to ", out, ".rds ...")
-      df %>%
-        saveRDS(file = stringr::str_c(out, ".rds"))
-    }
+      } else {
+        message("Writing data to ", out, ".rds ...")
+        df %>%
+          saveRDS(file = stringr::str_c(out, ".rds"))
+      }
 }
 
 
