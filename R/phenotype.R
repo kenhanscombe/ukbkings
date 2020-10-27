@@ -1,7 +1,8 @@
 
 utils::globalVariables(c("ukb_type", "basket", "field", "path", "name",
                          "data", "df", ".", "withdraw", "eid", "r_type",
-                         "results_column", "coding", "meaning", "value"))
+                         "results_column", "coding", "meaning", "value",
+                         "field_basket", "column_names"))
 
 
 #' Reads project-specific UKB field codes
@@ -17,12 +18,12 @@ utils::globalVariables(c("ukb_type", "basket", "field", "path", "name",
 #'
 #' @return A dataframe with columns: ukb_type, r_type, path
 #'
-#' @import stringr dplyr replace
+#' @import dplyr
+#' @importFrom stringr str_remove str_c
 #' @importFrom data.table fread
 #' @importFrom rlang set_names
 #' @importFrom purrr map
 #' @importFrom magrittr "%>%"
-#'
 #' @export
 bio_field <- function(project_dir, pheno_dir = "phenotypes") {
 
@@ -98,10 +99,9 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
 #' @details Read the serialized dataframe with
 #' readRDS("<name_of_phenotype_subset_file>.rds")
 #'
+#' @import dplyr stringr
 #' @importFrom data.table fread getDTthreads
-#' @importFrom dplyr pull filter group_by mutate na_if
 #' @importFrom readr read_csv
-#' @importFrom stringr str_detect str_c str_interp
 #' @importFrom tidyr nest
 #' @importFrom purrr map map_df map_chr reduce
 #' @export
