@@ -17,7 +17,7 @@ utils::globalVariables(c("ukb_type", "basket", "field", "path", "name",
 #'
 #' @return A dataframe with columns: ukb_type, r_type, path
 #'
-#' @import stringr dplyr
+#' @import stringr dplyr replace
 #' @importFrom data.table fread
 #' @importFrom rlang set_names
 #' @importFrom purrr map
@@ -280,26 +280,31 @@ bio_code <- function(code_dir = "/scratch/datasets/ukbiobank/resources") {
 #' \href{http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=592}{Resource 592}
 #'
 #' @export
-bio_gp <- function(project_dir, record, gp_dir = "raw/") {
+bio_gp <- function(project_dir, record, gp_dir = "raw") {
 
   if (length(list.files(file.path(project_dir, gp_dir), pattern = "^gp_")) != 3) {
     stop("GP data is not available for this project.", call. = FALSE)
   }
 
   if (record == "clinical") {
-    data.table::fread(file.path(project_dir, gp_dir, "gp_clinical.txt"),
-                      header = TRUE)
+    df <- data.table::fread(file.path(project_dir, gp_dir, "gp_clinical.txt"),
+                            header = TRUE, data.table = FALSE,
+                            na.strings = c("", "NA"))
   }
 
   if (record == "registrations") {
-    data.table::fread(file.path(project_dir, gp_dir, "gp_registrations.txt"),
-                      header = TRUE)
+    df <- data.table::fread(file.path(project_dir, gp_dir, "gp_registrations.txt"),
+                            header = TRUE, data.table = FALSE,
+                            na.strings = c("", "NA"))
   }
 
   if (record == "scripts") {
-    data.table::fread(file.path(project_dir, gp_dir, "gp_scripts.txt"),
-                      header = TRUE)
+    df <- data.table::fread(file.path(project_dir, gp_dir, "gp_scripts.txt"),
+                            header = TRUE, data.table = FALSE,
+                            na.strings = c("", "NA"))
   }
+
+  return(df)
 }
 
 
