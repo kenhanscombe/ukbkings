@@ -4,12 +4,12 @@ ukbkings <img src='man/figures/logo.png' align="right" alt = "" width="123.5" />
 <!-- badges: start -->
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Codecov test coverage](https://codecov.io/gh/kenhanscombe/ukbkings/branch/master/graph/badge.svg)](https://codecov.io/gh/kenhanscombe/ukbkings?branch=master)
+[![R build status](https://github.com/kenhanscombe/ukbkings/workflows/R-CMD-check/badge.svg)](https://github.com/kenhanscombe/ukbkings/actions)
 <!-- badges: end -->
 
 **Important: This package is a KCL R interface to UKB data on Rosalind.
 It is only useful for UKB-approved KCL reasearchers and their
 collaborators, with an account on the Rosalind HPC cluster.**
-
 
 ## Overview
 
