@@ -16,3 +16,4 @@
 ^snake\.py$
 ^setup\.py$
 ^.vscode
+^\.github$
