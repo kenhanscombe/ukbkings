@@ -1,7 +1,6 @@
 ^ukbkings\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
-^\.travis\.yml$
 ^doc$
 ^Meta$
 ^data-raw$
