@@ -29,6 +29,7 @@ reference:
   - '`bio_covid`'
   - '`bio_hesin`'
   - '`bio_death`'
+  - '`bio_record`'
 
 - title: Query genetic data
   desc: >
