@@ -30,6 +30,7 @@ reference:
   - '`bio_hesin`'
   - '`bio_death`'
   - '`bio_record`'
+  - '`bio_record_map`'
 
 - title: Query genetic data
   desc: >

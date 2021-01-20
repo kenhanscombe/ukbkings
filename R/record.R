@@ -342,20 +342,68 @@ bio_death <- function(project_dir, record = "death", death_dir = "raw/") {
 #'
 #' @param project_dir Path to the enclosing directory of a UKB project.
 #' @param record A string specifying which record-level data are required:
-#' \bold{COVID-19} data ("covid19_emis_gp_clinical", "covid19_result",
+#' **COVID-19** data ("covid19_emis_gp_clinical", "covid19_result",
 #' "covid19_emis_gp_scripts", "covid19_tpp_gp_clinical", "covid19_misc",
 #' "covid19_tpp_gp_scripts"),
-#' \bold{primary care} data ("gp_clinical", "gp_scripts", "gp_registrations"),
-#' \bold{hospital episode statistics} data ("hesin", "hesin_critical",
+#' **primary care** data ("gp_clinical", "gp_scripts", "gp_registrations"),
+#' **hospital episode statistics** data ("hesin", "hesin_critical",
 #' "hesin_delivery", "hesin_diag", "hesin_maternity", "hesin_oper",
 #' "hesin_psych"),
-#' \bold{death} data ("death", "death_cause")
+#' **death** data ("death", "death_cause")
+#' @param subset An integer vector of samples to collect record-level data for.
 #'
-#' @return A disk.frame of the specified record.
+#' @return If `record` is `NULL`, bio_record returns a
+#' character vector of available record-level data; if a specific
+#' `record` is requested and `subset` is `NULL`, a
+#' disk.frame of the specified record; and if `record` and
+#' `subset` are provided as arguments, a dataframe.
+#'
 #' @importFrom disk.frame disk.frame
 #' @importFrom stringr str_c
+#' @importFrom assertthat assert_that
 #' @export
-bio_record <- function(project_dir, record) {
-    p <- file.path(project_dir, "records", stringr::str_c(record, ".df"))
-    disk.frame::disk.frame(p)
+bio_record <- function(project_dir, record = NULL, subset = NULL) {
+    if (is.null(record)) {
+        records <- file.path(project_dir, "records")
+        list.files(records, pattern = "*\\.df$") %>%
+            stringr::str_replace(".df", "")
+    } else {
+        p <- file.path(project_dir, "records", stringr::str_c(record, ".df"))
+        assertthat::assert_that(file.exists(p))
+
+        df <- disk.frame::disk.frame(p)
+
+        if (is.null(subset)) {
+            return(df)
+        } else {
+            df %>%
+                dplyr::filter(eid %in% subset) %>%
+                dplyr::collect()
+        }
+    }
+}
+
+
+#' Applies a function to each record-level disk.frame
+#'
+#' @param project_dir Path to the enclosing directory of a UKB project.
+#' @param records A character vector of record-level data to apply
+#' summary function to. Default value `"all"` applies `func` to all
+#' available record-level data.
+#' @param func A function to apply to each element in the `records`
+#' vector, e.g. names, head.
+#'
+#' @importFrom purrr map
+#' @importFrom rlang set_names
+#' @seealso [ukbkings::bio_record]
+#' @export
+bio_record_map <- function(project_dir, func, records = "all") {
+    if (records == "all") {
+        records <- bio_record(project_dir)
+    }
+    purrr::map(
+        records,
+        ~ bio_record(project_dir, .) %>% func()
+    ) %>%
+        rlang::set_names(records)
 }

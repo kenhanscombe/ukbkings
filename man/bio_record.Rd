@@ -4,27 +4,30 @@
 \alias{bio_record}
 \title{Reads record-level data from on-disk disk.frames}
 \usage{
-bio_record(project_dir, record)
+bio_record(project_dir, record = NULL, subset = NULL)
 }
 \arguments{
 \item{project_dir}{Path to the enclosing directory of a UKB project.}
 
 \item{record}{A string specifying which record-level data are required:
-\bold{COVID-19} data ("covid19_emis_gp_clinical", "covid19_result",
+\strong{COVID-19} data ("covid19_emis_gp_clinical", "covid19_result",
 "covid19_emis_gp_scripts", "covid19_tpp_gp_clinical", "covid19_misc",
 "covid19_tpp_gp_scripts"),
-\bold{primary care} data ("gp_clinical", "gp_scripts", "gp_registrations"),
-\bold{hospital episode statistics} data ("hesin", "hesin_critical",
+\strong{primary care} data ("gp_clinical", "gp_scripts", "gp_registrations"),
+\strong{hospital episode statistics} data ("hesin", "hesin_critical",
 "hesin_delivery", "hesin_diag", "hesin_maternity", "hesin_oper",
 "hesin_psych"),
-\bold{death} data ("death", "death_cause")}
+\strong{death} data ("death", "death_cause")}
+
+\item{subset}{An integer vector of samples to collect record-level data for.}
 }
 \value{
-A disk.frame of the specified record.
+If \code{record} is \code{NULL}, bio_record returns a
+character vector of available record-level data; if a specific
+\code{record} is requested and \code{subset} is \code{NULL}, a
+disk.frame of the specified record; and if \code{record} and
+\code{subset} are provided as arguments, a dataframe.
 }
 \description{
 Reads record-level data from on-disk disk.frames
-}
-\details{
-...
 }

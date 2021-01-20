@@ -22,6 +22,7 @@ Suggests:
     devtools,
     covr
 RoxygenNote: 7.1.1
+Roxygen: list(markdown = TRUE)
 Imports: 
     data.table,
     rlang,

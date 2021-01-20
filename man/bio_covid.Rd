@@ -22,7 +22,7 @@ files described in the UKB showcase notes under
 \value{
 Returns a dataframe of either the COVID-19 testing results,
 blood group, or codes associated with fields in the results
-dataframe, depending on the value of argument `data`.
+dataframe, depending on the value of argument \code{data}.
 }
 \description{
 Record-level information for COVID-19 testing. Only
@@ -35,13 +35,13 @@ UKB showcase documentation for
 describes the categorical columns of the COVID-19 results dataframe
 as follows:
 \describe{
-  \item{\bold{spectype}}{Coding 1853: COVID19 test locations. Locations/methods used to generate samples for COVID19 testing.}
-  \item{\bold{result}}{Coding 1854: Test result. Result of a binary test.}
-  \item{\bold{origin}}{Coding 1855: Origin of test sample. Indicates where a participant was believed to be (or be doing) when their sample was taken.}
-  \item{\bold{laboratory}}{Coding 1856: COVID19 testing laboratories. Laboratories performing tests for COVID19.}
-  \item{\bold{reqorg}}{Coding 3311: Requesting organisation. Organisations responsible for requesting blood tests.}
-  \item{\bold{acute}}{Coding 12: ACE boolean. True/False boolean value.}
-  \item{\bold{hosaq}}{Coding 21: Yes No or Unknown. Artificial coding, generated after data collection.}
+\item{\bold{spectype}}{Coding 1853: COVID19 test locations. Locations/methods used to generate samples for COVID19 testing.}
+\item{\bold{result}}{Coding 1854: Test result. Result of a binary test.}
+\item{\bold{origin}}{Coding 1855: Origin of test sample. Indicates where a participant was believed to be (or be doing) when their sample was taken.}
+\item{\bold{laboratory}}{Coding 1856: COVID19 testing laboratories. Laboratories performing tests for COVID19.}
+\item{\bold{reqorg}}{Coding 3311: Requesting organisation. Organisations responsible for requesting blood tests.}
+\item{\bold{acute}}{Coding 12: ACE boolean. True/False boolean value.}
+\item{\bold{hosaq}}{Coding 21: Yes No or Unknown. Artificial coding, generated after data collection.}
 }
 
 The \code{data} option returns various parts of the COVID-19 data:
