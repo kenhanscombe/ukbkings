@@ -5,7 +5,8 @@
 * Added `exact` argument to `bio_phen`, default value is `exact = FALSE` which 
 gives previous behaviour, i.e., matches all fields beginning `31`.
 Setting `exact = TRUE` will return only exact matches for fields supplied, e.g.,
-`31` in the field subset file will match only field `31`, not `3159`, `3160` etc.
+`31` in the field subset file will return all _-index.array_ entries for field
+`31`, and not `3159`, `3160` etc.
 
 * `bio_record` returns either a character vector of available
 record-level data, a [disk.frame](https://diskframe.com/), or,

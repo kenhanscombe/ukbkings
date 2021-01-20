@@ -139,7 +139,7 @@ bio_phen <- function(project_dir, field_subset_file,
         .)})
 
     if (exact) {
-      field_subset <- stringr::str_c("^", field_subset, "$")
+      field_subset <- stringr::str_c("^", field_subset, "-\\d+\\.\\d+$")
     } else {
       field_subset <- stringr::str_c("^", field_subset)
     }
