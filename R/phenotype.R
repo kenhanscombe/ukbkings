@@ -64,7 +64,7 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
         )
 
     # as.data.frame(field_finder)
-    f <- as.data.frame(field_finder) 
+    f <- as.data.frame(field_finder)
     dups <- f$field[duplicated(f$field)]
     dups <- dups[!(dups %in% "eid")]
     dups <- unique(dups)
@@ -106,7 +106,8 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
 #' @importFrom purrr map map_df map_chr reduce
 #' @export
 bio_phen <- function(project_dir, field_subset_file,
-                     pheno_dir = "phenotypes", out = "ukb_phenotype_subset") {
+                     pheno_dir = "phenotypes", out = "ukb_phenotype_subset",
+                     exact = FALSE) {
 
     bio_reader <- function(data, column_names) {
         p <- dplyr::pull(data, path)[1]
@@ -129,17 +130,23 @@ bio_phen <- function(project_dir, field_subset_file,
         dplyr::pull(1) %>%
         unique() %>%
         c("eid"[!"eid" %in% .], .)
-    
+
     # Translate fields specified as f.field.index.array
     field_subset <- purrr::map_chr(field_subset, ~ {ifelse(
-        str_detect(., "f\\."),
-        str_remove(., pattern = "^f\\.") %>%
-            str_replace(pattern = "\\.", replacement = "-"),
+      stringr::str_detect(., "f\\."),
+        stringr::str_remove(., pattern = "^f\\.") %>%
+          stringr::str_replace(pattern = "\\.", replacement = "-"),
         .)})
+
+    if (exact) {
+      field_subset <- stringr::str_c("^", field_subset, "$")
+    } else {
+      field_subset <- stringr::str_c("^", field_subset)
+    }
 
     field_selection <- field_finder %>%
         dplyr::filter(stringr::str_detect(field,
-            stringr::str_c(stringr::str_c("^", field_subset), collapse = "|")))
+            stringr::str_c(field_subset, collapse = "|")))
 
     n_baskets <- field_selection %>%
       dplyr::group_by(basket) %>%
@@ -171,12 +178,12 @@ bio_phen <- function(project_dir, field_subset_file,
       withdraw_ids <- purrr::map_df(
         withdraw_files, ~readr::read_csv(., col_names = "withdraw")) %>%
       dplyr::pull(withdraw)
-      
+
       withdraw_data <- pull(df, eid) %in% withdraw_ids
-      
+
       message("Removing withdrawn participant data ...")
       df[withdraw_data, names(df) != "eid"] <- NA
-      
+
       message("Writing data to ", out, ".rds ...")
       df %>%
         saveRDS(file = stringr::str_c(out, ".rds"))
