@@ -1,5 +1,20 @@
 # ukbkings (development version)
 
+**20.01.2020 Ken B. Hanscombe**
+
+* `bio_record` returns either a character vector of available
+record-level data, a [disk.frame](https://diskframe.com/), or,
+if a subset of samples for whom record-level data are required is
+supplied, a dataframe of all data. As the disk.frame
+data are "on-disk", to query the data a relatively low-memory (1G)
+slurm session is sufficient.
+
+* `bio_record_map` applies a summary function (e.g. names, str, glimpse)
+to a vector of record level data (default is to apply the function to
+all available record-level data)
+
+**12.10.2020 Ken B. Hanscombe**
+
 * `bio_phen` accepts fields specified as either *field*-*index*.*array*
 (as used in the `ukbconv` conversion to csv) or
 f.*field*.*index*.*array* (as used in the `ukbconv` conversion to r/tab)
