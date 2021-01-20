@@ -137,6 +137,12 @@
     <div id="ukbkings-development-version" class="section level1">
 <h1 class="page-header" data-toc-text="development version">
 <a href="#ukbkings-development-version" class="anchor"></a>ukbkings (development version)</h1>
+<p><strong>20.01.2020 Ken B. Hanscombe</strong></p>
+<ul>
+<li><p><code>bio_record</code> returns either a character vector of available record-level data, a <a href="https://diskframe.com/">disk.frame</a>, or, if a subset of samples for whom record-level data are required is supplied, a dataframe of all data. As the disk.frame data are “on-disk”, to query the data a relatively low-memory (1G) slurm session is sufficient.</p></li>
+<li><p><code>bio_record_map</code> applies a summary function (e.g. names, str, glimpse) to a vector of record level data (default is to apply the function to all available record-level data)</p></li>
+</ul>
+<p><strong>12.10.2020 Ken B. Hanscombe</strong></p>
 <ul>
 <li>
 <code>bio_phen</code> accepts fields specified as either <em>field</em>-<em>index</em>.<em>array</em> (as used in the <code>ukbconv</code> conversion to csv) or f.<em>field</em>.<em>index</em>.<em>array</em> (as used in the <code>ukbconv</code> conversion to r/tab)</li>
