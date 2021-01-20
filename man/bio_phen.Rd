@@ -8,7 +8,8 @@ bio_phen(
   project_dir,
   field_subset_file,
   pheno_dir = "phenotypes",
-  out = "ukb_phenotype_subset"
+  out = "ukb_phenotype_subset",
+  exact = FALSE
 )
 }
 \arguments{
