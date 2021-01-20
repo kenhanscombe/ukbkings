@@ -139,7 +139,7 @@
 <a href="#ukbkings-development-version" class="anchor"></a>ukbkings (development version)</h1>
 <p><strong>20.01.2020 Ken B. Hanscombe</strong></p>
 <ul>
-<li><p>Added <code>exact</code> argument to <code>bio_phen</code>, default value is <code>exact = FALSE</code> which gives previous behaviour, i.e., matches all fields beginning <code>31</code>. Setting <code>exact = TRUE</code> will return only exact matches for fields supplied, e.g., <code>31</code> in the field subset file will match only field <code>31</code>, not <code>3159</code>, <code>3160</code> etc.</p></li>
+<li><p>Added <code>exact</code> argument to <code>bio_phen</code>, default value is <code>exact = FALSE</code> which gives previous behaviour, i.e., matches all fields beginning <code>31</code>. Setting <code>exact = TRUE</code> will return only exact matches for fields supplied, e.g., <code>31</code> in the field subset file will return all <em>-index.array</em> entries for field <code>31</code>, and not <code>3159</code>, <code>3160</code> etc.</p></li>
 <li><p><code>bio_record</code> returns either a character vector of available record-level data, a <a href="https://diskframe.com/">disk.frame</a>, or, if a subset of samples for whom record-level data are required is supplied, a dataframe of all data. As the disk.frame data are “on-disk”, to query the data a relatively low-memory (1G) slurm session is sufficient.</p></li>
 <li><p><code>bio_record_map</code> applies a summary function (e.g. names, str, glimpse) to a vector of record level data (default is to apply the function to all available record-level data)</p></li>
 </ul>
