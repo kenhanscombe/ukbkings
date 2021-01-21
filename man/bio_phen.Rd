@@ -25,6 +25,11 @@ data.}
 \item{out}{Name of phenotype subset file. Default
 "ukb_phenotype_subset", writes ukb_phenotype_subset.rds to the
 current directory.}
+
+\item{exact}{Setting \code{exact = TRUE} will return all -\emph{index}.\emph{array}
+entries for only exact matches of fields in \code{field_subset_file},e.g.,
+\code{31}, would return all 31_-index.array_, but not for fields \code{3159},
+\code{3160} etc. Default \code{FALSE}.}
 }
 \description{
 Reads supplied fields from UKB project data and writes a serialized

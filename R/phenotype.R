@@ -1,8 +1,10 @@
 
-utils::globalVariables(c("ukb_type", "basket", "field", "path", "name",
-                         "data", "df", ".", "withdraw", "eid", "r_type",
-                         "results_column", "coding", "meaning", "value",
-                         "field_basket", "column_names"))
+utils::globalVariables(c(
+    "ukb_type", "basket", "field", "path", "name",
+    "data", "df", ".", "withdraw", "eid", "r_type",
+    "results_column", "coding", "meaning", "value",
+    "field_basket", "column_names"
+))
 
 
 #' Reads project-specific UKB field codes
@@ -26,16 +28,17 @@ utils::globalVariables(c("ukb_type", "basket", "field", "path", "name",
 #' @importFrom magrittr "%>%"
 #' @export
 bio_field <- function(project_dir, pheno_dir = "phenotypes") {
-
-    if(!dir.exists(project_dir)) {
+    if (!dir.exists(project_dir)) {
         stop("Invalid project directory path.", call. = FALSE)
     }
 
     finder_paths <- list.files(file.path(project_dir, pheno_dir),
-                               pattern = "ukb.*field_finder.txt",
-                               full.names = TRUE)
+        pattern = "ukb.*field_finder.txt",
+        full.names = TRUE
+    )
     finder_names <- list.files(file.path(project_dir, pheno_dir),
-                               pattern = "ukb.*field_finder.txt")
+        pattern = "ukb.*field_finder.txt"
+    )
 
     baskets <- stringr::str_remove(finder_names, "_field_finder.txt")
 
@@ -59,8 +62,10 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
         dplyr::bind_rows(.id = "basket") %>%
         dplyr::mutate(
             r_type = col_type[ukb_type],
-            path = file.path(project_dir, pheno_dir,
-                             stringr::str_c(basket, ".csv"))
+            path = file.path(
+                project_dir, pheno_dir,
+                stringr::str_c(basket, ".csv")
+            )
         )
 
     # as.data.frame(field_finder)
@@ -95,6 +100,10 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
 #' @param out Name of phenotype subset file. Default
 #' "ukb_phenotype_subset", writes ukb_phenotype_subset.rds to the
 #' current directory.
+#' @param exact Setting `exact = TRUE` will return all -_index_._array_
+#' entries for only exact matches of fields in `field_subset_file`,e.g.,
+#' `31`, would return all 31_-index.array_, but not for fields `3159`,
+#' `3160` etc. Default `FALSE`.
 #'
 #' @details Read the serialized dataframe with
 #' readRDS("<name_of_phenotype_subset_file>.rds")
@@ -108,7 +117,6 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
 bio_phen <- function(project_dir, field_subset_file,
                      pheno_dir = "phenotypes", out = "ukb_phenotype_subset",
                      exact = FALSE) {
-
     bio_reader <- function(data, column_names) {
         p <- dplyr::pull(data, path)[1]
         f <- dplyr::pull(data, field)
@@ -116,7 +124,8 @@ bio_phen <- function(project_dir, field_subset_file,
         names(t) <- f
 
         data.table::fread(
-            p, header = TRUE, data.table = FALSE, na = c("", "NA"),
+            p,
+            header = TRUE, data.table = FALSE, na = c("", "NA"),
             nThread = data.table::getDTthreads(), select = f, colClasses = t,
             col.names = column_names
         )
@@ -132,66 +141,73 @@ bio_phen <- function(project_dir, field_subset_file,
         c("eid"[!"eid" %in% .], .)
 
     # Translate fields specified as f.field.index.array
-    field_subset <- purrr::map_chr(field_subset, ~ {ifelse(
-      stringr::str_detect(., "f\\."),
-        stringr::str_remove(., pattern = "^f\\.") %>%
-          stringr::str_replace(pattern = "\\.", replacement = "-"),
-        .)})
+    field_subset <- purrr::map_chr(field_subset, ~ {
+        ifelse(
+            stringr::str_detect(., "f\\."),
+            stringr::str_remove(., pattern = "^f\\.") %>%
+                stringr::str_replace(pattern = "\\.", replacement = "-"),
+            .
+        )
+    })
 
     if (exact) {
-      field_subset <- stringr::str_c("^", field_subset, "-\\d+\\.\\d+$")
+        field_subset <- stringr::str_c("^", field_subset, "-\\d+\\.\\d+$")
     } else {
-      field_subset <- stringr::str_c("^", field_subset)
+        field_subset <- stringr::str_c("^", field_subset)
     }
 
     field_selection <- field_finder %>%
-        dplyr::filter(stringr::str_detect(field,
-            stringr::str_c(field_subset, collapse = "|")))
+        dplyr::filter(stringr::str_detect(
+            field,
+            stringr::str_c(field_subset, collapse = "|")
+        ))
 
     n_baskets <- field_selection %>%
-      dplyr::group_by(basket) %>%
-      tidyr::nest() %>%
-      dplyr::filter(dim(data[[1]])[1] > 1) %>%
-      nrow()
+        dplyr::group_by(basket) %>%
+        tidyr::nest() %>%
+        dplyr::filter(dim(data[[1]])[1] > 1) %>%
+        nrow()
 
     message("Reading data from ", n_baskets, " baskets ...")
 
     field_selection_nested <- field_selection %>%
-      dplyr::group_by(basket) %>%
-      tidyr::nest() %>%
-      dplyr::filter(dim(data[[1]])[1] > 1) %>%
-      dplyr::mutate(
-          column_names = map(data, ~ as.data.frame(.) %>%
-                             pull(field_unique))) %>%
-      dplyr::mutate(csv = purrr::map2(data, column_names, bio_reader))
+        dplyr::group_by(basket) %>%
+        tidyr::nest() %>%
+        dplyr::filter(dim(data[[1]])[1] > 1) %>%
+        dplyr::mutate(
+            column_names = map(data, ~ as.data.frame(.) %>%
+                pull(field_unique))
+        ) %>%
+        dplyr::mutate(csv = purrr::map2(data, column_names, bio_reader))
 
     message("Merging baskets ...")
 
     df <- field_selection_nested$csv %>%
-      purrr::reduce(full_join, by = "eid") %>%
-      dplyr::mutate_if(is.character, list(~na_if(., "")))
+        purrr::reduce(full_join, by = "eid") %>%
+        dplyr::mutate_if(is.character, list(~ na_if(., "")))
 
     # withdrawals
     withdraw_files <- list.files("raw", pattern = "^w.*csv", full.names = TRUE)
 
     if (length(withdraw_files) > 0) {
-      withdraw_ids <- purrr::map_df(
-        withdraw_files, ~readr::read_csv(., col_names = "withdraw")) %>%
-      dplyr::pull(withdraw)
+        withdraw_ids <- purrr::map_df(
+            withdraw_files, ~ readr::read_csv(., col_names = "withdraw")
+        ) %>%
+            dplyr::pull(withdraw)
 
-      withdraw_data <- pull(df, eid) %in% withdraw_ids
+        withdraw_data <- pull(df, eid) %in% withdraw_ids
 
-      message("Removing withdrawn participant data ...")
-      df[withdraw_data, names(df) != "eid"] <- NA
+        message("Removing withdrawn participant data ...")
+        df[withdraw_data, names(df) != "eid"] <- NA
 
-      message("Writing data to ", out, ".rds ...")
-      df %>%
-        saveRDS(file = stringr::str_c(out, ".rds"))
-      } else {
         message("Writing data to ", out, ".rds ...")
         df %>%
-          saveRDS(file = stringr::str_c(out, ".rds"))
-      }
+            saveRDS(file = stringr::str_c(out, ".rds"))
+    } else {
+        message("Writing data to ", out, ".rds ...")
+        df %>%
+            saveRDS(file = stringr::str_c(out, ".rds"))
+    }
 }
 
 
@@ -210,15 +226,15 @@ bio_phen <- function(project_dir, field_subset_file,
 #' @importFrom dplyr pull
 #' @export
 bio_field_add <- function(data, out = "ukb_field_subset.txt") {
-  data %>%
-    dplyr::pull(field) %>%
-    {
-      if(file.exists(out)) {
-        cat(., file = out, sep = "\n", append = TRUE)
-      } else {
-        cat(., file = out, sep = "\n")
-      }
-    }
+    data %>%
+        dplyr::pull(field) %>%
+        {
+            if (file.exists(out)) {
+                cat(., file = out, sep = "\n", append = TRUE)
+            } else {
+                cat(., file = out, sep = "\n")
+            }
+        }
 }
 
 
@@ -240,10 +256,9 @@ bio_field_add <- function(data, out = "ukb_field_subset.txt") {
 #' @seealso \code{\link{bio_phen}}, \code{\link{bio_field}}
 #' @export
 bio_rename <- function(data, field_finder) {
-
-  field_subset <- names(data)
-  field_finder <- dplyr::filter(field_finder, field %in% field_subset)
-  name_old_new <- field_finder$field
-  names(name_old_new) <- field_finder$name
-  dplyr::rename(df, name_old_new)
+    field_subset <- names(data)
+    field_finder <- dplyr::filter(field_finder, field %in% field_subset)
+    name_old_new <- field_finder$field
+    names(name_old_new) <- field_finder$name
+    dplyr::rename(df, name_old_new)
 }

@@ -33,7 +33,8 @@ Imports:
     tidyr,
     readr,
     lubridate,
-    disk.frame
+    disk.frame,
+    assertthat
 URL: https://github.com/kenhanscombe/ukbkings
 BugReports: https://github.com/kenhanscombe/ukbkings/issues
 VignetteBuilder: knitr
