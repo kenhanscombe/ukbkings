@@ -1,10 +1,10 @@
 field	name	ukb_type	r_type
-eid	eid	Sequence	double
+eid	eid	Sequence	integer
 31-0.0	sex_f31_0_0	Categorical (single)	integer
 54-0.0	uk_biobank_assessment_centre_f54_0_0	Categorical (single)	integer
 54-1.0	uk_biobank_assessment_centre_f54_1_0	Categorical (single)	integer
 54-2.0	uk_biobank_assessment_centre_f54_2_0	Categorical (single)	integer
-189-0.0	townsend_deprivation_index_at_recruitment_f189_0_0	Continuous	integer
+189-0.0	townsend_deprivation_index_at_recruitment_f189_0_0	Continuous	double
 6142-0.0	current_employment_status_f6142_0_0	Categorical (multiple)	integer
 6142-0.1	current_employment_status_f6142_0_1	Categorical (multiple)	integer
 6142-0.2	current_employment_status_f6142_0_2	Categorical (multiple)	integer
