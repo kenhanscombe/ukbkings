@@ -29,7 +29,9 @@ current directory.}
 \item{exact}{Setting \code{exact = TRUE} will return all -\emph{index}.\emph{array}
 entries for only exact matches of fields in \code{field_subset_file},e.g.,
 \code{31}, would return all 31_-index.array_, but not for fields \code{3159},
-\code{3160} etc. Default \code{FALSE}.}
+\code{3160} etc. Default \code{FALSE}. \strong{Note}: Do not set \code{exact = TRUE} if
+you have supplied full field names (i.e., including \emph{index} and
+\emph{array}) in your field subset file, e.g., 31-0.0 or 31.0.0}
 }
 \description{
 Reads supplied fields from UKB project data and writes a serialized
