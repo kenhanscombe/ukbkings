@@ -103,7 +103,9 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
 #' @param exact Setting `exact = TRUE` will return all -_index_._array_
 #' entries for only exact matches of fields in `field_subset_file`,e.g.,
 #' `31`, would return all 31_-index.array_, but not for fields `3159`,
-#' `3160` etc. Default `FALSE`.
+#' `3160` etc. Default `FALSE`. __Note__: Do not set `exact = TRUE` if
+#' you have supplied full field names (i.e., including _index_ and
+#' _array_) in your field subset file, e.g., 31-0.0 or 31.0.0
 #'
 #' @details Read the serialized dataframe with
 #' readRDS("<name_of_phenotype_subset_file>.rds")
@@ -137,8 +139,9 @@ bio_phen <- function(project_dir, field_subset_file,
     # Read user supplied fields subset
     field_subset <- data.table::fread(field_subset_file, header = FALSE) %>%
         dplyr::pull(1) %>%
-        unique() %>%
-        c("eid"[!"eid" %in% .], .)
+        unique()
+    # %>%
+    # c("eid"[!"eid" %in% .], .)
 
     # Translate fields specified as f.field.index.array
     field_subset <- purrr::map_chr(field_subset, ~ {
@@ -151,8 +154,11 @@ bio_phen <- function(project_dir, field_subset_file,
     })
 
     if (exact) {
+        field_subset <- field_subset[!field_subset %in% "eid"]
         field_subset <- stringr::str_c("^", field_subset, "-\\d+\\.\\d+$")
+        field_subset <- c("eid"[!"eid" %in% field_subset], field_subset)
     } else {
+        field_subset <- c("eid"[!"eid" %in% field_subset], field_subset)
         field_subset <- stringr::str_c("^", field_subset)
     }
 
