@@ -137,6 +137,11 @@
     <div id="ukbkings-development-version" class="section level1">
 <h1 class="page-header" data-toc-text="development version">
 <a href="#ukbkings-development-version" class="anchor"></a>ukbkings (development version)</h1>
+<p><strong>22.01.2020 Ken B. Hanscombe</strong></p>
+<ul>
+<li><p>Added convenience read functions: <code>bio_gen_fam</code> returns project-specific fam (with header), <code>bio_gen_sqc</code> returns generic sample QC with header and addtional column containing project-specific pseudo-IDs (<code>eid</code>), <code>bio_gen_related</code> returns project-specific relatedness</p></li>
+<li><p>Added <code>bio_gen_ancestry</code> which returns a dataframe with project-specific pseudo-ID (<code>eid</code>), and 1000 genomes super population (<code>pop</code>). For QC and super population assignment details see Ollie’s <a href="https://opain.github.io/UKB-GenoPrep/quality_control.html">Ancestry Specific Quality Control</a> documentation.</p></li>
+</ul>
 <p><strong>20.01.2020 Ken B. Hanscombe</strong></p>
 <ul>
 <li><p>Added <code>exact</code> argument to <code>bio_phen</code>, default value is <code>exact = FALSE</code> which gives previous behaviour, i.e., matches all fields beginning <code>31</code>. Setting <code>exact = TRUE</code> will return only exact matches for fields supplied, e.g., <code>31</code> in the field subset file will return all <em>-index.array</em> entries for field <code>31</code>, and not <code>3159</code>, <code>3160</code> etc.</p></li>
