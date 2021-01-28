@@ -37,3 +37,7 @@ reference:
     Functions to inspect the genetic data available for a UKB project.
   contents:
   - '`bio_gen_ls`'
+  - '`bio_gen_fam`'
+  - '`bio_gen_related`'
+  - '`bio_gen_sqc`'
+  - '`bio_gen_ancestry`'
