@@ -3,7 +3,8 @@ utils::globalVariables(c(
     "ukb_type", "basket", "field", "path", "name",
     "data", "df", ".", "withdraw", "eid", "r_type",
     "results_column", "coding", "meaning", "value",
-    "field_basket", "column_names"
+    "field_basket", "column_names", "fid", "index",
+    "inferred.gender"
 ))
 
 

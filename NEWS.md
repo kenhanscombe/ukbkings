@@ -1,5 +1,19 @@
 # ukbkings (development version)
 
+**22.01.2020 Ken B. Hanscombe**
+
+* Added convenience read functions: `bio_gen_fam` returns
+project-specific fam (with header), `bio_gen_sqc` returns
+generic sample QC with header and addtional column containing
+project-specific pseudo-IDs (`eid`), `bio_gen_related` returns
+project-specific relatedness
+
+* Added `bio_gen_ancestry` which returns a dataframe with
+project-specific pseudo-ID (`eid`), and 1000 genomes
+super population (`pop`). For QC and super population assignment details
+see Ollie's
+[Ancestry Specific Quality Control](https://opain.github.io/UKB-GenoPrep/quality_control.html) documentation.
+
 **20.01.2020 Ken B. Hanscombe**
 
 * Added `exact` argument to `bio_phen`, default value is `exact = FALSE` which 
