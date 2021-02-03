@@ -144,8 +144,19 @@ bio_gen_related <- function(project_dir) {
 #' `NULL`, i.e., all samples are considered).
 #' @param seed Seed used for the random number generator (default = `1234`).
 #'
-#' @details Re. [KING robust kinship estimator](https://www.cog-genomics.org/plink/2.0/distance#make_king),
-#' PLINK 2.0 documentation:
+#' @details Re. the KING robust kinship estimator, from
+#' [KING documentation](https://people.virginia.edu/~wc9c/KING/manual.html):
+#' A negative kinship coefficient estimation indicates an unrelated
+#' relationship. The reason that a negative kinship coefficient is not
+#' set to zero is a very negative value may indicate the population
+#' structure between the two individuals. Close relatives can be
+#' inferred fairly reliably based on the estimated kinship coefficients
+#' as shown in the following simple algorithm: an estimated kinship
+#' coefficient range >0.354, \[0.177, 0.354\], \[0.0884, 0.177\] and
+#' \[0.0442, 0.0884\] corresponds to duplicate/MZ twin, 1st-degree,
+#' 2nd-degree, and 3rd-degree relationships respectively.
+#'
+#' From [PLINK 2.0 documentation](https://www.cog-genomics.org/plink/2.0/distance#make_king):
 #' Note that KING kinship coefficients are scaled such that duplicate
 #' samples have kinship 0.5, not 1. First-degree relations
 #' (parent-child, full siblings) correspond to ~0.25, second-degree
