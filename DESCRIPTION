@@ -35,7 +35,9 @@ Imports:
     lubridate,
     disk.frame,
     assertthat,
-    digest
+    digest,
+    processx,
+    tibble
 URL: https://github.com/kenhanscombe/ukbkings
 BugReports: https://github.com/kenhanscombe/ukbkings/issues
 VignetteBuilder: knitr
