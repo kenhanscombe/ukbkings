@@ -137,6 +137,11 @@
     <div id="ukbkings-development-version" class="section level1">
 <h1 class="page-header" data-toc-text="development version">
 <a href="#ukbkings-development-version" class="anchor"></a>ukbkings (development version)</h1>
+<p><strong>03.02.2020 Ken B. Hanscombe</strong></p>
+<ul>
+<li><p>Added <code>bio_gen_related_remove</code> which uses <a href="https://gitlab.com/choishingwan/GreedyRelated">GreedyRelated</a> to returns a minimum sample list to remove in order to remove all relationships at a given relatedness threshold, retaining the maximum amount of samples.</p></li>
+<li><p>Added <code>bio_gen_write_plink_input</code> which take either a vector of sample IDs, or a dataframe with sample IDs in the first column, and writes these to the first two columns of a white-space separated file, with no header.</p></li>
+</ul>
 <p><strong>22.01.2020 Ken B. Hanscombe</strong></p>
 <ul>
 <li><p>Added convenience read functions: <code>bio_gen_fam</code> returns project-specific fam (with header), <code>bio_gen_sqc</code> returns generic sample QC with header and addtional column containing project-specific pseudo-IDs (<code>eid</code>), <code>bio_gen_related</code> returns project-specific relatedness</p></li>
