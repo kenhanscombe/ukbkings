@@ -1,5 +1,18 @@
 # ukbkings (development version)
 
+**03.02.2020 Ken B. Hanscombe**
+
+* Added `bio_gen_related_remove` which uses
+[GreedyRelated](https://gitlab.com/choishingwan/GreedyRelated)
+to returns a minimum sample list to remove in order to remove all
+relationships at a given relatedness threshold, retaining the maximum
+amount of samples.
+
+* Added `bio_gen_write_plink_input` which take either a vector of sample
+IDs, or a dataframe with sample IDs in the first column, and writes
+these to the first two columns of a white-space separated file, with no
+header.
+
 **22.01.2020 Ken B. Hanscombe**
 
 * Added convenience read functions: `bio_gen_fam` returns

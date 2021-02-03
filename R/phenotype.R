@@ -4,7 +4,8 @@ utils::globalVariables(c(
     "data", "df", ".", "withdraw", "eid", "r_type",
     "results_column", "coding", "meaning", "value",
     "field_basket", "column_names", "fid", "index",
-    "inferred.gender"
+    "inferred.gender", "ID1", "ID2", "Kinship",
+    "Pair"
 ))
 
 

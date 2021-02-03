@@ -109,9 +109,9 @@ bio_gen_sqc <- function(project_dir) {
 
 #' Read the project-specific relatedness file
 #'
-#' @return A dataframe of relatedness with project-specific pseudo-IDS.
-#'
 #' @param project_dir Path to the enclosing directory of a UKB project.
+#'
+#' @return A dataframe of relatedness with project-specific pseudo-IDS.
 #'
 #' @importFrom data.table fread
 #' @export
@@ -122,6 +122,80 @@ bio_gen_related <- function(project_dir) {
         list.files(imputed, pattern = ".*rel.*.dat", full.names = TRUE),
         data.table = FALSE
     )
+}
+
+
+#' Find relatives to remove
+#'
+#' @description Uses [GreedyRelated](https://gitlab.com/choishingwan/GreedyRelated)
+#' to maximize sample size by removing one member of each pair with
+#' relatedness above a specified threshold.
+#'
+#' @param project_dir Path to the enclosing directory of a UKB project.
+#' @param  greedy_related Path to the
+#' [GreedyRelated](https://gitlab.com/choishingwan/GreedyRelated)
+#' binary.
+#' @param thresh KING kinship coefficient threshold. One member of each
+#' pair exceeding this threshold is returned in a dataframe to be
+#' removed from further analyses. (default = `0.044`)
+#' @param keep An optional vector of samples on which to perform relative
+#' removal, e.g., samples with data on a phenotype of interest.
+#' GreedyRelated ignores samples not included in `keep`. (default =
+#' `NULL`, i.e., all samples are considered).
+#' @param seed Seed used for the random number generator (default = `1234`).
+#'
+#' @details Re. [KING robust kinship estimator](https://www.cog-genomics.org/plink/2.0/distance#make_king),
+#' PLINK 2.0 documentation:
+#' Note that KING kinship coefficients are scaled such that duplicate
+#' samples have kinship 0.5, not 1. First-degree relations
+#' (parent-child, full siblings) correspond to ~0.25, second-degree
+#' relations correspond to ~0.125, etc. It is conventional to use a
+#' cutoff of ~0.354 (the geometric mean of 0.5 and 0.25) to screen for
+#' monozygotic twins and duplicate samples, ~0.177 to add first-degree
+#' relations, etc.
+#'
+#' @returns A data frame of samples to remove.
+#'
+#' @import dplyr
+#' @importFrom readr write_delim
+#' @importFrom processx run
+#' @importFrom rlang set_names
+#' @importFrom utils read.table
+#' @importFrom tibble tibble
+#' @export
+bio_gen_related_remove <- function(project_dir, greedy_related,
+                                   thresh = 0.044, keep = NULL, seed = 1234) {
+    message(c(
+        "Using:",
+        system(paste(greedy_related, "2>&1 | head -n 3"), intern = TRUE)
+    ))
+
+    tmp_rel <- tempfile()
+
+    rel <- bio_gen_related(project_dir) %>%
+        dplyr::mutate(Pair = seq_len(nrow(.)))
+
+    dplyr::bind_rows(
+        dplyr::select(rel, ID = ID1, Pair, Factor = Kinship),
+        dplyr::select(rel, ID = ID2, Pair, Factor = Kinship)
+    ) %>%
+        dplyr::arrange(Pair) %>%
+        readr::write_delim(tmp_rel)
+
+    greedy_args <- c("-r", tmp_rel, "-t", thresh, "-s", seed)
+
+    if (!is.null(keep)) {
+        tmp_keep <- tempfile()
+        greedy_args <- c(greedy_args, "-k", tmp_keep)
+        tibble::tibble(keep) %>%
+            readr::write_delim(tmp_keep, col_names = FALSE)
+    }
+
+    greedy_out <- processx::run(greedy_related, greedy_args)
+
+    utils::read.table(text = greedy_out$stdout, sep = "\t") %>%
+        dplyr::select(1) %>%
+        rlang::set_names("eid")
 }
 
 
@@ -168,4 +242,30 @@ bio_gen_ancestry <- function(project_dir) {
     ) %>%
         purrr::reduce(left_join, by = "index") %>%
         dplyr::select("eid" = fid, pop)
+}
+
+
+#' Writes a two-column dataframe of IDs for PLINK input
+#'
+#' @param data Either a vector of sample IDs, or a dataframe with
+#' sample IDs in column 1.
+#' @param out Full file path to write PLINK input sample list to.
+#'
+#' @importFrom dplyr select
+#' @importFrom readr write_delim
+#' @importFrom tibble tibble
+#' @export
+bio_gen_write_plink_input <- function(data, out) {
+    if (is.data.frame(data)) {
+        data %>%
+            dplyr::select("fid" = 1, "iid" = 1) %>%
+            readr::write_delim(out, col_names = FALSE)
+    } else if (is.vector(data)) {
+        tibble::tibble("fid" = data, "iid" = data) %>%
+            readr::write_delim(out,
+                col_names = FALSE
+            )
+    } else {
+        stop("Supply a vector of samples, or a dataframe with samples in column 1.")
+    }
 }
