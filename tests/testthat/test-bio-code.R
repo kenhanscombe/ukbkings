@@ -7,7 +7,7 @@ test_that("bio_code stops and prints error when no coding data available", {
   expect_error(
     bio_code(code_dir = "."),
     stringr::str_interp(
-      c("Required file .*Codings_Showcase.csv does not exist.")
+      c("Required file .*Codings.csv does not exist.")
     )
   )
 })
