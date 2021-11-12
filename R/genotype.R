@@ -219,6 +219,9 @@ bio_gen_related_remove <- function(project_dir, greedy_related,
 #'
 #' @param project_dir Path to the enclosing directory of a UKB project.
 #'
+#' @return A dataframe of project-specific pseudo-IDs and 1000 Genomes super
+#' population
+#'
 #' @importFrom dplyr mutate select bind_rows
 #' @importFrom purrr map reduce
 #' @importFrom data.table fread
