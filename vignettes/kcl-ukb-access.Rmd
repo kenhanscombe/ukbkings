@@ -42,11 +42,8 @@ of the directory structure of a UKB project on Rosalind.
 [3. Field subset file]  
 [4. Read and write data]  
 [5. Categorical codes]  
-[6. GP data]  
-[7. COVID-19 data]  
-[8. HES in-patient data]  
-[9. Death data]  
-[10. Genetic data]
+[6. Record level data]  
+[7. Genetic data]
 
 ***
 
@@ -267,13 +264,13 @@ cx %>%
 
 ### 6. Record level data
 
-To query and read record-level data, use bio_record` and
-`bio_record_map`.
-
-To list all record level data available for your project
+To query and read record-level data, use `bio_record` and
+`bio_record_map`. List all record level data available for your project
 ```{r}
 bio_record(project_dir)
 ```
+
+<br>
 
 You can retrieve the data as a [disk.frame](https://diskframe.com/index.html)
 which you can inspect with functions like `head`, `names`, etc. This

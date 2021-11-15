@@ -33,7 +33,7 @@ bio_code <- function(code_dir = "/scratch/datasets/ukbiobank/resources") {
 
 #' Reads the primary care data
 #'
-#' #' @description
+#' @description
 #' `r lifecycle::badge("deprecated")`
 #'
 #' This function has been deprecated in favour of a single function to
