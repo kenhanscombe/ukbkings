@@ -25,12 +25,13 @@ reference:
   desc: >
     Functions to retrieve UKB record-level data.
   contents:
+  - '`bio_record`'
+  - '`bio_record_map`'
   - '`bio_gp`'
   - '`bio_covid`'
   - '`bio_hesin`'
   - '`bio_death`'
-  - '`bio_record`'
-  - '`bio_record_map`'
+
 
 - title: Query genetic data
   desc: >
