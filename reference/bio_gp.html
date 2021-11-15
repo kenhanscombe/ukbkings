@@ -47,8 +47,13 @@
 
 
 <meta property="og:title" content="Reads the primary care data — bio_gp" />
-<meta property="og:description" content="#' @description
-" />
+<meta property="og:description" content="
+This function has been deprecated in favour of a single function to
+read all record-level data. Use bio_record() to retrieve data.
+Summarize/ inspect record-level data with bio_record_map().
+Detailed patient level diagnoses, prescriptions, etc. Only available
+if these data have been requested for the particular project you
+have access to." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -138,8 +143,13 @@
     </div>
 
     <div class="ref-description">
-    <p>#' @description
-<img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
+    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
+<p>This function has been deprecated in favour of a single function to
+read all record-level data. Use <code><a href='bio_record.html'>bio_record()</a></code> to retrieve data.
+Summarize/ inspect record-level data with <code><a href='bio_record_map.html'>bio_record_map()</a></code>.</p>
+<p>Detailed patient level diagnoses, prescriptions, etc. Only available
+if these data have been requested for the particular project you
+have access to.</p>
     </div>
 
     <pre class="usage"><span class='fu'>bio_gp</span><span class='op'>(</span><span class='va'>project_dir</span>, <span class='va'>record</span>, gp_dir <span class='op'>=</span> <span class='st'>"raw"</span><span class='op'>)</span></pre>
@@ -168,14 +178,6 @@ data.</p></td>
     <p>A dataframe. <strong>Note</strong>. clinical data has 123,669,371
 rows and 8 columns; registrations data has 361,841 rows and 4
 columns; scripts data has 57,709,810 rows and 8 columns.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>This function has been deprecated in favour of a single function to
-read all record-level data. Use <code><a href='bio_record.html'>bio_record()</a></code> to retrieve data.
-Summarize/ inspect record-level data with <code><a href='bio_record_map.html'>bio_record_map()</a></code>.</p>
-<p>Detailed patient level diagnoses, prescriptions, etc. Only available
-if these data have been requested for the particular project you
-have access to.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='http://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=3001'>Category 3001</a>,
