@@ -20,6 +20,12 @@ data.}
 A dataframe of the requested record-level data.
 }
 \description{
+\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
+
+This function has been deprecated in favour of a single function to
+read all record-level data. Use \code{\link[=bio_record]{bio_record()}} to retrieve data.
+Summarize/ inspect record-level data with \code{\link[=bio_record_map]{bio_record_map()}}.
+
 Record-level hospital episode statistics (HES)
 in-patient information.
 }
@@ -29,3 +35,4 @@ in-patient information.
 \href{https://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=138483}{Resource 138483},
 \href{https://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=141140}{Resource 141140}
 }
+\keyword{internal}

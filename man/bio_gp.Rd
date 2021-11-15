@@ -21,6 +21,14 @@ rows and 8 columns; registrations data has 361,841 rows and 4
 columns; scripts data has 57,709,810 rows and 8 columns.
 }
 \description{
+#' @description
+\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
+}
+\details{
+This function has been deprecated in favour of a single function to
+read all record-level data. Use \code{\link[=bio_record]{bio_record()}} to retrieve data.
+Summarize/ inspect record-level data with \code{\link[=bio_record_map]{bio_record_map()}}.
+
 Detailed patient level diagnoses, prescriptions, etc. Only available
 if these data have been requested for the particular project you
 have access to.
@@ -30,3 +38,4 @@ have access to.
 \href{http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=591}{Resource 591},
 \href{http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=592}{Resource 592}
 }
+\keyword{internal}
