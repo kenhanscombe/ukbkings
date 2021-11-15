@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ukbkings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -103,7 +103,12 @@
 <p><strong>Important. This document is only useful for UKB-approved KCL reasearchers and their collaborators, with an account on the Rosalind HPC cluster.</strong></p>
 <p>The ukbkings package works with a Rosalind UKB project directory that has been setup to use the package. See <a href="https://github.com/kenhanscombe/ukbproject">ukbproject</a> for setup of the directory structure of a UKB project on Rosalind.</p>
 <hr>
-<p><span style="color:dodgerblue;"><strong>Contents:</strong></span><br><a href="#tldr">0. tldr</a><br><a href="#preamble">1. Preamble</a><br><a href="#installation">2. Installation</a><br><a href="#field-subset-file">3. Field subset file</a><br><a href="#read-and-write-data">4. Read and write data</a><br><a href="#categorical-codes">5. Categorical codes</a><br><a href="#gp-data">6. GP data</a><br><a href="#covid-19-data">7. COVID-19 data</a><br><a href="#hes-in-patient-data">8. HES in-patient data</a><br><a href="#death-data">9. Death data</a><br><a href="#genetic-data">10. Genetic data</a></p>
+<p><span style="color:dodgerblue;"><strong>Contents:</strong></span><br><a href="#tldr">0. tldr</a><br><a href="#preamble">1. Preamble</a><br><a href="#installation">2. Installation</a><br><a href="#field-subset-file">3. Field subset file</a><br><a href="#read-and-write-data">4. Read and write data</a><br><a href="#categorical-codes">5. Categorical codes</a><br>
+[6. GP data]<br>
+[7. COVID-19 data]<br>
+[8. HES in-patient data]<br>
+[9. Death data]<br>
+[10. Genetic data]</p>
 <hr>
 <div id="tldr" class="section level3">
 <h3 class="hasAnchor">
@@ -114,9 +119,9 @@
 <p>Write a serialised R dataframe to file for your required fields.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bio_phen.html">bio_phen</a></span><span class="op">(</span>
- project_dir <span class="op">=</span> <span class="st">"&lt;path_to_project_directory&gt;"</span>,
- field <span class="op">=</span> <span class="st">"&lt;path_to_required_fields_file&gt;"</span>,  <span class="co"># one per line, no header</span>
- out <span class="op">=</span> <span class="st">"&lt;stem_of_output_file&gt;"</span>  <span class="co"># e.g. "data/ukb" writes "data/ukb.rds"</span>
+    project_dir <span class="op">=</span> <span class="st">"&lt;path_to_project_directory&gt;"</span>,
+    field <span class="op">=</span> <span class="st">"&lt;path_to_required_fields_file&gt;"</span>, <span class="co"># one per line, no header</span>
+    out <span class="op">=</span> <span class="st">"&lt;stem_of_output_file&gt;"</span> <span class="co"># e.g. "data/ukb" writes "data/ukb.rds"</span>
 <span class="op">)</span></code></pre></div>
 <p><em><strong>Note</strong>. <code>bio_phen</code> reads a withdrawal file from the project directory and replaces phenotype values for to-be-excluded samples with <code>NA</code>.</em></p>
 <p><br></p>
@@ -175,32 +180,32 @@
 <span class="fu">glimpse</span><span class="op">(</span><span class="va">f</span><span class="op">)</span>
 
 <span class="va">f</span> <span class="op">%&gt;%</span>
-<span class="fu">distinct</span><span class="op">(</span><span class="va">basket</span><span class="op">)</span></code></pre></div>
+    <span class="fu">distinct</span><span class="op">(</span><span class="va">basket</span><span class="op">)</span></code></pre></div>
 <p>Search for variables required and add their field codes to a file, one per line, no header. You can page through the file.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">f</span> <span class="op">%&gt;%</span>
-<span class="fu">select</span><span class="op">(</span><span class="va">name</span><span class="op">)</span> <span class="op">%&gt;%</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/page.html">page</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"print"</span><span class="op">)</span></code></pre></div>
+    <span class="fu">select</span><span class="op">(</span><span class="va">name</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/utils/page.html">page</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"print"</span><span class="op">)</span></code></pre></div>
 <p>Or, search <code>name</code> column</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">f</span> <span class="op">%&gt;%</span>
-<span class="fu">select</span><span class="op">(</span><span class="va">field</span>, <span class="va">name</span><span class="op">)</span> <span class="op">%&gt;%</span>
-<span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">name</span>, <span class="st">"vegetables"</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu">select</span><span class="op">(</span><span class="va">field</span>, <span class="va">name</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">name</span>, <span class="st">"vegetables"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">f</span> <span class="op">%&gt;%</span>
-<span class="fu">select</span><span class="op">(</span><span class="va">field</span>, <span class="va">name</span><span class="op">)</span> <span class="op">%&gt;%</span>
-<span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">name</span>, <span class="st">"ldl|triglycerides"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <span class="fu">select</span><span class="op">(</span><span class="va">field</span>, <span class="va">name</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">name</span>, <span class="st">"ldl|triglycerides"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Alternatively, search the <a href="http://biobank.ndph.ox.ac.uk/showcase/">UKB showcase</a> for a variable of interest then filter on the <code>field</code> column in the field-to-name dataframe (useful if multiple instances required). For example, if you search for “cholesterol medication”, the field stem you want is 6177.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">f</span> <span class="op">%&gt;%</span>
-<span class="fu">select</span><span class="op">(</span><span class="va">field</span>, <span class="va">name</span><span class="op">)</span> <span class="op">%&gt;%</span>
-<span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">field</span>, <span class="st">"6177"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <span class="fu">select</span><span class="op">(</span><span class="va">field</span>, <span class="va">name</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">field</span>, <span class="st">"6177"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><code>bio_field_add</code> is a convenience function for creating the one per line required variables/fields file. By default the function appends fields. Create the field subset file in your UKB user directory /scratch/groups/ukbiobank/Edinburgh_Data/usr/<em>&lt;username&gt;</em>/</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">f</span> <span class="op">%&gt;%</span>
-<span class="fu">select</span><span class="op">(</span><span class="va">field</span>, <span class="va">name</span><span class="op">)</span> <span class="op">%&gt;%</span>
-<span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">field</span>, <span class="st">"6177"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-<span class="fu"><a href="../reference/bio_field_add.html">bio_field_add</a></span><span class="op">(</span><span class="st">"small_field_subset.txt"</span><span class="op">)</span></code></pre></div>
+    <span class="fu">select</span><span class="op">(</span><span class="va">field</span>, <span class="va">name</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">field</span>, <span class="st">"6177"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/bio_field_add.html">bio_field_add</a></span><span class="op">(</span><span class="st">"small_field_subset.txt"</span><span class="op">)</span></code></pre></div>
 <p>Inspect the field selection file.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="st">"cat small_field_subset.txt"</span><span class="op">)</span></code></pre></div>
@@ -212,9 +217,9 @@
 <p>Read required fields and save as an rds file in your user directory. Argument <code>out</code> should be a path to your UKB user directory</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bio_phen.html">bio_phen</a></span><span class="op">(</span>
- <span class="va">project_dir</span>,
- field <span class="op">=</span> <span class="st">"small_field_subset.txt"</span>,
- out <span class="op">=</span> <span class="st">"small_phenotype_subset"</span>
+    <span class="va">project_dir</span>,
+    field <span class="op">=</span> <span class="st">"small_field_subset.txt"</span>,
+    out <span class="op">=</span> <span class="st">"small_phenotype_subset"</span>
 <span class="op">)</span></code></pre></div>
 <p><em><strong>Note</strong>. Dates in the UKB data are recorded in a variety of formats, some of which are non-standard: “character string is not in a standard unambiguous format”, e.g., 2009-01-12T11:28:56. All date variables have been left in character format for the user to convert as needed.</em></p>
 <p><br></p>
@@ -233,8 +238,8 @@
 <p>Categorical field codings are included in the field finder.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">f</span> <span class="op">%&gt;%</span>
- <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">field</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
- <span class="fu">select</span><span class="op">(</span><span class="va">field</span>, <span class="va">categorical_coding</span><span class="op">)</span></code></pre></div>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">field</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">select</span><span class="op">(</span><span class="va">field</span>, <span class="va">categorical_coding</span><span class="op">)</span></code></pre></div>
 <p>Retrieve numerical “Value” and and associated “Meaning” for each categorical code.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_code.html">bio_code</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span>
@@ -242,60 +247,61 @@
 <p>Look up a particular coding.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cx</span> <span class="op">%&gt;%</span>
- <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Coding</span> <span class="op">==</span> <span class="fl">502</span><span class="op">)</span></code></pre></div>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Coding</span> <span class="op">==</span> <span class="fl">502</span><span class="op">)</span></code></pre></div>
 <p><br></p>
 </div>
-<div id="gp-data" class="section level3">
+<div id="record-level-data" class="section level3">
 <h3 class="hasAnchor">
-<a href="#gp-data" class="anchor"></a>6. GP data</h3>
-<p>If your project has access to primary care data, retrieve the clinical, registrations, scripts datasets with <code>bio_gp</code>.</p>
+<a href="#record-level-data" class="anchor"></a>6. Record level data</h3>
+<p>To query and read record-level data, use bio_record<code>and</code>bio_record_map`.</p>
+<p>To list all record level data available for your project</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">gp_clinical</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_gp.html">bio_gp</a></span><span class="op">(</span><span class="va">project_dir</span>, <span class="st">"clinical"</span><span class="op">)</span>
-<span class="va">gp_registrations</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_gp.html">bio_gp</a></span><span class="op">(</span><span class="va">project_dir</span>, <span class="st">"registrations"</span><span class="op">)</span>
-<span class="va">gp_scripts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_gp.html">bio_gp</a></span><span class="op">(</span><span class="va">project_dir</span>, <span class="st">"scripts"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span></code></pre></div>
+<p>You can retrieve the data as a <a href="https://diskframe.com/index.html">disk.frame</a> which you can inspect with functions like <code>head</code>, <code>names</code>, etc. This data is still on disk and so does not require a large amount of memory to read into R.</p>
+<p>You can also pipe the disk.frame through dplyr verbs, e.g., for column selection and row filtering. Use <code>collect</code> to read the results from disk into an R dataframe. For example to retieve death data</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gp_scripts_diskf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span>
+
+<span class="va">gp_scripts_df</span> <span class="op">&lt;-</span> <span class="va">gp_scripts_diskf</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">drug_name</span>, <span class="st">"fluoxetine"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">select</span><span class="op">(</span><span class="va">eid</span>, <span class="va">data_provider</span>, <span class="va">issue_date</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">collect</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>Use the <code>subset</code> argument as a convenient way to read only the data for the samples you’re interested in, e.g. those with data on your phenotype of interest. This will automatically read the data into a dataframe in R - you do not need to <code>collect</code>.</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sample_subset</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">321</span>, <span class="fl">654</span>, <span class="fl">987</span><span class="op">)</span>
+
+<span class="va">gp_scripts_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span>
+    <span class="va">project_dir</span>,
+    record <span class="op">=</span> <span class="st">"gp_scripts"</span>,
+    subset <span class="op">=</span> <span class="va">sample_subset</span>
+<span class="op">)</span></code></pre></div>
 <p><br></p>
-<p>For details see UKB documentation:</p>
+<p>To inspect several records at once use <code>bio_record_map</code>, which maps a function to the data on disk without reading it into R. For example, to quickly find which variables are in which tables</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/bio_record_map.html">bio_record_map</a></span><span class="op">(</span><span class="va">project_dir</span>, func <span class="op">=</span> <span class="va">names</span><span class="op">)</span></code></pre></div>
+<p>By default the function is mapped to all record table. You can also specify the records you’re interested in</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/bio_record_map.html">bio_record_map</a></span><span class="op">(</span>
+    <span class="va">project_dir</span>,
+    func <span class="op">=</span> <span class="va">head</span>,
+    records <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gp_clinical"</span>, <span class="st">"gp_scripts"</span>, <span class="st">"gp_registrations"</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
+<p><br></p>
+<p>For GP record details see UKB documentation:</p>
 <ul>
 <li><a href="http://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=3001">Category 3001</a></li>
 <li><a href="http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=591">Resource 591: Primary Care Linked Data</a></li>
 <li><a href="http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=592">Resource 592: Clinical coding classification systems and maps</a></li>
 </ul>
 <p><br></p>
-</div>
-<div id="covid-19-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#covid-19-data" class="anchor"></a>7. COVID-19 data</h3>
-<p>If your project has access to COVID-19 data, retrieve the results with <code>bio_covid</code>.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_covid.html">bio_covid</a></span><span class="op">(</span><span class="va">project_dir</span>, <span class="st">"results"</span><span class="op">)</span></code></pre></div>
-<p>Read in the participant blood group data extracted from imputed genotype.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">covid_misc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_covid.html">bio_covid</a></span><span class="op">(</span><span class="va">project_dir</span>, <span class="st">"misc"</span><span class="op">)</span></code></pre></div>
-<p>Descriptive meanings of the numerical values used to encode the categorical variables can be retrieved with <code>data = codes</code>.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">covid_codes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_covid.html">bio_covid</a></span><span class="op">(</span><span class="va">project_dir</span>, <span class="st">"codes"</span><span class="op">)</span></code></pre></div>
-<p>For all available data see <code><a href="../reference/bio_covid.html">?bio_covid</a></code>.</p>
-<p><br></p>
-<p>For details see UKB documentation:</p>
+<p>For COVID-19 record details see UKB documentation:</p>
 <ul>
 <li><a href="http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100">Data field 40100</a></li>
 <li><a href="http://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=COVID19_tests">COVID-19 test results data</a></li>
 <li><a href="https://biobank.ndph.ox.ac.uk/ukb/refer.cgi?id=3151">Resource 3151: Primary Care (GP) Data for COVID-19 Research</a></li>
 </ul>
 <p><br></p>
-</div>
-<div id="hes-in-patient-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#hes-in-patient-data" class="anchor"></a>8. HES in-patient data</h3>
-<p>To retrieve detailed information on hospital episode statistics use <code>bio_hesin</code>.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">hesin_critical</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_hesin.html">bio_hesin</a></span><span class="op">(</span><span class="va">project_dir</span>, <span class="st">"critical"</span><span class="op">)</span>
-<span class="va">hesin_delivery</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_hesin.html">bio_hesin</a></span><span class="op">(</span><span class="va">project_dir</span>, <span class="st">"delivery"</span><span class="op">)</span>
-<span class="va">hesin_diag</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_hesin.html">bio_hesin</a></span><span class="op">(</span><span class="va">project_dir</span>, <span class="st">"diag"</span><span class="op">)</span>
-<span class="co"># etc.</span></code></pre></div>
-<p>For all available data see <code><a href="../reference/bio_hesin.html">?bio_hesin</a></code>.</p>
-<p><br></p>
-<p>For details see UKB documentation:</p>
+<p>For HES in-patient record details see UKB documentation:</p>
 <ul>
 <li><a href="https://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=2000">Category 2000</a></li>
 <li><a href="https://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=2006">Category 2006</a></li>
@@ -303,16 +309,7 @@
 <li><a href="https://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=141140">Resource 141140: HES Data Dictionary</a></li>
 </ul>
 <p><br></p>
-</div>
-<div id="death-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#death-data" class="anchor"></a>9. Death data</h3>
-<p>For data on date and cause of death (ICD10) obtained through linkage to national death registries, use <code>bio_death</code>.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">death_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_death.html">bio_death</a></span><span class="op">(</span><span class="va">project_dir</span>, <span class="st">"death"</span><span class="op">)</span>
-<span class="va">death_cause</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_death.html">bio_death</a></span><span class="op">(</span><span class="va">project_dir</span>, <span class="st">"cause"</span><span class="op">)</span></code></pre></div>
-<p><br></p>
-<p>For details see UKB documentation:</p>
+<p>For death record details see UKB documentation:</p>
 <ul>
 <li><a href="https://biobank.ctsu.ox.ac.uk/crystal/label.cgi?id=100093">Category 100093</a></li>
 <li><a href="https://biobank.ctsu.ox.ac.uk/crystal/refer.cgi?id=134993">Resource 134993: Health Outcomes Report</a></li>
@@ -321,10 +318,24 @@
 </div>
 <div id="genetic-data" class="section level3">
 <h3 class="hasAnchor">
-<a href="#genetic-data" class="anchor"></a>10. Genetic data</h3>
+<a href="#genetic-data" class="anchor"></a>7. Genetic data</h3>
 <p>For paths to the genetic data available for the project</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bio_gen_ls.html">bio_gen_ls</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span></code></pre></div>
+<p>For the genotyped data “sample information” files fam file and sample QC files</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/bio_gen_fam.html">bio_gen_fam</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span>
+<span class="fu"><a href="../reference/bio_gen_sqc.html">bio_gen_sqc</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span></code></pre></div>
+<p>Read the relatedness data into a dataframe with <code>bio_gen_related</code>. To get a dataframe of related samples to remove use <code>bio_gen_related_remove</code> - uses <a href="https://gitlab.com/choishingwan/GreedyRelated">GreedyRelated</a> with default relatedness theshold, <code>thresh = 0.044</code></p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/bio_gen_related.html">bio_gen_related</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span>
+<span class="fu"><a href="../reference/bio_gen_related_remove.html">bio_gen_related_remove</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span></code></pre></div>
+<p>To assign 1000 Genomes super population ancestry to your project-specific pseudo-IDs.</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/bio_gen_ancestry.html">bio_gen_ancestry</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span></code></pre></div>
+<p>To write a PLINK file of samples to <code>keep</code>, use <code>bio_gen_write_plink_input</code>: <code>data</code> is either a vector of samples to keep, or a dataframe with samples IDs to keep in the first column; <code>out</code> is the file path to write output file to.</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/bio_gen_write_plink_input.html">bio_gen_write_plink_input</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">out</span><span class="op">)</span></code></pre></div>
 </div>
   </div>
 

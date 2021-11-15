@@ -47,7 +47,11 @@
 
 
 <meta property="og:title" content="Reads the COVID-19 data — bio_covid" />
-<meta property="og:description" content="Record-level information for COVID-19 testing. Only
+<meta property="og:description" content="
+This function has been deprecated in favour of a single function to
+read all record-level data. Use bio_record() to retrieve data.
+Summarize/ inspect record-level data with bio_record_map().
+Record-level information for COVID-19 testing. Only
 available if these data have been requested for the particular
 project you have access to." />
 <meta property="og:image" content="/logo.png" />
@@ -82,7 +86,7 @@ project you have access to." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ukbkings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -139,7 +143,11 @@ project you have access to." />
     </div>
 
     <div class="ref-description">
-    <p>Record-level information for COVID-19 testing. Only
+    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
+<p>This function has been deprecated in favour of a single function to
+read all record-level data. Use <code><a href='bio_record.html'>bio_record()</a></code> to retrieve data.
+Summarize/ inspect record-level data with <code><a href='bio_record_map.html'>bio_record_map()</a></code>.</p>
+<p>Record-level information for COVID-19 testing. Only
 available if these data have been requested for the particular
 project you have access to.</p>
     </div>

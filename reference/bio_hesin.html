@@ -47,7 +47,11 @@
 
 
 <meta property="og:title" content="Reads record-level HES in-patient data — bio_hesin" />
-<meta property="og:description" content="Record-level hospital episode statistics (HES)
+<meta property="og:description" content="
+This function has been deprecated in favour of a single function to
+read all record-level data. Use bio_record() to retrieve data.
+Summarize/ inspect record-level data with bio_record_map().
+Record-level hospital episode statistics (HES)
 in-patient information." />
 <meta property="og:image" content="/logo.png" />
 
@@ -81,7 +85,7 @@ in-patient information." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ukbkings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -138,7 +142,11 @@ in-patient information." />
     </div>
 
     <div class="ref-description">
-    <p>Record-level hospital episode statistics (HES)
+    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
+<p>This function has been deprecated in favour of a single function to
+read all record-level data. Use <code><a href='bio_record.html'>bio_record()</a></code> to retrieve data.
+Summarize/ inspect record-level data with <code><a href='bio_record_map.html'>bio_record_map()</a></code>.</p>
+<p>Record-level hospital episode statistics (HES)
 in-patient information.</p>
     </div>
 

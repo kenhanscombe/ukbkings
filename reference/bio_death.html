@@ -47,7 +47,10 @@
 
 
 <meta property="og:title" content="Reads death records — bio_death" />
-<meta property="og:description" content="Reads death records" />
+<meta property="og:description" content="
+This function has been deprecated in favour of a single function to
+read all record-level data. Use bio_record() to retrieve data.
+Summarize/ inspect record-level data with bio_record_map()." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -80,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ukbkings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -137,7 +140,10 @@
     </div>
 
     <div class="ref-description">
-    <p>Reads death records</p>
+    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
+<p>This function has been deprecated in favour of a single function to
+read all record-level data. Use <code><a href='bio_record.html'>bio_record()</a></code> to retrieve data.
+Summarize/ inspect record-level data with <code><a href='bio_record_map.html'>bio_record_map()</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>bio_death</span><span class='op'>(</span><span class='va'>project_dir</span>, record <span class='op'>=</span> <span class='st'>"death"</span>, death_dir <span class='op'>=</span> <span class='st'>"raw/"</span><span class='op'>)</span></pre>
