@@ -20,9 +20,14 @@ A dataframe of including either the date of death, or cause
 of death.
 }
 \description{
-Reads death records
+\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
+
+This function has been deprecated in favour of a single function to
+read all record-level data. Use \code{\link[=bio_record]{bio_record()}} to retrieve data.
+Summarize/ inspect record-level data with \code{\link[=bio_record_map]{bio_record_map()}}.
 }
 \seealso{
 \href{https://biobank.ctsu.ox.ac.uk/crystal/label.cgi?id=100093}{Category 100093},
 \href{https://biobank.ctsu.ox.ac.uk/crystal/refer.cgi?id=134993}{Resource 134993}
 }
+\keyword{internal}

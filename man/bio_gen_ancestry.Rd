@@ -9,6 +9,10 @@ bio_gen_ancestry(project_dir)
 \arguments{
 \item{project_dir}{Path to the enclosing directory of a UKB project.}
 }
+\value{
+A dataframe of project-specific pseudo-IDs and 1000 Genomes super
+population
+}
 \description{
 Assigns 1000 genomes super population after ancestry-specific QC. For
 QC details, see Ollie Pain's

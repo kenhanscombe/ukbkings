@@ -1,6 +1,6 @@
 Package: ukbkings
 Title: KCL Interface to UKB Project Data on Rosalind HPC
-Version: 0.2
+Version: 0.2.1
 Authors@R: 
     person(given = "Ken",
            family = "Hanscombe",
@@ -37,9 +37,11 @@ Imports:
     assertthat,
     digest,
     processx,
-    tibble
+    tibble,
+    lifecycle
 URL: https://github.com/kenhanscombe/ukbkings
 BugReports: https://github.com/kenhanscombe/ukbkings/issues
 VignetteBuilder: knitr
 Depends: 
     R (>= 3.4)
+RdMacros: lifecycle

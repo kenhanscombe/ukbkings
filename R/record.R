@@ -33,6 +33,13 @@ bio_code <- function(code_dir = "/scratch/datasets/ukbiobank/resources") {
 
 #' Reads the primary care data
 #'
+#' #' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function has been deprecated in favour of a single function to
+#' read all record-level data. Use [bio_record()] to retrieve data.
+#' Summarize/ inspect record-level data with [bio_record_map()].
+#'
 #' Detailed patient level diagnoses, prescriptions, etc. Only available
 #' if these data have been requested for the particular project you
 #' have access to.
@@ -52,8 +59,11 @@ bio_code <- function(code_dir = "/scratch/datasets/ukbiobank/resources") {
 #' \href{http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=591}{Resource 591},
 #' \href{http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=592}{Resource 592}
 #'
+#' @keywords internal
 #' @export
 bio_gp <- function(project_dir, record, gp_dir = "raw") {
+    lifecycle::deprecate_warn("0.2.0", "bio_gp()", "bio_record()")
+
     if (length(list.files(file.path(project_dir, gp_dir), pattern = "^gp_")) != 3) {
         stop("GP data is not available for this project.", call. = FALSE)
     }
@@ -85,7 +95,14 @@ bio_gp <- function(project_dir, record, gp_dir = "raw") {
 
 #' Reads the COVID-19 data
 #'
-#' @description Record-level information for COVID-19 testing. Only
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function has been deprecated in favour of a single function to
+#' read all record-level data. Use [bio_record()] to retrieve data.
+#' Summarize/ inspect record-level data with [bio_record_map()].
+#'
+#' Record-level information for COVID-19 testing. Only
 #' available if these data have been requested for the particular
 #' project you have access to.
 #'
@@ -141,9 +158,13 @@ bio_gp <- function(project_dir, record, gp_dir = "raw") {
 #' @importFrom stringr str_replace_all
 #' @importFrom dplyr mutate case_when select arrange
 #' @importFrom purrr map_df
+#'
+#' @keywords internal
 #' @export
 bio_covid <- function(project_dir, data = "results", covid_dir = "raw/",
                       code_dir = "raw/") {
+    lifecycle::deprecate_warn("0.2.0", "bio_covid()", "bio_record()")
+
     if (!file.exists(
         file.path(project_dir, covid_dir, "covid19_result.txt")
     )) {
@@ -233,7 +254,14 @@ bio_covid <- function(project_dir, data = "results", covid_dir = "raw/",
 
 #' Reads record-level HES in-patient data
 #'
-#' @description Record-level hospital episode statistics (HES)
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function has been deprecated in favour of a single function to
+#' read all record-level data. Use [bio_record()] to retrieve data.
+#' Summarize/ inspect record-level data with [bio_record_map()].
+#'
+#' Record-level hospital episode statistics (HES)
 #' in-patient information.
 #'
 #' @param project_dir Path to the enclosing directory of a UKB project.
@@ -252,9 +280,13 @@ bio_covid <- function(project_dir, data = "results", covid_dir = "raw/",
 #' \href{https://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=141140}{Resource 141140}
 #'
 #' @importFrom data.table fread
+#'
+#' @keywords internal
 #' @export
 bio_hesin <- function(project_dir, record, hesin_dir = "raw/") {
     if (record == "critical") {
+        lifecycle::deprecate_warn("0.2.0", "bio_hesin()", "bio_record()")
+
         df <- data.table::fread(
             file.path(project_dir, hesin_dir, "hesin_critical.txt"),
             header = TRUE, data.table = FALSE
@@ -308,6 +340,13 @@ bio_hesin <- function(project_dir, record, hesin_dir = "raw/") {
 
 #' Reads death records
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function has been deprecated in favour of a single function to
+#' read all record-level data. Use [bio_record()] to retrieve data.
+#' Summarize/ inspect record-level data with [bio_record_map()].
+#'
 #' @param project_dir Path to the enclosing directory of a UKB project.
 #' @param record A string specifying which death data are required:
 #' "death" (default) includes date of death, "cause" includes ICD-10
@@ -322,9 +361,13 @@ bio_hesin <- function(project_dir, record, hesin_dir = "raw/") {
 #' \href{https://biobank.ctsu.ox.ac.uk/crystal/refer.cgi?id=134993}{Resource 134993}
 #'
 #' @importFrom data.table fread
+#'
+#' @keywords internal
 #' @export
 bio_death <- function(project_dir, record = "death", death_dir = "raw/") {
     if (record == "death") {
+        lifecycle::deprecate_warn("0.2.0", "bio_death()", "bio_record()")
+
         df <- data.table::fread(
             file.path(project_dir, death_dir, "death.txt"),
             header = TRUE, data.table = FALSE
@@ -402,7 +445,7 @@ bio_record <- function(project_dir, record = NULL, subset = NULL) {
 #' @seealso [ukbkings::bio_record]
 #' @export
 bio_record_map <- function(project_dir, func, records = "all") {
-    if (records == "all") {
+    if (records[1] == "all") {
         records <- bio_record(project_dir)
     }
     purrr::map(

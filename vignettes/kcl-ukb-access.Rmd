@@ -9,11 +9,11 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  eval = FALSE,
-  echo = TRUE,
-  message = FALSE
+    collapse = TRUE,
+    comment = "#>",
+    eval = FALSE,
+    echo = TRUE,
+    message = FALSE
 )
 
 requireNamespace("devtools", quietly = TRUE)
@@ -60,9 +60,9 @@ devtools::install_github("kenhanscombe/ukbkings", dependencies = TRUE, force = T
 Write a serialised R dataframe to file for your required fields.
 ```{R}
 bio_phen(
- project_dir = "<path_to_project_directory>",
- field = "<path_to_required_fields_file>",  # one per line, no header
- out = "<stem_of_output_file>"  # e.g. "data/ukb" writes "data/ukb.rds"
+    project_dir = "<path_to_project_directory>",
+    field = "<path_to_required_fields_file>", # one per line, no header
+    out = "<stem_of_output_file>" # e.g. "data/ukb" writes "data/ukb.rds"
 )
 ```
 
@@ -156,26 +156,26 @@ head(f)
 glimpse(f)
 
 f %>%
-distinct(basket)
+    distinct(basket)
 ```
 
 Search for variables required and add their field codes to a file, one
 per line, no header. You can page through the file.
 ```{R}
 f %>%
-select(name) %>%
-page(method = "print")
+    select(name) %>%
+    page(method = "print")
 ```
 
 Or, search `name` column
 ```{R}
 f %>%
-select(field, name) %>%
-filter(str_detect(name, "vegetables"))
+    select(field, name) %>%
+    filter(str_detect(name, "vegetables"))
 
 f %>%
-select(field, name) %>%
-filter(str_detect(name, "ldl|triglycerides"))
+    select(field, name) %>%
+    filter(str_detect(name, "ldl|triglycerides"))
 ```
 
 Alternatively, search the
@@ -185,8 +185,8 @@ dataframe (useful if multiple instances required). For example, if you
 search for "cholesterol medication", the field stem you want is 6177.
 ```{R}
 f %>%
-select(field, name) %>%
-filter(str_detect(field, "6177"))
+    select(field, name) %>%
+    filter(str_detect(field, "6177"))
 ```
 
 `bio_field_add` is a convenience function for creating the one per line
@@ -195,9 +195,9 @@ Create the field subset file in your UKB user directory
 /scratch/groups/ukbiobank/Edinburgh_Data/usr/*\<username\>*/
 ```{R}
 f %>%
-select(field, name) %>%
-filter(str_detect(field, "6177")) %>%
-bio_field_add("small_field_subset.txt")
+    select(field, name) %>%
+    filter(str_detect(field, "6177")) %>%
+    bio_field_add("small_field_subset.txt")
 ```
 
 Inspect the field selection file.
@@ -213,9 +213,9 @@ Read required fields and save as an rds file in your user directory.
 Argument `out` should be a path to your UKB user directory
 ```{r}
 bio_phen(
- project_dir,
- field = "small_field_subset.txt",
- out = "small_phenotype_subset"
+    project_dir,
+    field = "small_field_subset.txt",
+    out = "small_phenotype_subset"
 )
 ```
 
@@ -246,8 +246,8 @@ df <- bio_rename(df, f)
 Categorical field codings are included in the field finder.
 ```{R}
 f %>%
- filter(field %in% names(df)) %>%
- select(field, categorical_coding)
+    filter(field %in% names(df)) %>%
+    select(field, categorical_coding)
 ```
 
 Retrieve numerical "Value" and and associated "Meaning" for each
@@ -260,24 +260,74 @@ head(cx)
 Look up a particular coding.
 ```{R}
 cx %>%
- filter(Coding == 502)
+    filter(Coding == 502)
 ```
 
 <br>
 
-### 6. GP data
+### 6. Record level data
 
-If your project has access to primary care data, retrieve the clinical,
-registrations, scripts datasets with `bio_gp`.
+To query and read record-level data, use bio_record` and
+`bio_record_map`.
+
+To list all record level data available for your project
+```{r}
+bio_record(project_dir)
+```
+
+You can retrieve the data as a [disk.frame](https://diskframe.com/index.html)
+which you can inspect with functions like `head`, `names`, etc. This
+data is still on disk and so does not require a large amount of
+memory to read into R.
+
+You can also pipe the disk.frame through dplyr verbs, e.g., for column
+selection and row filtering. Use `collect` to read the results from disk
+into an R dataframe. For example to retieve death data
+```{r}
+gp_scripts_diskf <- bio_record(project_dir, record = "gp_scripts")
+
+gp_scripts_df <- gp_scripts_diskf %>%
+    filter(str_detect(drug_name, "fluoxetine")) %>%
+    select(eid, data_provider, issue_date) %>%
+    collect()
+```
+
+Use the `subset` argument as a convenient way to read only the data for
+the samples you're interested in, e.g. those with data on your phenotype
+of interest. This will automatically read the data into a dataframe in
+R - you do not need to `collect`.
 ```{R}
-gp_clinical <- bio_gp(project_dir, "clinical")
-gp_registrations <- bio_gp(project_dir, "registrations")
-gp_scripts <- bio_gp(project_dir, "scripts")
+sample_subset <- c(321, 654, 987)
+
+gp_scripts_df <- bio_record(
+    project_dir,
+    record = "gp_scripts",
+    subset = sample_subset
+)
 ```
 
 <br>
 
-For details see UKB documentation:
+To inspect several records at once use `bio_record_map`, which maps a
+function to the data on disk without reading it into R. For example,
+to quickly find which variables are in which tables
+```{R}
+bio_record_map(project_dir, func = names)
+```
+
+By default the function is mapped to all record table. You can also
+specify the records you're interested in 
+```{R}
+bio_record_map(
+    project_dir,
+    func = head,
+    records = c("gp_clinical", "gp_scripts", "gp_registrations")
+)
+```
+
+<br>
+
+For GP record details see UKB documentation:
 
 * [Category 3001](http://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=3001)
 * [Resource 591: Primary Care Linked Data](http://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=591)
@@ -285,31 +335,7 @@ For details see UKB documentation:
 
 <br>
 
-### 7. COVID-19 data
-
-If your project has access to COVID-19 data, retrieve the results with
-`bio_covid`.
-```{R}
-covid <- bio_covid(project_dir, "results")
-```
-
-Read in the participant blood group data extracted from imputed
-genotype.
-```{r}
-covid_misc <- bio_covid(project_dir, "misc")
-```
-
-Descriptive meanings of the numerical values used to encode the
-categorical variables can be retrieved with `data = codes`.
-```{R}
-covid_codes <- bio_covid(project_dir, "codes")
-```
-
-For all available data see `?bio_covid`.
-
-<br>
-
-For details see UKB documentation:
+For COVID-19 record details see UKB documentation:
 
 * [Data field 40100](http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100)
 * [COVID-19 test results data](http://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=COVID19_tests)
@@ -317,22 +343,7 @@ For details see UKB documentation:
 
 <br>
 
-### 8. HES in-patient data
-
-To retrieve detailed information on hospital episode statistics use
-`bio_hesin`.
-```{r}
-hesin_critical <- bio_hesin(project_dir, "critical")
-hesin_delivery <- bio_hesin(project_dir, "delivery")
-hesin_diag <- bio_hesin(project_dir, "diag")
-# etc.
-```
-
-For all available data see `?bio_hesin`.
-
-<br>
-
-For details see UKB documentation:
+For HES in-patient record details see UKB documentation:
 
 * [Category 2000](https://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=2000)
 * [Category 2006](https://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=2006)
@@ -341,27 +352,50 @@ For details see UKB documentation:
 
 <br>
 
-### 9. Death data
-
-For data on date and cause of death (ICD10) obtained through linkage to
-national death registries, use `bio_death`.
-```{r}
-death_date <- bio_death(project_dir, "death")
-death_cause <- bio_death(project_dir, "cause")
-```
-
-<br>
-
-For details see UKB documentation:
+For death record details see UKB documentation:
 
 * [Category 100093](https://biobank.ctsu.ox.ac.uk/crystal/label.cgi?id=100093)
 * [Resource 134993: Health Outcomes Report](https://biobank.ctsu.ox.ac.uk/crystal/refer.cgi?id=134993)
 
 <br>
 
-### 10. Genetic data
+
+### 7. Genetic data
 
 For paths to the genetic data available for the project
 ```{r}
 bio_gen_ls(project_dir)
+```
+
+For the genotyped data "sample information" files fam file and sample QC files
+
+```{r}
+bio_gen_fam(project_dir)
+bio_gen_sqc(project_dir)
+```
+
+
+Read the relatedness data into a dataframe with `bio_gen_related`. To
+get a dataframe of related samples to remove use
+`bio_gen_related_remove` - uses [GreedyRelated](https://gitlab.com/choishingwan/GreedyRelated)
+with default relatedness theshold, `thresh = 0.044`
+```{r}
+bio_gen_related(project_dir)
+bio_gen_related_remove(project_dir)
+```
+
+To assign 1000 Genomes super population ancestry to your project-specific
+pseudo-IDs.
+
+```{r}
+bio_gen_ancestry(project_dir)
+```
+
+To write a PLINK file of samples to `keep`, use
+`bio_gen_write_plink_input`: `data` is either a vector of samples to
+keep, or a dataframe with samples IDs to keep in the first column; `out`
+is the file path to write output file to.
+
+```{r}
+bio_gen_write_plink_input(data, out)
 ```

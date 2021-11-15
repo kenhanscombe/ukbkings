@@ -25,6 +25,12 @@ blood group, or codes associated with fields in the results
 dataframe, depending on the value of argument \code{data}.
 }
 \description{
+\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
+
+This function has been deprecated in favour of a single function to
+read all record-level data. Use \code{\link[=bio_record]{bio_record()}} to retrieve data.
+Summarize/ inspect record-level data with \code{\link[=bio_record_map]{bio_record_map()}}.
+
 Record-level information for COVID-19 testing. Only
 available if these data have been requested for the particular
 project you have access to.
@@ -64,3 +70,4 @@ Primary Care Data for COVID-19 Research.
 \href{http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=40100}{Data field 40100},
 \href{http://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=COVID19_tests}{COVID-19 test results data}
 }
+\keyword{internal}
