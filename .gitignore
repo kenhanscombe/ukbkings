@@ -11,3 +11,9 @@ Meta
 
 # Python byte-compiled / optimized / DLL files
 __pycache__/
+
+# Local pkgdown directories for test site builds
+docs/
+articles/
+/doc/
+/Meta/
