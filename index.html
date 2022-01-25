@@ -31,6 +31,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -43,18 +45,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ukbkings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -68,6 +64,9 @@
 <li>
       <a href="articles/kcl-ukb-access.html">Access UKB data on Rosalind</a>
     </li>
+    <li>
+      <a href="articles/primary-care-prescriptions.html">Using UKB primary care prescription data</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -76,7 +75,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/kenhanscombe/ukbkings/">
+  <a href="https://github.com/kenhanscombe/ukbkings/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -93,29 +92,28 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="ukbkings-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#ukbkings-" class="anchor"></a>ukbkings <img src="reference/figures/logo.png" align="right" alt="" width="123.5">
+<div class="section level1">
+<div class="page-header"><h1 id="ukbkings-">ukbkings <img src="reference/figures/logo.png" align="right" alt="" width="123.5"><a class="anchor" aria-label="anchor" href="#ukbkings-"></a>
 </h1></div>
 <!-- badges: start -->
 
 <p><strong>Important: This package is a KCL R interface to UKB data on Rosalind. It is only useful for UKB-approved KCL reasearchers and their collaborators, with an account on the Rosalind HPC cluster.</strong></p>
-<div id="overview" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h2>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
 <p>The ukbkings package includes functions to access UK Biobank (UKB) project data on the Rosalind High Performance Computing (HPC) cluster, for UKB-approved King’s College London (KCL) researchers and collaborators. Access to data for a particular project is restricted to named collaborators on the project.</p>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>Install this development version from github with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"kenhanscombe/ukbkings"</span>, dependencies <span class="op">=</span> <span class="cn">TRUE</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"kenhanscombe/ukbkings"</span>, dependencies <span class="op">=</span> <span class="cn">TRUE</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="project-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#project-data" class="anchor"></a>Project data</h2>
-<p>Project-specific data are in /scratch/datasets/ukbiobank/&lt;<em>project_dir</em>&gt;/. The structure of a project directory setup for use with ukbkings is documented in the project setup tool, <a href="https://github.com/kenhanscombe/ukbproject">ukbproject</a>. This is mainly intended for project owners/ managers. Access to project data for individual researchers is described in the <strong>Access UKB data on Rosalind</strong> article.</p>
+<div class="section level2">
+<h2 id="project-data">Project data<a class="anchor" aria-label="anchor" href="#project-data"></a>
+</h2>
+<p>Project-specific data are in /scratch/datasets/ukbiobank/&lt;<em>project_dir</em>&gt;/. The structure of a project directory setup for use with ukbkings is documented in the project setup tool, <a href="https://github.com/kenhanscombe/ukbproject" class="external-link">ukbproject</a>. This is mainly intended for project owners/ managers. Access to project data for individual researchers is described in the <strong>Access UKB data on Rosalind</strong> article.</p>
 <p><strong>Note. Any additional downloads (e.g. data baskets and associated keys, data downloads from the UKB data portal) should be stored in the subdirectory raw/. (Do not create further subdirectories within this folder)</strong></p>
 </div>
 </div>
@@ -123,46 +121,57 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/kenhanscombe/ukbkings/">https://​github.com/​kenhanscombe/​ukbkings/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/kenhanscombe/ukbkings/issues">https://​github.com/​kenhanscombe/​ukbkings/​issues</a>
-</li>
+<li><a href="https://github.com/kenhanscombe/ukbkings/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/kenhanscombe/ukbkings/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing ukbkings</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Ken Hanscombe <br><small class="roles"> Author, maintainer </small>  </li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle: maturing"></a></li>
-<li><a href="https://codecov.io/gh/kenhanscombe/ukbkings"><img src="https://codecov.io/gh/kenhanscombe/ukbkings/branch/master/graph/badge.svg?token=90dtoi0RvG" alt="codecov"></a></li>
-<li><a href="https://github.com/kenhanscombe/ukbkings/actions"><img src="https://github.com/kenhanscombe/ukbkings/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#maturing" class="external-link"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle: maturing"></a></li>
+<li><a href="https://codecov.io/gh/kenhanscombe/ukbkings" class="external-link"><img src="https://codecov.io/gh/kenhanscombe/ukbkings/branch/master/graph/badge.svg?token=90dtoi0RvG" alt="codecov"></a></li>
+<li><a href="https://github.com/kenhanscombe/ukbkings/actions" class="external-link"><img src="https://github.com/kenhanscombe/ukbkings/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Ken Hanscombe.</p>
+  <p></p>
+<p>Developed by Ken Hanscombe.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -170,6 +179,8 @@
 
   
 
+
+  
 
   </body>
 </html>
