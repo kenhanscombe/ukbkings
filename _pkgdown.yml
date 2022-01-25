@@ -27,11 +27,6 @@ reference:
   contents:
   - '`bio_record`'
   - '`bio_record_map`'
-  - '`bio_gp`'
-  - '`bio_covid`'
-  - '`bio_hesin`'
-  - '`bio_death`'
-
 
 - title: Query genetic data
   desc: >
@@ -40,5 +35,16 @@ reference:
   - '`bio_gen_ls`'
   - '`bio_gen_fam`'
   - '`bio_gen_related`'
+  - '`bio_gen_related_remove`'
   - '`bio_gen_sqc`'
   - '`bio_gen_ancestry`'
+  - '`bio_gen_write_plink_input`'
+
+- title: Deprecated functionality
+  desc: >
+    Deprecated functions.
+  contents:
+  - '`bio_gp`'
+  - '`bio_covid`'
+  - '`bio_hesin`'
+  - '`bio_death`'
