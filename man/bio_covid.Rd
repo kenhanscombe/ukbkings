@@ -25,7 +25,7 @@ blood group, or codes associated with fields in the results
 dataframe, depending on the value of argument \code{data}.
 }
 \description{
-\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 This function has been deprecated in favour of a single function to
 read all record-level data. Use \code{\link[=bio_record]{bio_record()}} to retrieve data.

@@ -20,7 +20,7 @@ A dataframe of including either the date of death, or cause
 of death.
 }
 \description{
-\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 This function has been deprecated in favour of a single function to
 read all record-level data. Use \code{\link[=bio_record]{bio_record()}} to retrieve data.
