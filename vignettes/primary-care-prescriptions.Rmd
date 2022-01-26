@@ -15,11 +15,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(ukbkings)
-```
-
-## Query prescription data
 
 UKB medication presciption data are included in the
 [Primary Care Linked data](https://biobank.ndph.ox.ac.uk/showcase/showcase/docs/primary_care_data.pdf),
@@ -28,58 +23,86 @@ explored online with SQL queries, the results of which can be
 downloaded, or the full table can be downloaded. We have downloaded
 the full table and converted it to an R disk.frame using ukbproject for
 fast local queries with ukbkings `bio_record` and `bio_record_map`.
+(See the article [Access UKB data on Rosalind](https://kenhanscombe.github.io/ukbkings/articles/kcl-ukb-access.html#record-level-data)
+for a detailed description of the use of these functions to query all
+record-level data)
+
+***
+
+<span style="color:dodgerblue;">**Contents:**</span>  
+[1. Query prescription data]  
+    [1.1 Medication codes]  
+[2. Retrieve antidepressant prescriptions]  
+[3. Other medication reference data]  
+[4. Resources]
+
+***
+
+<br>
+
+## 1. Query prescription data
 
 `bio_record` returns a diskframe, an object which can be queried without
 reading the data into R.
 
 ```{r}
+library(ukbkings)
+
 project_dir <- "<path_to_project_directory>"
 
 scripts_diskf <- bio_record(project_dir, record = "gp_scripts")
-
-glimpse(scripts_diskf)
+head(scripts_diskf)
 ```
 
 
-Apply dplyr verbs to subset rows and columns as required and `collect`
-to read the data into R as a dataframe.
 
-```{r filter}
-scripts <- gp_scripts_diskf %>%
-    filter(str_detect(drug_name, "fluoxetine")) %>%
-    select(eid, data_provider, issue_date) %>%
-    collect()
-```
+### 1.1 Medication codes
+
+| code | meaning |
+|---|---|
+| bnf_code | British National Formulary (BNF) is a reference book containing the standard list of medicines used in UK |
+| dmd_code | Dictionary of Medicines and Devices (dm+d), the catalogue of things that can be prescribed in the NHS |
+| read_2 | Read Codes (version 2 (v2)) are a coded thesaurus of clinical terms (used in the NHS since 1985). There is also a version 3 (CTV3 or v3)  |
 
 
-To extract data for a only a subset of samples use the `subset`
-argument to `bio_record` which will now return a dataframe. __Note__.
-You do not need to `collect` when using the `subset` argument.
-(Additional row and column filtering can be applied as above)
+__BNF code:__
 
-```{r sample subset}
-sample_subset <- c(321, 654, 987)
+UKB captures only the first few pieces of BNF code information:
+Chapter.Section.Paragraph.Sub-paragraph.Chemical substance, e.g.,
+04.03.01 tricyclic and related antidepressants,
+04.03.02 monoamine-oxidase inhibitors, etc. Chapter 4, section 3
+corresponds to antidepressant drugs.
 
-scripts <- bio_record(
-    project_dir,
-    record = "gp_scripts",
-    subset = sample_subset
-)
-```
+__BNF Chapter 4: Central Nervous System__
 
+- 4.1: Hypnotics and anxiolytics
+- 4.2: Drugs used in psychoses and related disorders
+- __4.3: Antidepressant drugs__
+    - __4.3.1: Tricyclic and related antidepressant drugs__
+    - __4.3.2: Monoamine-oxidase inhibitors (maois)__
+    - __4.3.3: Selective serotonin re-uptake inhibitors__
+    - __4.3.4: Other antidepressant drugs__
+- 4.4: CNS stimulants and drugs used for ADHD
+- 4.5: Drugs used in the treatment of obesity
+- 4.6: Drugs used in nausea and vertigo
+- 4.7: Analgesics
+- 4.8: Antiepileptic drugs
+- 4.9: Drugs used in parkinsonism and related disorders
+- 4.10: Drugs used in substance dependence
+- 4.11: Drugs for dementia
 
 ***
 
+<br>
 
-## Retrieve antidepressant prescriptions
+## 2. Retrieve antidepressant prescriptions
 
 Described below is a ukbkings implementation of the extraction performed
 by [Fabbri et al. (2021) Genetic and clinical characteristics of
 treatment-resistant depression using primary care records in two UK
-cohorts](). (See the original paper's [code for treatment-resistant
-depression phenotype derivation, as well as antidepressant
-extraction](https://github.com/chiarafabbri/MDD_TRD_study/blob/master/scripts/extract_diagn_ADs_TRD_pheno.R))
-
+cohorts](https://pubmed.ncbi.nlm.nih.gov/33753889/). (See the original
+paper's [code for treatment-resistant depression phenotype derivation,
+as well as antidepressant extraction](https://github.com/chiarafabbri/MDD_TRD_study/blob/master/scripts/extract_diagn_ADs_TRD_pheno.R))
 
 To extract all antidepressant prescriptions
 
@@ -87,6 +110,7 @@ To extract all antidepressant prescriptions
 antidep_prescriptions <- bio_med(project_dir, chapter = "antidepressants")
 ```
 
+<br>
 
 This is equivalent to
 
@@ -110,56 +134,23 @@ read2_antidep_prescriptions <- bio_record(project_dir, record = "gp_scripts") %>
     filter()
 ```
 
-
-### Medication codes
-
-| code | meaning |
-|---|---|
-| bnf_code | British National Formulary (BNF) is a reference book containing the standard list of medicines used in UK |
-| dmd_code | Dictionary of Medicines and Devices (dm+d), the catalogue of things that can be prescribed in the NHS |
-| read_2 | Read Codes (version 2 (v2)) are a coded thesaurus of clinical terms (used in the NHS since 1985). There is also a version 3 (CTV3 or v3)  |
-
-
-#### BNF code
-
-UKB captures only the first few pieces of BNF code information:
-Chapter.Section.Paragraph.Sub-paragraph.Chemical substance, e.g.,
-04.03.01 tricyclic and related antidepressants,
-04.03.02 monoamine-oxidase inhibitors, etc.
-
-__BNF Chapter 4: Central Nervous System__
-
-- 4.1: Hypnotics and anxiolytics
-- 4.2: Drugs used in psychoses and related disorders
-- __4.3: Antidepressant drugs__
-    - __4.3.1: Tricyclic and related antidepressant drugs__
-    - __4.3.2: Monoamine-oxidase inhibitors (maois)__
-    - __4.3.3: Selective serotonin re-uptake inhibitors__
-    - __4.3.4: Other antidepressant drugs__
-- 4.4: CNS stimulants and drugs used for ADHD
-- 4.5: Drugs used in the treatment of obesity
-- 4.6: Drugs used in nausea and vertigo
-- 4.7: Analgesics
-- 4.8: Antiepileptic drugs
-- 4.9: Drugs used in parkinsonism and related disorders
-- 4.10: Drugs used in substance dependence
-- 4.11: Drugs for dementia
-
+<br>
 
 ### Medication dose
 
+<br>
 
-## Other medication reference data
+## 3. Other medication reference data
 
 |data|source|
 |---|---|
-| meds_pharmgkb | PharmGKB curated drug list (​https://www.pharmgkb.org/downloads​, drugs.zip) |
-| meds_gwas | ukb.gwas.medication.supplementary.data.1.xlsx - Genome-wide association study of medication-use and associated disease in the UK Biobank, Nature Communications |
-| meds_dmd_antidep | A curated list of dm+d antidepressant drug names from Fabbri et al. |
-| meds_ukb | Nested dataframe of UKB primary care drug coding maps |
+| drug_pharmgkb | PharmGKB curated drug list (​https://www.pharmgkb.org/downloads​, drugs.zip) |
+| drug_gwas | ukb.gwas.medication.supplementary.data.1.xlsx - Genome-wide association study of medication-use and associated disease in the UK Biobank, Nature Communications |
+| drug_dmd_antidep | A curated list of dm+d antidepressant drug names from Fabbri et al. |
+| drug_ukb | Nested dataframe of UKB primary care drug coding maps |
 
 
-## Resources
+## 4. Resources
 
 - https://openprescribing.net/bnf/
 - https://www.thedatalab.org/blog/161/prescribing-data-bnf-codes/
