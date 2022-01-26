@@ -21,7 +21,7 @@ rows and 8 columns; registrations data has 361,841 rows and 4
 columns; scripts data has 57,709,810 rows and 8 columns.
 }
 \description{
-\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 This function has been deprecated in favour of a single function to
 read all record-level data. Use \code{\link[=bio_record]{bio_record()}} to retrieve data.
