@@ -97,7 +97,7 @@ __BNF Chapter 4: Central Nervous System__
 
 ## 2. Retrieve antidepressant prescriptions
 
-Described below is a ukbkings implementation of the extraction performed
+This is a ukbkings implementation of the extraction performed
 by [Fabbri et al. (2021) Genetic and clinical characteristics of
 treatment-resistant depression using primary care records in two UK
 cohorts](https://pubmed.ncbi.nlm.nih.gov/33753889/). (See the original
@@ -117,21 +117,26 @@ This is equivalent to
 ```{r}
 # Antidepressant prescriptions
 
-# Replace with one filter with bnf OR dmd OR read2 code, or
-
 # Search by BNF code
 bnf_antidep_prescriptions <- bio_record(project_dir, record = "gp_scripts") %>%
     filter(str_detect(bnf_code, "^04\\.?03\\.?0[1-4]")) %>%
     collect() %>%
     distinct()
 
-# Search by dm+d code
-dmd_antidep_prescriptions <- bio_record(project_dir, record = "gp_scripts") %>%
-    filter()
-
-# Search by Read 2 code
+# (TO BE COMPLETED) Search by Read 2 code
 read2_antidep_prescriptions <- bio_record(project_dir, record = "gp_scripts") %>%
-    filter()
+    filter() %>%
+    collect()
+
+# Search for remaining antidepressant prescriptions (captured by dm+d code?)
+antidep_rgx <- str_c("^", drug_dmd_antidep$dmd_name) %>%
+    str_c(collapse = "|") %>%
+    regex(ignore_case = TRUE)
+
+other_antidep_prescriptions <- bio_record(project_dir, record = "gp_scripts") %>%
+    filter(str_detect(drug_name, antidep_rgx)) %>%
+    collect() %>%
+    distinct()
 ```
 
 <br>
@@ -152,7 +157,12 @@ read2_antidep_prescriptions <- bio_record(project_dir, record = "gp_scripts") %>
 
 ## 4. Resources
 
+__NHS prescription drugs__
 - https://openprescribing.net/bnf/
 - https://www.thedatalab.org/blog/161/prescribing-data-bnf-codes/
 - https://digital.nhs.uk/services/terminology-and-classifications/read-codes
 - https://digital.nhs.uk/data-and-information/areas-of-interest/prescribing/practice-level-prescribing-in-england-a-summary
+
+__ATC codes__
+- https://ec.europa.eu/health/documents/community-register/html/reg_hum_atc.htm
+- https://bioportal.bioontology.org/ontologies/ATC/?p=summary
