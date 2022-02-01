@@ -38,7 +38,6 @@
 
 devtools::load_all("/scratch/datasets/ukbiobank/ukbkings")
 library(readxl)
-library(rvest)
 
 project_dir <- "/scratch/datasets/ukbiobank/ukb56514"
 
@@ -57,66 +56,11 @@ primary_care_xlsx <- "primarycare_codings/all_lkps_maps_v3.xlsx"
 #  [8] "read_v2_lkp"       "read_v2_drugs_lkp" "read_v2_drugs_bnf" "read_v2_icd9"      "read_v2_icd10"     "read_v2_opcs4"     "read_v2_read_ctv3"
 # [15] "read_ctv3_lkp"     "read_ctv3_icd9"    "read_ctv3_icd10"   "read_ctv3_opcs4"   "read_ctv3_read_v2"
 
-read_v2_drugs_lkp <- read_xlsx(primary_care_xlsx, sheet = "read_v2_drugs_lkp")
-read_v2_drugs_bnf <- read_xlsx(primary_care_xlsx, sheet = "read_v2_drugs_bnf")
-dmd_lkp <- read_xlsx(primary_care_xlsx, sheet = "dmd_lkp")
-
-# dm+d codes from Chiara's drug list
-dmd_names <- c(
-    "agomelatine", "allegron", "alventa", "amfebutamone", "amitriptyline",
-    "amoxapine", "amphero", "anafranil", "apclaven", "asendis", "bolvidon",
-    "bonilux", "brintellix", "bupropion", "butriptyline", "cipralex",
-    "cipramil", "citalopram", "clomipramine", "cymbalta", "dapoxetine",
-    "defanyl", "depalta", "depefex", "desipramine", "domical", "dosulepin",
-    "dothapax", "dothiepin", "doxepin", "duciltia", "duloxetine", "dutonin",
-    "dutor", "edronax", "efexor", "escitalopram", "faverin", "felicium",
-    "feprapax", "fetzima", "fluanxol", "fluoxetine", "flupenthixol",
-    "flupentixol", "fluvoxamine", "gamanil", "imipramine", "iprindole",
-    "iproniazid", "isocarboxazid", "lentizol", "levomilnacipran", "lofepramine",
-    "loferpramine", "lomont", "ludiomil", "lustral", "majoven", "manerix",
-    "maprotiline", "marplan", "mianserin", "milnacipran", "mirtazapine",
-    "mirtazepine", "mirtazipine", "moclobemide", "molipaxin", "motipress",
-    "motival", "nardil", "nefazodone", "nortriptyline", "norval", "olena",
-    "optimax", "oxactin", "parnate", "paroxetine", "parstelin", "perphenazine",
-    "phenelzine", "politid", "prepadine", "priligy", "prothiaden",
-    "protriptyline", "prozac", "prozep", "ranfaxine", "ranflutin",
-    "reboxetine", "rodomel", "seroxat", "sertraline", "sinepin", "sinequan",
-    "sunveniz", "surmontil", "tardcaps", "thaden", "tifaxin", "tofranil",
-    "tonpular", "tranylcypromine", "trazadone", "trazodone", "trimipramine",
-    "triptafen", "triptafen-m", "trixat", "tryptizol", "tryptophan", "valdoxan",
-    "vaxalin", "venaxx", "vencarm", "venlablue", "venladex", "venlafaxin",
-    "venlafaxine", "venlalic", "venlaneo", "venlasov", "vensir", "venzip",
-    "vexarin", "viepax", "viloxazine", "vivactil", "vivalan", "vortioxetine",
-    "winfex", "yentreve", "zispin", "zyban"
-)
-
-# ==
-# NHS dm+d browser
-# https://services.nhsbsa.nhs.uk/dmd-browser/
-# Code lookup by BNF Chapter 0403: https://services.nhsbsa.nhs.uk/dmd-browser/code-lookup
-
-chr_from_dmd_html_table <- function(url, page) {
-    html <- str_interp(url, list(page = page)) %>%
-        read_html()
-
-    html %>%
-        html_table() %>%
-        .[[1]] %>%
-        .[[1]] %>%
-        str_replace("null \n                  ", "") %>%
-        word(1) %>%
-        tolower()
-}
-
-dmd_url <- "https://services.nhsbsa.nhs.uk/dmd-browser/code-lookup/results?code=0403&codeType=BNF&size=20&sortOrder=rel&page=${page}"
-dmd_anti_dep <- map(1:4, ~ chr_from_dmd_html_table(dmd_url, page = .)) %>%
-    reduce(c) %>%
-    unique()
 
 
 # ATC codes for antidepressants
 # https://bmjopen.bmj.com/content/suppl/2013/09/20/bmjopen-2013-003507.DC1/bmjopen-2013-003507supp.pdf
-# ==
+
 
 
 # Antidepressant prescriptions
@@ -127,8 +71,14 @@ bnf_antidep_prescriptions <- bio_record(project_dir, record = "gp_scripts") %>%
     collect() %>%
     distinct()
 
+dmd_rgx <- str_c("^", drug_dmd_antidep$dmd_name) %>%
+    str_c(collapse = "|") %>%
+    regex(ignore_case = TRUE)
+
 dmd_antidep_prescriptions <- bio_record(project_dir, record = "gp_scripts") %>%
-    filter()
+    filter(str_detect(drug_name, dmd_rgx)) %>%
+    collect() %>%
+    distinct()
 
 read2_antidep_prescriptions <- bio_record(project_dir, record = "gp_scripts") %>%
     filter()
