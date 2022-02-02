@@ -98,64 +98,24 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kenhanscombe/ukbkings" class="external-link">ukbkings</a></span><span class="op">)</span></code></pre></div>
+<p>UKB medication presciption data are included in the <a href="https://biobank.ndph.ox.ac.uk/showcase/showcase/docs/primary_care_data.pdf" class="external-link">Primary Care Linked data</a>, accessed through the UKB Data Portal. The data can be explored online with SQL queries, the results of which can be downloaded, or the full table can be downloaded. We have downloaded the full table and converted it to an R disk.frame using ukbproject for fast local queries with ukbkings <code>bio_record</code> and <code>bio_record_map</code>. (See the article <a href="https://kenhanscombe.github.io/ukbkings/articles/kcl-ukb-access.html#record-level-data" class="external-link">Access UKB data on Rosalind</a> for a detailed description of the use of these functions to query all record-level data)</p>
+<hr>
+<p><span style="color:dodgerblue;"><strong>Contents:</strong></span><br><a href="#query-prescription-data">1. Query prescription data</a><br><a href="#medication-codes">1.1 Medication codes</a><br><a href="#retrieve-antidepressant-prescriptions">2. Retrieve antidepressant prescriptions</a><br><a href="#other-medication-reference-data">3. Other medication reference data</a><br><a href="#resources">4. Resources</a></p>
+<hr>
+<p><br></p>
 <div class="section level2">
-<h2 id="query-prescription-data">Query prescription data<a class="anchor" aria-label="anchor" href="#query-prescription-data"></a>
+<h2 id="query-prescription-data">1. Query prescription data<a class="anchor" aria-label="anchor" href="#query-prescription-data"></a>
 </h2>
-<p>UKB medication presciption data are included in the <a href="https://biobank.ndph.ox.ac.uk/showcase/showcase/docs/primary_care_data.pdf" class="external-link">Primary Care Linked data</a>, accessed through the UKB Data Portal. The data can be explored online with SQL queries, the results of which can be downloaded, or the full table can be downloaded. We have downloaded the full table and converted it to an R disk.frame using ukbproject for fast local queries with ukbkings <code>bio_record</code> and <code>bio_record_map</code>.</p>
 <p><code>bio_record</code> returns a diskframe, an object which can be queried without reading the data into R.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">project_dir</span> <span class="op">&lt;-</span> <span class="st">"&lt;path_to_project_directory&gt;"</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kenhanscombe/ukbkings" class="external-link">ukbkings</a></span><span class="op">)</span>
+
+<span class="va">project_dir</span> <span class="op">&lt;-</span> <span class="st">"&lt;path_to_project_directory&gt;"</span>
 
 <span class="va">scripts_diskf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span>
-
-<span class="fu">glimpse</span><span class="op">(</span><span class="va">scripts_diskf</span><span class="op">)</span></code></pre></div>
-<p>Apply dplyr verbs to subset rows and columns as required and <code>collect</code> to read the data into R as a dataframe.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">scripts</span> <span class="op">&lt;-</span> <span class="va">gp_scripts_diskf</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">drug_name</span>, <span class="st">"fluoxetine"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">select</span><span class="op">(</span><span class="va">eid</span>, <span class="va">data_provider</span>, <span class="va">issue_date</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">collect</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>To extract data for a only a subset of samples use the <code>subset</code> argument to <code>bio_record</code> which will now return a dataframe. <strong>Note</strong>. You do not need to <code>collect</code> when using the <code>subset</code> argument. (Additional row and column filtering can be applied as above)</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sample_subset</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">321</span>, <span class="fl">654</span>, <span class="fl">987</span><span class="op">)</span>
-
-<span class="va">scripts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span>
-    <span class="va">project_dir</span>,
-    record <span class="op">=</span> <span class="st">"gp_scripts"</span>,
-    subset <span class="op">=</span> <span class="va">sample_subset</span>
-<span class="op">)</span></code></pre></div>
-<hr>
-</div>
-<div class="section level2">
-<h2 id="retrieve-antidepressant-prescriptions">Retrieve antidepressant prescriptions<a class="anchor" aria-label="anchor" href="#retrieve-antidepressant-prescriptions"></a>
-</h2>
-<p>Described below is a ukbkings implementation of the extraction performed by <a href="">Fabbri et al. (2021) Genetic and clinical characteristics of treatment-resistant depression using primary care records in two UK cohorts</a>. (See the original paper’s <a href="https://github.com/chiarafabbri/MDD_TRD_study/blob/master/scripts/extract_diagn_ADs_TRD_pheno.R" class="external-link">code for treatment-resistant depression phenotype derivation, as well as antidepressant extraction</a>)</p>
-<p>To extract all antidepressant prescriptions</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu">bio_med</span><span class="op">(</span><span class="va">project_dir</span>, chapter <span class="op">=</span> <span class="st">"antidepressants"</span><span class="op">)</span></code></pre></div>
-<p>This is equivalent to</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Antidepressant prescriptions</span>
-
-<span class="co"># Replace with one filter with bnf OR dmd OR read2 code, or</span>
-
-<span class="co"># Search by BNF code</span>
-<span class="va">bnf_antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">bnf_code</span>, <span class="st">"^04\\.?03\\.?0[1-4]"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">collect</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">distinct</span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># Search by dm+d code</span>
-<span class="va">dmd_antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># Search by Read 2 code</span>
-<span class="va">read2_antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">scripts_diskf</span><span class="op">)</span></code></pre></div>
 <div class="section level3">
-<h3 id="medication-codes">Medication codes<a class="anchor" aria-label="anchor" href="#medication-codes"></a>
+<h3 id="medication-codes">1.1 Medication codes<a class="anchor" aria-label="anchor" href="#medication-codes"></a>
 </h3>
 <table class="table">
 <colgroup>
@@ -181,10 +141,8 @@
 </tr>
 </tbody>
 </table>
-<div class="section level4">
-<h4 id="bnf-code">BNF code<a class="anchor" aria-label="anchor" href="#bnf-code"></a>
-</h4>
-<p>UKB captures only the first few pieces of BNF code information: Chapter.Section.Paragraph.Sub-paragraph.Chemical substance, e.g., 04.03.01 tricyclic and related antidepressants, 04.03.02 monoamine-oxidase inhibitors, etc.</p>
+<p><strong>BNF code:</strong></p>
+<p>UKB captures only the first few pieces of BNF code information: Chapter.Section.Paragraph.Sub-paragraph.Chemical substance, e.g., 04.03.01 tricyclic and related antidepressants, 04.03.02 monoamine-oxidase inhibitors, etc. Chapter 4, section 3 corresponds to antidepressant drugs.</p>
 <p><strong>BNF Chapter 4: Central Nervous System</strong></p>
 <ul>
 <li>4.1: Hypnotics and anxiolytics</li>
@@ -207,15 +165,51 @@
 <li>4.10: Drugs used in substance dependence</li>
 <li>4.11: Drugs for dementia</li>
 </ul>
-</div>
-</div>
-<div class="section level3">
-<h3 id="medication-dose">Medication dose<a class="anchor" aria-label="anchor" href="#medication-dose"></a>
-</h3>
+<hr>
+<p><br></p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="other-medication-reference-data">Other medication reference data<a class="anchor" aria-label="anchor" href="#other-medication-reference-data"></a>
+<h2 id="retrieve-antidepressant-prescriptions">2. Retrieve antidepressant prescriptions<a class="anchor" aria-label="anchor" href="#retrieve-antidepressant-prescriptions"></a>
+</h2>
+<p>This is a ukbkings implementation of the extraction performed by <a href="https://pubmed.ncbi.nlm.nih.gov/33753889/" class="external-link">Fabbri et al. (2021) Genetic and clinical characteristics of treatment-resistant depression using primary care records in two UK cohorts</a>. (See the original paper’s <a href="https://github.com/chiarafabbri/MDD_TRD_study/blob/master/scripts/extract_diagn_ADs_TRD_pheno.R" class="external-link">code for treatment-resistant depression phenotype derivation, as well as antidepressant extraction</a>)</p>
+<p>To extract all antidepressant prescriptions</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu">bio_med</span><span class="op">(</span><span class="va">project_dir</span>, chapter <span class="op">=</span> <span class="st">"antidepressants"</span><span class="op">)</span></code></pre></div>
+<p><br></p>
+<p>This is equivalent to</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Antidepressant prescriptions</span>
+
+<span class="co"># Search by BNF code</span>
+<span class="va">bnf_antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">bnf_code</span>, <span class="st">"^04\\.?03\\.?0[1-4]"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">collect</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">distinct</span><span class="op">(</span><span class="op">)</span>
+
+<span class="co"># (TO BE COMPLETED) Search by Read 2 code</span>
+<span class="va">read2_antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">collect</span><span class="op">(</span><span class="op">)</span>
+
+<span class="co"># Search for remaining antidepressant prescriptions (captured by dm+d code?)</span>
+<span class="va">antidep_rgx</span> <span class="op">&lt;-</span> <span class="fu">str_c</span><span class="op">(</span><span class="st">"^"</span>, <span class="va">drug_dmd_antidep</span><span class="op">$</span><span class="va">dmd_name</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">str_c</span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">"|"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/regex.html" class="external-link">regex</a></span><span class="op">(</span>ignore_case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+
+<span class="va">other_antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">drug_name</span>, <span class="va">antidep_rgx</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">collect</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">distinct</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><br></p>
+<div class="section level3">
+<h3 id="medication-dose">Medication dose<a class="anchor" aria-label="anchor" href="#medication-dose"></a>
+</h3>
+<p><br></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="other-medication-reference-data">3. Other medication reference data<a class="anchor" aria-label="anchor" href="#other-medication-reference-data"></a>
 </h2>
 <table class="table">
 <colgroup>
@@ -228,33 +222,29 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>meds_pharmgkb</td>
+<td>drug_pharmgkb</td>
 <td>PharmGKB curated drug list (​<a href="https://www.pharmgkb.org/downloads" class="external-link uri">https://www.pharmgkb.org/downloads</a>​, drugs.zip)</td>
 </tr>
 <tr class="even">
-<td>meds_gwas</td>
+<td>drug_gwas</td>
 <td>ukb.gwas.medication.supplementary.data.1.xlsx - Genome-wide association study of medication-use and associated disease in the UK Biobank, Nature Communications</td>
 </tr>
 <tr class="odd">
-<td>meds_dmd_antidep</td>
+<td>drug_dmd_antidep</td>
 <td>A curated list of dm+d antidepressant drug names from Fabbri et al.</td>
 </tr>
 <tr class="even">
-<td>meds_ukb</td>
+<td>drug_ukb</td>
 <td>Nested dataframe of UKB primary care drug coding maps</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section level2">
-<h2 id="resources">Resources<a class="anchor" aria-label="anchor" href="#resources"></a>
+<h2 id="resources">4. Resources<a class="anchor" aria-label="anchor" href="#resources"></a>
 </h2>
-<ul>
-<li><a href="https://openprescribing.net/bnf/" class="external-link uri">https://openprescribing.net/bnf/</a></li>
-<li><a href="https://www.thedatalab.org/blog/161/prescribing-data-bnf-codes/" class="external-link uri">https://www.thedatalab.org/blog/161/prescribing-data-bnf-codes/</a></li>
-<li><a href="https://digital.nhs.uk/services/terminology-and-classifications/read-codes" class="external-link uri">https://digital.nhs.uk/services/terminology-and-classifications/read-codes</a></li>
-<li><a href="https://digital.nhs.uk/data-and-information/areas-of-interest/prescribing/practice-level-prescribing-in-england-a-summary" class="external-link uri">https://digital.nhs.uk/data-and-information/areas-of-interest/prescribing/practice-level-prescribing-in-england-a-summary</a></li>
-</ul>
+<p><strong>NHS prescription drugs</strong> - <a href="https://openprescribing.net/bnf/" class="external-link uri">https://openprescribing.net/bnf/</a> - <a href="https://www.thedatalab.org/blog/161/prescribing-data-bnf-codes/" class="external-link uri">https://www.thedatalab.org/blog/161/prescribing-data-bnf-codes/</a> - <a href="https://digital.nhs.uk/services/terminology-and-classifications/read-codes" class="external-link uri">https://digital.nhs.uk/services/terminology-and-classifications/read-codes</a> - <a href="https://digital.nhs.uk/data-and-information/areas-of-interest/prescribing/practice-level-prescribing-in-england-a-summary" class="external-link uri">https://digital.nhs.uk/data-and-information/areas-of-interest/prescribing/practice-level-prescribing-in-england-a-summary</a></p>
+<p><strong>ATC codes</strong> - <a href="https://ec.europa.eu/health/documents/community-register/html/reg_hum_atc.htm" class="external-link uri">https://ec.europa.eu/health/documents/community-register/html/reg_hum_atc.htm</a> - <a href="https://bioportal.bioontology.org/ontologies/ATC/?p=summary" class="external-link uri">https://bioportal.bioontology.org/ontologies/ATC/?p=summary</a></p>
 </div>
   </div>
 
