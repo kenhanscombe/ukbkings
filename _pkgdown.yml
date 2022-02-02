@@ -42,6 +42,15 @@ reference:
   - '`bio_gen_ancestry`'
   - '`bio_gen_write_plink_input`'
 
+- title: Datasets
+  desc: >
+    Reference data.
+  contents:
+  - '`drug_dmd_antidep`'
+  - '`drug_pharmgkb`'
+  - '`drug_gwas`'
+  - '`drug_ukb`'
+
 - title: Deprecated functionality
   desc: >
     Deprecated functions.

@@ -8,7 +8,7 @@
 A data frame with 1752 obs. of  4 variables:
 \describe{
 \item{category}{Category}
-\item{ukb_code}{Coding reported by UK Biobank.}
+\item{ukb_code}{Coding reported by UK Biobank}
 \item{atc_code}{Medication ATC code}
 \item{name}{Drug name}
 }
@@ -22,5 +22,20 @@ A dataset containing
 Supplementary Data 1: Active ingredients and ATC code of medications
 in UK Biobank. This study was a series of "GWASs of self-reported
 medication use from 23 medication categories".
+}
+\details{
+The Anatomical Therapeutic Chemical (ATC) code: a unique code
+assigned to a medicine according to the organ or system it works on
+and how it works. The classification system is maintained by the
+World Health Organization (WHO). In the ATC-Classification
+substances are divided into different groups according to the organ
+or organ system which they affect and their chemical, pharmacological
+and therapeutic properties. A defined daily dose is assigned to each
+active substance. Defined daily doses (DDD) are the assumed average
+daily maintenance dose for the main indication of each substance in
+adults.
+
+EU Commission Centralised medicinal products for human use by ATC code
+https://ec.europa.eu/health/documents/community-register/html/reg_hum_atc.htm
 }
 \keyword{datasets}
