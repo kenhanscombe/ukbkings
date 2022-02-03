@@ -15,6 +15,7 @@ Description:
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+LazyDataCompression: bzip2
 Suggests: 
     testthat (>= 2.1.0),
     knitr,
