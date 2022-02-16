@@ -1,6 +1,6 @@
 Package: ukbkings
 Title: KCL Interface to UKB Project Data on Rosalind HPC
-Version: 0.2.1
+Version: 0.2.1.9000
 Authors@R: 
     person(given = "Ken",
            family = "Hanscombe",
