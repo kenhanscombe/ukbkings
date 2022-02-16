@@ -59,30 +59,3 @@ drug_dmd_antidep <- data.frame(dmd_name = c(
 ))
 
 usethis::use_data(drug_dmd_antidep, overwrite = TRUE)
-
-
-# UKB primary care drug maps and lookups:
-# BNF lookup (version 76)
-# dm+d lookup (May 2019 release)
-# Read v2 drugs lookup (April 2016 release)
-# Read v2 (April 2016 release) to BNF (version 76) mapping
-
-primary_care_xlsx <- "data-raw/primarycare_codings/all_lkps_maps_v3.xlsx"
-
-bnf_lkp <- read_xlsx(primary_care_xlsx, sheet = "bnf_lkp")
-dmd_lkp <- read_xlsx(primary_care_xlsx, sheet = "dmd_lkp")
-read_v2_drugs_lkp <- read_xlsx(primary_care_xlsx, sheet = "read_v2_drugs_lkp")
-read_v2_drugs_bnf <- read_xlsx(primary_care_xlsx, sheet = "read_v2_drugs_bnf")
-
-drug_ukb <- tibble(
-    df = list(bnf_lkp, dmd_lkp, read_v2_drugs_lkp, read_v2_drugs_bnf),
-    name = c("bnf_lkp", "dmd_lkp", "read_v2_drugs_lkp", "read_v2_drugs_bnf"),
-    description = c(
-        "BNF lookup (version 76)",
-        "dm+d lookup (May 2019 release)",
-        "Read v2 drugs lookup (April 2016 release)",
-        "Read v2 (April 2016 release) to BNF (version 76) mapping"
-    )
-)
-
-usethis::use_data(drug_ukb, overwrite = TRUE)

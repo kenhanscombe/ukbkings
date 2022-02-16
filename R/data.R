@@ -6,7 +6,7 @@
 #'
 #' @format A data frame with 3493 obs. of  24 variables:
 #' \describe{
-#'   \item{pharmgkb_accession id}{Identifier assigned to this chemical by PharmGKB}
+#'   \item{pharmgkb_accession_id}{Identifier assigned to this chemical by PharmGKB}
 #'   \item{name}{Name PharmGKB uses for this drug}
 #'   \item{generic_names}{Known generic names for this drug, comma-separated and "-enclosed}
 #'   \item{trade_names}{Known trade names for this drug, comma-separated and "-enclosed}
@@ -43,7 +43,7 @@
 #' Supplementary Data 1: Active ingredients and ATC code of medications
 #' in UK Biobank. This study was a series of "GWASs of self-reported
 #' medication use from 23 medication categories".
-#' 
+#'
 #' The Anatomical Therapeutic Chemical (ATC) code: a unique code
 #' assigned to a medicine according to the organ or system it works on
 #' and how it works. The classification system is maintained by the
@@ -54,7 +54,7 @@
 #' active substance. Defined daily doses (DDD) are the assumed average
 #' daily maintenance dose for the main indication of each substance in
 #' adults.
-#' 
+#'
 #' EU Commission Centralised medicinal products for human use by ATC code
 #' https://ec.europa.eu/health/documents/community-register/html/reg_hum_atc.htm
 #'
@@ -77,19 +77,3 @@
 #'   \item{dmd_name}{Category}
 #' }
 "drug_dmd_antidep"
-
-
-#' UKB primary care drug maps and lookups
-#'
-#' A nested tibble of the UKB primary care coding lookups and maps
-#' for drug coding information. The tables have been read into
-#' data frames from ll_lkps_map_v3.xlsx included in primarycare_codings.zip,
-#' [Resource 592](https://biobank.ndph.ox.ac.uk/ukb/refer.cgi?id=592).
-#' 
-#' \describe{
-#'   \item{df}{Data frame from coding map}
-#'   \item{name}{Sheet name from all_lkps_map_v3.xlsx included in primarycare_codings.zip}
-#'   \item{description}{Description of coding map version}
-#' }
-#' @source \url{https://biobank.ndph.ox.ac.uk/ukb/refer.cgi?id=592}
-"drug_ukb"
