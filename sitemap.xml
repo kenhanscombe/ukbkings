@@ -31,6 +31,9 @@
     <loc>/reference/bio_code.html</loc>
   </url>
   <url>
+    <loc>/reference/bio_code_primary_care.html</loc>
+  </url>
+  <url>
     <loc>/reference/bio_covid.html</loc>
   </url>
   <url>
@@ -82,6 +85,9 @@
     <loc>/reference/bio_rename.html</loc>
   </url>
   <url>
+    <loc>/reference/bio_return.html</loc>
+  </url>
+  <url>
     <loc>/reference/drug_dmd_antidep.html</loc>
   </url>
   <url>
@@ -89,9 +95,6 @@
   </url>
   <url>
     <loc>/reference/drug_pharmgkb.html</loc>
-  </url>
-  <url>
-    <loc>/reference/drug_ukb.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>

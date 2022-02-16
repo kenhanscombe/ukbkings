@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ukbkings</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9000</span>
       </span>
     </div>
 
@@ -62,6 +62,18 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="ukbkings-development-version">ukbkings (development version)<a class="anchor" aria-label="anchor" href="#ukbkings-development-version"></a></h2>
+<p><strong>16.02.2022 Ken B. Hanscombe</strong></p>
+<p><em>New/updated functionality</em></p>
+<ul><li><p><code>bio_return</code> reads UKB returns. With argument <code>return = 3388</code> reads PGxPOP returned allele and metabolizing phenotype calls and assigns application specific pseudo IDs.</p></li>
+<li><p><code>bio_code_primary_care</code> reads UKB primary care prescription and diagnosis codings maps and lookups (From UKB download primarycare_codings.zip)</p></li>
+</ul><p><em>New datasets</em></p>
+<ul><li>Added datasets <code>drug_pharmgkb</code>, <code>drug_gwas</code>, <code>drug_dmd_antidep</code>
+</li>
+</ul><hr><p><strong>Note. All paths mentioned in the Changelog are relative to /scratch/datasets/ukbiobank/&lt;<em>project_dir</em>&gt;/.</strong></p>
+<p><br></p>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.2.1" id="ukbkings-021">ukbkings 0.2.1<a class="anchor" aria-label="anchor" href="#ukbkings-021"></a></h2>
 <p><strong>03.02.2020 Ken B. Hanscombe</strong></p>
 <ul><li><p>Added <code>bio_gen_related_remove</code> which uses <a href="https://gitlab.com/choishingwan/GreedyRelated" class="external-link">GreedyRelated</a> to returns a minimum sample list to remove in order to remove all relationships at a given relatedness threshold, retaining the maximum amount of samples.</p></li>
 <li><p>Added <code>bio_gen_write_plink_input</code> which take either a vector of sample IDs, or a dataframe with sample IDs in the first column, and writes these to the first two columns of a white-space separated file, with no header.</p></li>
@@ -75,9 +87,7 @@
 </ul><p><strong>12.10.2020 Ken B. Hanscombe</strong></p>
 <ul><li>
 <code>bio_phen</code> accepts fields specified as either <em>field</em>-<em>index</em>.<em>array</em> (as used in the <code>ukbconv</code> conversion to csv) or f.<em>field</em>.<em>index</em>.<em>array</em> (as used in the <code>ukbconv</code> conversion to r/tab)</li>
-</ul><hr><p><strong>Note. All paths mentioned in the Changelog are relative to /scratch/datasets/ukbiobank/&lt;<em>project_dir</em>&gt;/.</strong></p>
-<p><br></p>
-</div>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2" id="ukbkings-02">ukbkings 0.2<a class="anchor" aria-label="anchor" href="#ukbkings-02"></a></h2>
 <p><strong>12.10.2020 Ken B. Hanscombe</strong></p>
