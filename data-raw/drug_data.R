@@ -11,7 +11,16 @@ names(drug_pharmgkb) <- names(drug_pharmgkb) %>%
     tolower() %>%
     str_replace_all("-| ", "_")
 
-usethis::use_data(drug_pharmgkb)
+
+drug_pharmgkb <- drug_pharmgkb %>%
+    dplyr::mutate(
+        dplyr::across(
+            tidyselect:::where(is.character),
+            ~ stringi::stri_trans_general(.x, "latin-ascii")
+        )
+    )
+
+usethis::use_data(drug_pharmgkb, overwrite = TRUE)
 
 
 # Wu et al. (2019) Nat Commun

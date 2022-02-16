@@ -18,6 +18,20 @@
 #'   \item{inchi}{The InCHI key for this drug}
 #'   \item{dosing_guideline}{"Yes" if PharmGKB has annotated a guideline with this drug, "No" otherwise}
 #'   \item{external_vocabulary}{Term for this drug in another vocabulary in the form "vocabulary:id", comma-separated}
+#'
+#'   \item{clinical_annotation_count}{Not described in [drug.zip documentation](https://www.pharmgkb.org/page/downloadDrugsHelp)}
+#'   \item{variant_annotation_count}{Not described in [drug.zip documentation](https://www.pharmgkb.org/page/downloadDrugsHelp)}
+#'   \item{pathway_count}{Not described in [drug.zip documentation](https://www.pharmgkb.org/page/downloadDrugsHelp)}
+#'   \item{vip_count}{Not described in [drug.zip documentation](https://www.pharmgkb.org/page/downloadDrugsHelp)}
+#'   \item{dosing_guideline_sources}{Not described in [drug.zip documentation](https://www.pharmgkb.org/page/downloadDrugsHelp)}
+#'   \item{top_clinical_annotation_level}{Not described in [drug.zip documentation](https://www.pharmgkb.org/page/downloadDrugsHelp)}
+#'   \item{top_fda_label_testing_level}{Not described in [drug.zip documentation](https://www.pharmgkb.org/page/downloadDrugsHelp)}
+#'   \item{top_any_drug_label_testing_level}{Not described in [drug.zip documentation](https://www.pharmgkb.org/page/downloadDrugsHelp)}
+#'   \item{label_has_dosing_info}{Not described in [drug.zip documentation](https://www.pharmgkb.org/page/downloadDrugsHelp)}
+#'   \item{has_rx_annotation}{Not described in [drug.zip documentation](https://www.pharmgkb.org/page/downloadDrugsHelp)}
+#'   \item{rxnorm_identifiers}{Not described in [drug.zip documentation](https://www.pharmgkb.org/page/downloadDrugsHelp)}
+#'   \item{atc_identifiers}{Not described in [drug.zip documentation](https://www.pharmgkb.org/page/downloadDrugsHelp)}
+#'   \item{pubchem_compound_identifiers}{Not described in [drug.zip documentation](https://www.pharmgkb.org/page/downloadDrugsHelp)}
 #' }
 #'
 #' Multiple "Type" values can be assigned to a given entry
