@@ -14,7 +14,6 @@ reference:
   contents:
   - '`bio_field`'
   - '`bio_field_add`'
-  - '`bio_code`'
 
 - title: Create a dataframe
   desc: >
@@ -29,6 +28,19 @@ reference:
   contents:
   - '`bio_record`'
   - '`bio_record_map`'
+
+- title: Retrieve returned data
+  desc: >
+    Functions to retrieve UKB returned data.
+  contents:
+  - '`bio_return`'
+
+- title: Retrieve coding maps and lookups
+  desc: >
+    Functions to retrieve UKB codings.
+  contents:
+  - '`bio_code`'
+  - '`bio_code_primary_care`'
 
 - title: Query genetic data
   desc: >
@@ -49,7 +61,6 @@ reference:
   - '`drug_dmd_antidep`'
   - '`drug_pharmgkb`'
   - '`drug_gwas`'
-  - '`drug_ukb`'
 
 - title: Deprecated functionality
   desc: >

@@ -39,7 +39,8 @@ Imports:
     digest,
     processx,
     tibble,
-    lifecycle
+    lifecycle,
+    readxl
 URL: https://github.com/kenhanscombe/ukbkings
 BugReports: https://github.com/kenhanscombe/ukbkings/issues
 VignetteBuilder: knitr

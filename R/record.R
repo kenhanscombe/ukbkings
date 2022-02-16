@@ -1,36 +1,3 @@
-#' Reads the UKB showcase codings for categorical variables
-#'
-#' @param code_dir Path to the enclosing directory of the
-#' Codings_Showcase.csv.
-#'
-#' @return A dataframe with header Coding, Value, Meaning
-#'
-#' @importFrom data.table fread
-#' @export
-bio_code <- function(code_dir = "/scratch/datasets/ukbiobank/resources") {
-    codings_showcase <- file.path(
-        normalizePath(code_dir),
-        "Codings.csv"
-    )
-
-    if (!file.exists(codings_showcase)) {
-        stop(
-            stringr::str_interp(c(
-                "Required file ${codings_showcase} ",
-                "does not exist."
-            )),
-            call. = FALSE
-        )
-    }
-
-    data.table::fread(
-        cmd = str_interp("sed 's:\\\\\"::g' ${codings_showcase}"),
-        sep = ",",
-        header = TRUE
-    )
-}
-
-
 #' Reads the primary care data
 #'
 #' @description
