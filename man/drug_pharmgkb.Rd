@@ -7,7 +7,7 @@
 \format{
 A data frame with 3493 obs. of  24 variables:
 \describe{
-\item{pharmgkb_accession id}{Identifier assigned to this chemical by PharmGKB}
+\item{pharmgkb_accession_id}{Identifier assigned to this chemical by PharmGKB}
 \item{name}{Name PharmGKB uses for this drug}
 \item{generic_names}{Known generic names for this drug, comma-separated and "-enclosed}
 \item{trade_names}{Known trade names for this drug, comma-separated and "-enclosed}
