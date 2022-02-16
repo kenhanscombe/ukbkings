@@ -1,5 +1,30 @@
 # ukbkings (development version)
 
+**16.02.2022 Ken B. Hanscombe**
+
+*New/updated functionality*
+
+* `bio_return` reads UKB returns. With argument `return = 3388`
+reads PGxPOP returned allele and metabolizing phenotype calls and
+assigns application specific pseudo IDs.
+
+* `bio_code_primary_care` reads UKB primary care prescription and
+diagnosis codings maps and lookups (From UKB download
+primarycare_codings.zip)
+
+*New datasets*
+
+* Added datasets `drug_pharmgkb`, `drug_gwas`, `drug_dmd_antidep`
+
+***
+
+**Note. All paths mentioned in the Changelog are relative to
+/scratch/datasets/ukbiobank/\<*project_dir*\>/.**
+
+<br>
+
+# ukbkings 0.2.1
+
 **03.02.2020 Ken B. Hanscombe**
 
 * Added `bio_gen_related_remove` which uses
@@ -29,10 +54,10 @@ see Ollie's
 
 **20.01.2020 Ken B. Hanscombe**
 
-* Added `exact` argument to `bio_phen`, default value is `exact = FALSE` which 
+* Added `exact` argument to `bio_phen`, default value is `exact = FALSE` which
 gives previous behaviour, i.e., matches all fields beginning `31`.
 Setting `exact = TRUE` will return only exact matches for fields supplied, e.g.,
-`31` in the field subset file will return all _-index.array_ entries for field
+`31` in the field subset file will return all *-index.array* entries for field
 `31`, and not `3159`, `3160` etc.
 
 * `bio_record` returns either a character vector of available
@@ -51,13 +76,6 @@ all available record-level data)
 * `bio_phen` accepts fields specified as either *field*-*index*.*array*
 (as used in the `ukbconv` conversion to csv) or
 f.*field*.*index*.*array* (as used in the `ukbconv` conversion to r/tab)
-
-***
-
-**Note. All paths mentioned in the Changelog are relative to
-/scratch/datasets/ukbiobank/\<*project_dir*\>/.**
-
-<br>
 
 # ukbkings 0.2
 
