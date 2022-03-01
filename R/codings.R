@@ -9,7 +9,8 @@
 #' @export
 bio_code <- function(code_dir = "/scratch/datasets/ukbiobank/resources") {
     codings_showcase <- file.path(
-        normalizePath(code_dir),
+        dirname(normalizePath(code_dir)),
+        "resources",
         "Codings.csv"
     )
 
