@@ -182,24 +182,24 @@
 <code class="sourceCode R"><span class="co"># Antidepressant prescriptions</span>
 
 <span class="co"># Search by BNF code</span>
-<span class="va">bnf_antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">bnf_code</span>, <span class="st">"^04\\.?03\\.?0[1-4]"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">collect</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">bnf_antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">bnf_code</span>, <span class="st">"^04\\.?03\\.?0[1-4]"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">collect</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu">distinct</span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># (TO BE COMPLETED) Search by Read 2 code</span>
-<span class="va">read2_antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">read2_antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu">collect</span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># Search for remaining antidepressant prescriptions (captured by dm+d code?)</span>
-<span class="va">antidep_rgx</span> <span class="op">&lt;-</span> <span class="fu">str_c</span><span class="op">(</span><span class="st">"^"</span>, <span class="va">drug_dmd_antidep</span><span class="op">$</span><span class="va">dmd_name</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">str_c</span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">"|"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">antidep_rgx</span> <span class="op">&lt;-</span> <span class="fu">str_c</span><span class="op">(</span><span class="st">"^"</span>, <span class="va">drug_dmd_antidep</span><span class="op">$</span><span class="va">dmd_name</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">str_c</span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">"|"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="https://rdrr.io/r/base/regex.html" class="external-link">regex</a></span><span class="op">(</span>ignore_case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="va">other_antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">drug_name</span>, <span class="va">antidep_rgx</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">collect</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">other_antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">drug_name</span>, <span class="va">antidep_rgx</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">collect</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu">distinct</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><br></p>
 <div class="section level3">
