@@ -17,6 +17,29 @@ For return \code{3388} a data frame of
 \href{https://github.com/PharmGKB/PGxPOP}{PGxPOP}
 called diplotypes and phenotypes, for both the imputed and integrated
 (imputed plus exome) data. See \href{https://pubmed.ncbi.nlm.nih.gov/33237584/}{McInnes et al (2020) Pharmacogenetics at scale: An analysis of the UK Biobank}
+
+For return \code{1701} a list of two dataframes: \code{calls} and \code{sumstats}.
+CNV calls for the full UK Biobank analysed with Affymetrix
+Powertools, followed by PennCNV. For methods see Kendall et al.,
+Biol Psychiatry, 2017. \code{sumstats} column \code{Filter} indicates
+whether a person passed (1) or failed (0) filtering criteria:
+call_rate>0.96 & NumCNV<31 & WF>-0.03 & WF<0.03 & LRR_SD <0.35
+
+\code{calls} includes:
+\itemize{
+\item f.eid: the ID (specific to project 14421)
+\item chr: chromosome number (only autosomes are included)
+\item start / end: position on the chromosome in bp, according to hg19.
+\item Type: copy number (0,1 = deletions, 3,4 = duplications)
+\item Size: length of the CNV in base pairs
+\item Probe: number of SNP probes within the CNV (we have retained only CNVs covered with 10 or more probes)
+\item Conf: confidence call for the CNV, according to PennCNV
+\item Pathogenic_CNVs: CNVs in 92 regions described in the Supplementary material (Supplementary Table 1) of Owen D, Bracher-Smith M, Kendall KM, Rees E, Einon M, Escott-Price V, Owen MJ, O'Donovan MC, Kirov G. Effects of pathogenic CNVs on physical traits in participants of the UK Biobank. BMC Genomics. 2018 Dec 4;19(1):867. doi: 10.1186/s12864-018-5292-7. PMID: 30509170. The calls have been checked manually and the criteria for accepting a CNV are listed in the same paper: Supplementary Table 2 (typically >50\% of the critical interval).
+\item N_genes_hit: the number of genes within the CNV (can be intronic)
+\item Call_rate / LRR_SD / WF / Num_CNV: indicate the quality control measures for the individual carrying the CNV, identical to those in the “Summary_statistics.dat” file.
+\item Density: indicates the number of base pairs per probe within the CNV. We recommend no more than 20,000bp per probe for a CNV to be accepted.
+\item Filter: CNVs are filtered out (0) if they were called on good arrays (call_rate>0.96 & NumCNV<31 & WF>-0.03 & WF<0.03 & LRR_SD <0.35) and had a density of <20,000bp.
+}
 }
 \description{
 Reads returned data
