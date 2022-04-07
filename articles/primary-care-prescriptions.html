@@ -98,25 +98,38 @@
 
     
     
-<p>UKB medication presciption data are included in the <a href="https://biobank.ndph.ox.ac.uk/showcase/showcase/docs/primary_care_data.pdf" class="external-link">Primary Care Linked data</a>, accessed through the UKB Data Portal. The data can be explored online with SQL queries, the results of which can be downloaded, or the full table can be downloaded. We have downloaded the full table and converted it to an R disk.frame using ukbproject for fast local queries with ukbkings <code>bio_record</code> and <code>bio_record_map</code>. (See the article <a href="https://kenhanscombe.github.io/ukbkings/articles/kcl-ukb-access.html#record-level-data" class="external-link">Access UKB data on Rosalind</a> for a detailed description of the use of these functions to query all record-level data)</p>
-<hr>
-<p><span style="color:dodgerblue;"><strong>Contents:</strong></span><br><a href="#query-prescription-data">1. Query prescription data</a><br><a href="#medication-codes">1.1 Medication codes</a><br><a href="#retrieve-antidepressant-prescriptions">2. Retrieve antidepressant prescriptions</a><br><a href="#other-medication-reference-data">3. Other medication reference data</a><br><a href="#resources">4. Resources</a></p>
-<hr>
+<p>UKB primary care presciption data are included in the <a href="https://biobank.ndph.ox.ac.uk/showcase/showcase/docs/primary_care_data.pdf" class="external-link">Primary Care Linked data</a>, accessed through the UKB Data Portal. The data can be explored online with SQL queries, the results of which can be downloaded. Alternatively, the full table can be downloaded.</p>
+<p>For each KCL UKB application with access to primary care prescription data, we have downloaded the full table and converted it to an R disk.frame for fast local queries with ukbkings <code>bio_record</code> and <code>bio_record_map</code>. (See the article <a href="https://kenhanscombe.github.io/ukbkings/articles/kcl-ukb-access.html#record-level-data" class="external-link">Access UKB data on Rosalind</a> for a detailed description of the use of <code>bio_record</code> and <code>bio_record_map</code> to query all record-level data available to a particular KCL UKB application)</p>
 <p><br></p>
 <div class="section level2">
-<h2 id="query-prescription-data">1. Query prescription data<a class="anchor" aria-label="anchor" href="#query-prescription-data"></a>
+<h2 id="query-prescription-data">Query prescription data<a class="anchor" aria-label="anchor" href="#query-prescription-data"></a>
 </h2>
-<p><code>bio_record</code> returns a diskframe, an object which can be queried without reading the data into R.</p>
+<p><code>bio_record</code> returns a diskframe, an object which can be queried in chunks without reading the data into R.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kenhanscombe/ukbkings" class="external-link">ukbkings</a></span><span class="op">)</span>
+<span class="co"># library(tidyverse)</span>
+<span class="co"># library(readxl)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span>
 
 <span class="va">project_dir</span> <span class="op">&lt;-</span> <span class="st">"&lt;path_to_project_directory&gt;"</span>
 
-<span class="va">scripts_diskf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">scripts_diskf</span><span class="op">)</span></code></pre></div>
-<div class="section level3">
-<h3 id="medication-codes">1.1 Medication codes<a class="anchor" aria-label="anchor" href="#medication-codes"></a>
-</h3>
+<span class="va">diskf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">diskf</span><span class="op">)</span></code></pre></div>
+<span style="background-color:grey">
+<pre>
+       eid data_provider issue_date read_2 bnf_code dmd_code                                    drug_name quantity
+1: XXXXXXX             X XX/XX/XXXX  bi33. 02050501     <na>                      Lisinopril 10mg tablets   56.000
+2: XXXXXXX             X XX/XX/XXXX  blb1. 02060200     <na>                       Amlodipine 5mg tablets   56.000
+3: XXXXXXX             X XX/XX/XXXX  bxd5. 02120400     <na>                     Simvastatin 40mg tablets   56.000
+4: XXXXXXX             X XX/XX/XXXX  l412. 12010151     <na> Otosporin ear drops (GlaxoSmithKline UK Ltd)   10.000
+5: XXXXXXX             X XX/XX/XXXX  bi33. 02050501     <na>                      Lisinopril 10mg tablets   28.000
+6: XXXXXXX             X XX/XX/XXXX  blb1. 02060200     <na>                       Amlodipine 5mg tablets   28.000
+</na></na></na></na></na></na></pre>
+<p></p></span>
+<p><br></p>
+<p>You can use dplyr verbs to <code>filter</code> rows, <code>select</code> columns, etc., and finally <code>collect</code> to retrieve the resulting data into a local dataframe. Below is an example of using a combination of <code>bio_record</code> and dplyr verbs to retrieve antidepressant prescriptions.</p>
+<p><br></p>
+<p>The primary care prescription data include 3 prescription coding systems</p>
 <table class="table">
 <colgroup>
 <col width="50%">
@@ -141,72 +154,172 @@
 </tr>
 </tbody>
 </table>
-<p><strong>BNF code:</strong></p>
-<p>UKB captures only the first few pieces of BNF code information: Chapter.Section.Paragraph.Sub-paragraph.Chemical substance, e.g., 04.03.01 tricyclic and related antidepressants, 04.03.02 monoamine-oxidase inhibitors, etc. Chapter 4, section 3 corresponds to antidepressant drugs.</p>
-<p><strong>BNF Chapter 4: Central Nervous System</strong></p>
-<ul>
-<li>4.1: Hypnotics and anxiolytics</li>
-<li>4.2: Drugs used in psychoses and related disorders</li>
-<li>
-<strong>4.3: Antidepressant drugs</strong>
-<ul>
-<li><strong>4.3.1: Tricyclic and related antidepressant drugs</strong></li>
-<li><strong>4.3.2: Monoamine-oxidase inhibitors (maois)</strong></li>
-<li><strong>4.3.3: Selective serotonin re-uptake inhibitors</strong></li>
-<li><strong>4.3.4: Other antidepressant drugs</strong></li>
-</ul>
-</li>
-<li>4.4: CNS stimulants and drugs used for ADHD</li>
-<li>4.5: Drugs used in the treatment of obesity</li>
-<li>4.6: Drugs used in nausea and vertigo</li>
-<li>4.7: Analgesics</li>
-<li>4.8: Antiepileptic drugs</li>
-<li>4.9: Drugs used in parkinsonism and related disorders</li>
-<li>4.10: Drugs used in substance dependence</li>
-<li>4.11: Drugs for dementia</li>
-</ul>
-<hr>
+<p>To retrieve prescriptions for a particular drug or drug class, search all three drug code systems and drug_name which includes name and dosage information combined. Below is an example retrieving antidepressant prescriptions.</p>
 <p><br></p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="retrieve-antidepressant-prescriptions">2. Retrieve antidepressant prescriptions<a class="anchor" aria-label="anchor" href="#retrieve-antidepressant-prescriptions"></a>
-</h2>
-<p>This is a ukbkings implementation of the extraction performed by <a href="https://pubmed.ncbi.nlm.nih.gov/33753889/" class="external-link">Fabbri et al. (2021) Genetic and clinical characteristics of treatment-resistant depression using primary care records in two UK cohorts</a>. (See the original paper’s <a href="https://github.com/chiarafabbri/MDD_TRD_study/blob/master/scripts/extract_diagn_ADs_TRD_pheno.R" class="external-link">code for treatment-resistant depression phenotype derivation, as well as antidepressant extraction</a>)</p>
-<p>To extract all antidepressant prescriptions</p>
+<div class="section level3">
+<h3 id="antidepressant-prescriptions">Antidepressant prescriptions<a class="anchor" aria-label="anchor" href="#antidepressant-prescriptions"></a>
+</h3>
+<div class="section level4">
+<h4 id="search-by-bnf-code">Search by BNF code<a class="anchor" aria-label="anchor" href="#search-by-bnf-code"></a>
+</h4>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu">bio_med</span><span class="op">(</span><span class="va">project_dir</span>, chapter <span class="op">=</span> <span class="st">"antidepressants"</span><span class="op">)</span></code></pre></div>
-<p><br></p>
-<p>This is equivalent to</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Antidepressant prescriptions</span>
-
-<span class="co"># Search by BNF code</span>
-<span class="va">bnf_antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+<code class="sourceCode R"><span class="va">bnf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">bnf_code</span>, <span class="st">"^04\\.?03\\.?0[1-4]"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">collect</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="search-by-read-2-code">Search by Read 2 code<a class="anchor" aria-label="anchor" href="#search-by-read-2-code"></a>
+</h4>
+<p>Here I’m using <code>bio_code_primary_care</code> to read the UKB-supplied primary care code lookup tables to find Read 2 code equivalents of BNF antidepressant codes.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">read2_from_bnf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_code_primary_care.html">bio_code_primary_care</a></span><span class="op">(</span><span class="va">project_dir</span>, <span class="st">"read_v2_drugs_bnf"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">bnf_code</span>, <span class="st">"^04\\.?03\\.?0[1-4]"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">pull</span><span class="op">(</span><span class="va">read_code</span><span class="op">)</span>
+
+<span class="co"># Make a regular expression for search filter</span>
+<span class="va">read2_rgx</span> <span class="op">&lt;-</span> <span class="va">read2_from_bnf</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">str_replace_all</span><span class="op">(</span><span class="st">"\\."</span>, <span class="st">"\\\\."</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">str_c</span><span class="op">(</span><span class="st">"^"</span>, <span class="va">.</span>, collapse <span class="op">=</span> <span class="st">"|"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/base/regex.html" class="external-link">regex</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">read2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">read_2</span>, <span class="va">read2_rgx</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu">collect</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu">distinct</span><span class="op">(</span><span class="op">)</span>
+    <span class="fu">mutate</span><span class="op">(</span>read_2 <span class="op">=</span> <span class="fu">str_replace</span><span class="op">(</span><span class="va">read_2</span>, <span class="st">"00$"</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>The <code>mutate</code> drops a trailing “00” on some read2 codes (a UKB artifact?).</p>
+<p><br></p>
+<p><strong>Note.</strong> <a href="https://pubmed.ncbi.nlm.nih.gov/33753889/" class="external-link">Fabbri et al. (2021) Genetic and clinical characteristics of treatment-resistant depression using primary care records in two UK cohorts</a> use an augmented list of read 2 codes, which includes the additional codes: du6z. du61. gdez. gdey. gde2. gde1.</p>
+<p>This list is in supplementary material table 1, available from the UKB resources folder on Rosalind. (See the paper’s <a href="https://github.com/chiarafabbri/MDD_TRD_study/blob/master/scripts/extract_diagn_ADs_TRD_pheno.R" class="external-link">code for treatment-resistant depression phenotype derivation, as well as antidepressant extraction</a>)</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># -curated antidepressants - PMID33753889</span>
+<span class="va">cf_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">dirname</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span>,
+    <span class="st">"resources/pmid33753889_medrxiv_supplementary_table1.xlsx"</span>
+<span class="op">)</span>
 
-<span class="co"># (TO BE COMPLETED) Search by Read 2 code</span>
-<span class="va">read2_antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu">collect</span><span class="op">(</span><span class="op">)</span>
+<span class="fu">excel_sheets</span><span class="op">(</span><span class="va">cf_path</span><span class="op">)</span></code></pre></div>
+<span style="background-color:grey">
+<pre>
+[1] "readv2_mood_psych_sub" "readv3_mood_psych_sub" "ADs_read_2_codes"      "bnf_drug_names"        "dmd_drug_names"        "read2_drug_names"
+</pre>
+<p></p></span>
+<p><br></p>
+<p>Chiara’s augmented list of read 2 codes is in the sheet “ADs_read_2_codes”.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># CF Read 2 code list</span>
+<span class="va">cf_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">dirname</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span>,
+    <span class="st">"resources/pmid33753889_medrxiv_supplementary_table1.xlsx"</span>
+<span class="op">)</span>
 
-<span class="co"># Search for remaining antidepressant prescriptions (captured by dm+d code?)</span>
-<span class="va">antidep_rgx</span> <span class="op">&lt;-</span> <span class="fu">str_c</span><span class="op">(</span><span class="st">"^"</span>, <span class="va">drug_dmd_antidep</span><span class="op">$</span><span class="va">dmd_name</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+<span class="va">read2_from_cf</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="va">cf_path</span>, sheet <span class="op">=</span> <span class="st">"ADs_read_2_codes"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">pull</span><span class="op">(</span><span class="va">read2_code</span><span class="op">)</span>
+
+<span class="va">read2_rgx</span> <span class="op">&lt;-</span> <span class="va">read2_from_cf</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">str_replace_all</span><span class="op">(</span><span class="st">"\\."</span>, <span class="st">"\\\\."</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">str_c</span><span class="op">(</span><span class="st">"^"</span>, <span class="va">.</span>, collapse <span class="op">=</span> <span class="st">"|"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/base/regex.html" class="external-link">regex</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">read2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">read_2</span>, <span class="va">read2_rgx</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">collect</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">mutate</span><span class="op">(</span>read_2 <span class="op">=</span> <span class="fu">str_replace</span><span class="op">(</span><span class="va">read_2</span>, <span class="st">"00$"</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="search-by-dmd-code-andor-drug-name">Search by dm+d code and/or drug name<a class="anchor" aria-label="anchor" href="#search-by-dmd-code-andor-drug-name"></a>
+</h4>
+<p>You could also search for known dm+d codes in column dmd_code, and/or known drug names in drug_name, to retrieve any prescriptions with missing BNF and Read 2 codes. For example, Chiara’s list of curated antidepressant drug names is included in the ukbkings dataset <code>drug_dmd_antidep</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">drug_name_rgx</span> <span class="op">&lt;-</span> <span class="fu">str_c</span><span class="op">(</span><span class="va">drug_dmd_antidep</span><span class="op">$</span><span class="va">dmd_name</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu">str_c</span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">"|"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="https://rdrr.io/r/base/regex.html" class="external-link">regex</a></span><span class="op">(</span>ignore_case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="va">other_antidep_prescriptions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">drug_name</span>, <span class="va">antidep_rgx</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu">collect</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu">distinct</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="va">other</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">bnf_code</span> <span class="op">==</span> <span class="st">""</span> <span class="op">&amp;</span> <span class="va">read_2</span> <span class="op">==</span> <span class="st">""</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">drug_name</span>, <span class="va">drug_name_rgx</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">collect</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>The <code>filter</code> on empty strings (missing values) in bnf_code and read_2 code searches among prescriptions not already captured by a bnf or read 2 code.</p>
 <p><br></p>
-<div class="section level3">
-<h3 id="medication-dose">Medication dose<a class="anchor" aria-label="anchor" href="#medication-dose"></a>
-</h3>
+<p>Merge prescriptions</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">px</span> <span class="op">&lt;-</span> <span class="fu">bind_rows</span><span class="op">(</span><span class="va">bnf</span>, <span class="va">read2</span>, <span class="va">other</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">distinct</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">as_tibble</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><br></p>
 </div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="additional-data-processing">Additional data processing<a class="anchor" aria-label="anchor" href="#additional-data-processing"></a>
+</h2>
+<p>Replace empty strings with <code>NA</code>, fix column types, and drop prescriptions without an associated date (if appropriate).</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">px</span> <span class="op">&lt;-</span> <span class="va">px</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">mutate</span><span class="op">(</span>
+        <span class="fu">across</span><span class="op">(</span>.fns <span class="op">=</span> <span class="op">~</span> <span class="fu">na_if</span><span class="op">(</span><span class="va">.x</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span>,
+        <span class="fu">across</span><span class="op">(</span><span class="va">read_2</span><span class="op">:</span><span class="va">quantity</span>, <span class="va">as.character</span><span class="op">)</span>,
+        issue_date <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_date</a></span><span class="op">(</span><span class="va">issue_date</span>, format <span class="op">=</span> <span class="st">"%d/%m/%Y"</span><span class="op">)</span>,
+    <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">issue_date</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><br></p>
+<p>The drug_name and quantity columns are messy, with 1,655 and 4,830 unique entries in this subset of prescriptions.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">px</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">distinct</span><span class="op">(</span><span class="va">drug_name</span><span class="op">)</span></code></pre></div>
+<span style="background-color:grey">
+<pre>
+# A tibble: 1,655 × 1
+   drug_name                              
+   <chr>                                  
+ 1 Fluoxetine 20mg capsules               
+ 2 Citalopram 10mg tablets                
+ 3 Citalopram 20mg tablets                
+ 4 Citalopram 40mg tablets                
+ 5 Sertraline 50mg tablets                
+ 6 Amitriptyline 10mg tablets             
+ 7 Escitalopram 5mg tablets               
+ 8 Escitalopram 20mg tablets              
+ 9 Escitalopram 10mg tablets              
+10 Mirtazapine 15mg orodispersible tablets
+# … with 1,645 more rows
+</chr></pre>
+<p></p></span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">px</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">distinct</span><span class="op">(</span><span class="va">quantity</span><span class="op">)</span></code></pre></div>
+<span style="background-color:grey">
+<pre>
+# A tibble: 4,830 × 1
+   quantity           
+   <chr>              
+ 1 30 cap             
+ 2 28 tab             
+ 3 56 tablets         
+ 4 56 tablet          
+ 5 28 tablet          
+ 6 28 tablets         
+ 7 30 capsules - 20 mg
+ 8 60 capsules - 20 mg
+ 9 28 tablet(s)       
+10 56 tablet(s)       
+# … with 4,820 more rows
+</chr></pre>
+<p></p></span>
+<p><br></p>
+<p>Tidy up drug_name and quantity.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tidy_rgx</span> <span class="op">&lt;-</span> <span class="st">"[\\*\\(\\)\\-\\/\\[\\]\\&amp;\\'\\,]|\\.{3}"</span>
+
+<span class="va">px</span> <span class="op">&lt;-</span> <span class="va">px</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">mutate</span><span class="op">(</span>
+        <span class="fu">across</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">drug_name</span>, <span class="va">quantity</span><span class="op">)</span>, <span class="op">~</span> <span class="op">{</span>
+            <span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+                <span class="fu">str_replace_all</span><span class="op">(</span><span class="va">tidy_rgx</span>, <span class="st">" "</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+                <span class="fu">str_trim</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+                <span class="fu">str_squish</span><span class="op">(</span><span class="op">)</span>
+        <span class="op">}</span><span class="op">)</span>
+    <span class="op">)</span></code></pre></div>
+<p><br></p>
 </div>
 <div class="section level2">
 <h2 id="other-medication-reference-data">3. Other medication reference data<a class="anchor" aria-label="anchor" href="#other-medication-reference-data"></a>
@@ -232,10 +345,6 @@
 <tr class="odd">
 <td>drug_dmd_antidep</td>
 <td>A curated list of dm+d antidepressant drug names from Fabbri et al.</td>
-</tr>
-<tr class="even">
-<td>drug_ukb</td>
-<td>Nested dataframe of UKB primary care drug coding maps</td>
 </tr>
 </tbody>
 </table>
