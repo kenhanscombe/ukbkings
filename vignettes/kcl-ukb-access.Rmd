@@ -78,19 +78,31 @@ df <- readRDS("data/ukb.rds")
 
 ### 1. Preamble
 
-On Rosalind, change to your UKB user directory. If you do not have a
-UKB user directory, create one first at
-/scratch/groups/ukbiobank/Edinburgh_Data/usr/*\<username\>*. Start an
+Change to your user directory and make a project folder. Start an
 interactive cluster session with sufficient memory to read the UKB data
 (I think you can get away with less, but I've not worked that out yet).
-Load the default cluster version of R (`module avail 2&>1 | grep R`
-currently `apps/R/3.6.0`) then start R.
+Load the default cluster version of R 
+
+From your study folder in your user director on Rosalind:
 ```{bash}
-# Rosalind shell
-cd /scratch/groups/ukbiobank/Edinburgh_Data/usr/<username>
 srun -p shared,brc --mem=30G --pty /bin/bash
 
-module load apps/R/3.6.0
+module avail 2&>1 | grep R
+module load <default_R_from_above>
+
+R
+```
+
+<br>
+
+Or, from your study folder in your user director on CREATE
+
+```{bash}
+srun -p cpu --time=0-1 --mem=30G --pty /bin/bash
+
+module -r spider '^r$'
+module load <default_R_from_above>
+
 R
 ```
 
@@ -133,7 +145,7 @@ Check help on specific function, e.g.,
 
 Point to the project directory.
 ```{R}
-project_dir <- "/scratch/datasets/ukbiobank/ukb<project_id>"
+project_dir <- "<absolute_path_to_project_directory>"
 ```
 
 <br>
@@ -189,7 +201,7 @@ f %>%
 `bio_field_add` is a convenience function for creating the one per line
 required variables/fields file. By default the function appends fields.
 Create the field subset file in your UKB user directory
-/scratch/groups/ukbiobank/Edinburgh_Data/usr/*\<username\>*/
+
 ```{R}
 f %>%
     select(field, name) %>%

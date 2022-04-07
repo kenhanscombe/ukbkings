@@ -1,15 +1,14 @@
 #' Reads the UKB showcase codings for categorical variables
 #'
-#' @param code_dir Path to the enclosing directory of the
-#' Codings_Showcase.csv.
+#' @param project_dir Path to the enclosing directory of a UKB project.
 #'
 #' @return A dataframe with header Coding, Value, Meaning
 #'
 #' @importFrom data.table fread
 #' @export
-bio_code <- function(code_dir = "/scratch/datasets/ukbiobank/resources") {
+bio_code <- function(project_dir) {
     codings_showcase <- file.path(
-        dirname(normalizePath(code_dir)),
+        dirname(normalizePath(project_dir)),
         "resources",
         "Codings.csv"
     )

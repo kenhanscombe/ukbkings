@@ -19,7 +19,7 @@ primarycare_codings.zip)
 ***
 
 **Note. All paths mentioned in the Changelog are relative to
-/scratch/datasets/ukbiobank/\<*project_dir*\>/.**
+the project-specific data folder.**
 
 <br>
 

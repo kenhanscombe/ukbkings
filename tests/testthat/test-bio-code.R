@@ -5,7 +5,7 @@ tmp <- testthat::setup(tempfile(tmpdir = tmp_dir))
 
 test_that("bio_code stops and prints error when no coding data available", {
   expect_error(
-    bio_code(code_dir = "."),
+    bio_code(project_dir = "."),
     stringr::str_interp(
       c("Required file .*Codings.csv does not exist.")
     )

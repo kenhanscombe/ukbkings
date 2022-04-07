@@ -4,11 +4,10 @@
 \alias{bio_code}
 \title{Reads the UKB showcase codings for categorical variables}
 \usage{
-bio_code(code_dir = "/scratch/datasets/ukbiobank/resources")
+bio_code(project_dir)
 }
 \arguments{
-\item{code_dir}{Path to the enclosing directory of the
-Codings_Showcase.csv.}
+\item{project_dir}{Path to the enclosing directory of a UKB project.}
 }
 \value{
 A dataframe with header Coding, Value, Meaning

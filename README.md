@@ -29,8 +29,8 @@ devtools::install_github("kenhanscombe/ukbkings", dependencies = TRUE, force = T
 
 ## Project data
 
-Project-specific data are in
-/scratch/datasets/ukbiobank/\<*project_dir*\>/. The structure of a
+Project-specific phenotype data and genetic link files (.fam, .sample,
+.dat) are in project-specific folders. The structure of a
 project directory setup for use with ukbkings is documented in the
 project setup tool,
 [ukbproject](https://github.com/kenhanscombe/ukbproject). This is
