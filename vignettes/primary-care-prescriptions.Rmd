@@ -16,47 +16,61 @@ knitr::opts_chunk$set(
 ```
 
 
-UKB medication presciption data are included in the
+UKB primary care presciption data are included in the
 [Primary Care Linked data](https://biobank.ndph.ox.ac.uk/showcase/showcase/docs/primary_care_data.pdf),
 accessed through the UKB Data Portal. The data can be
 explored online with SQL queries, the results of which can be
-downloaded, or the full table can be downloaded. We have downloaded
-the full table and converted it to an R disk.frame using ukbproject for
-fast local queries with ukbkings `bio_record` and `bio_record_map`.
-(See the article [Access UKB data on Rosalind](https://kenhanscombe.github.io/ukbkings/articles/kcl-ukb-access.html#record-level-data)
-for a detailed description of the use of these functions to query all
-record-level data)
+downloaded. Alternatively, the full table can be downloaded.
 
-***
-
-<span style="color:dodgerblue;">**Contents:**</span>  
-[1. Query prescription data]  
-    [1.1 Medication codes]  
-[2. Retrieve antidepressant prescriptions]  
-[3. Other medication reference data]  
-[4. Resources]
-
-***
+For each KCL UKB application with access to primary care prescription
+data, we have downloaded the full table and converted it to an R
+disk.frame for fast local queries with ukbkings `bio_record` and
+`bio_record_map`. (See the article
+[Access UKB data on Rosalind](https://kenhanscombe.github.io/ukbkings/articles/kcl-ukb-access.html#record-level-data)
+for a detailed description of the use of `bio_record` and `bio_record_map` to query all
+record-level data available to a particular KCL UKB application)
 
 <br>
 
-## 1. Query prescription data
+## Query prescription data
 
-`bio_record` returns a diskframe, an object which can be queried without
-reading the data into R.
+`bio_record` returns a diskframe, an object which can be queried in
+chunks without reading the data into R.
 
 ```{r}
 library(ukbkings)
+# library(tidyverse)
+# library(readxl)
+library(lubridate)
 
 project_dir <- "<path_to_project_directory>"
 
-scripts_diskf <- bio_record(project_dir, record = "gp_scripts")
-head(scripts_diskf)
+diskf <- bio_record(project_dir, record = "gp_scripts")
+head(diskf)
 ```
 
+<span style="background-color:grey">
+<pre>
+       eid data_provider issue_date read_2 bnf_code dmd_code                                    drug_name quantity
+1: XXXXXXX             X XX/XX/XXXX  bi33. 02050501     <NA>                      Lisinopril 10mg tablets   56.000
+2: XXXXXXX             X XX/XX/XXXX  blb1. 02060200     <NA>                       Amlodipine 5mg tablets   56.000
+3: XXXXXXX             X XX/XX/XXXX  bxd5. 02120400     <NA>                     Simvastatin 40mg tablets   56.000
+4: XXXXXXX             X XX/XX/XXXX  l412. 12010151     <NA> Otosporin ear drops (GlaxoSmithKline UK Ltd)   10.000
+5: XXXXXXX             X XX/XX/XXXX  bi33. 02050501     <NA>                      Lisinopril 10mg tablets   28.000
+6: XXXXXXX             X XX/XX/XXXX  blb1. 02060200     <NA>                       Amlodipine 5mg tablets   28.000
+</pre>
+</span>
 
+<br>
 
-### 1.1 Medication codes
+You can use dplyr verbs to `filter` rows, `select` columns, etc., and
+finally `collect` to retrieve the resulting data into a local dataframe.
+Below is an example of using a combination of `bio_record` and dplyr
+verbs to retrieve antidepressant prescriptions.
+
+<br>
+
+The primary care prescription data include 3 prescription coding systems
 
 | code | meaning |
 |---|---|
@@ -65,85 +79,229 @@ head(scripts_diskf)
 | read_2 | Read Codes (version 2 (v2)) are a coded thesaurus of clinical terms (used in the NHS since 1985). There is also a version 3 (CTV3 or v3)  |
 
 
-__BNF code:__
-
-UKB captures only the first few pieces of BNF code information:
-Chapter.Section.Paragraph.Sub-paragraph.Chemical substance, e.g.,
-04.03.01 tricyclic and related antidepressants,
-04.03.02 monoamine-oxidase inhibitors, etc. Chapter 4, section 3
-corresponds to antidepressant drugs.
-
-__BNF Chapter 4: Central Nervous System__
-
-- 4.1: Hypnotics and anxiolytics
-- 4.2: Drugs used in psychoses and related disorders
-- __4.3: Antidepressant drugs__
-    - __4.3.1: Tricyclic and related antidepressant drugs__
-    - __4.3.2: Monoamine-oxidase inhibitors (maois)__
-    - __4.3.3: Selective serotonin re-uptake inhibitors__
-    - __4.3.4: Other antidepressant drugs__
-- 4.4: CNS stimulants and drugs used for ADHD
-- 4.5: Drugs used in the treatment of obesity
-- 4.6: Drugs used in nausea and vertigo
-- 4.7: Analgesics
-- 4.8: Antiepileptic drugs
-- 4.9: Drugs used in parkinsonism and related disorders
-- 4.10: Drugs used in substance dependence
-- 4.11: Drugs for dementia
-
-***
+To retrieve prescriptions for a particular drug or drug class, search
+all three drug code systems and drug_name which includes name and
+dosage information combined. Below is an example retrieving
+antidepressant prescriptions.
 
 <br>
 
-## 2. Retrieve antidepressant prescriptions
+### Antidepressant prescriptions
 
-This is a ukbkings implementation of the extraction performed
-by [Fabbri et al. (2021) Genetic and clinical characteristics of
+#### Search by BNF code
+
+```{r}
+bnf <- bio_record(project_dir, record = "gp_scripts") %>%
+    filter(str_detect(bnf_code, "^04\\.?03\\.?0[1-4]")) %>%
+    collect()
+```
+
+<br>
+
+#### Search by Read 2 code
+
+Here I'm using `bio_code_primary_care` to read
+the UKB-supplied primary care code lookup tables to find Read 2 code
+equivalents of BNF antidepressant codes.
+
+```{r}
+read2_from_bnf <- bio_code_primary_care(project_dir, "read_v2_drugs_bnf") %>%
+    filter(str_detect(bnf_code, "^04\\.?03\\.?0[1-4]")) %>%
+    pull(read_code)
+
+# Make a regular expression for search filter
+read2_rgx <- read2_from_bnf %>%
+    str_replace_all("\\.", "\\\\.") %>%
+    str_c("^", ., collapse = "|") %>%
+    regex()
+
+read2 <- bio_record(project_dir, record = "gp_scripts") %>%
+    filter(str_detect(read_2, read2_rgx)) %>%
+    collect() %>%
+    mutate(read_2 = str_replace(read_2, "00$", ""))
+```
+
+The `mutate` drops a trailing "00" on some read2 codes (a UKB artifact?).
+
+<br>
+
+__Note.__ [Fabbri et al. (2021) Genetic and clinical characteristics of
 treatment-resistant depression using primary care records in two UK
-cohorts](https://pubmed.ncbi.nlm.nih.gov/33753889/). (See the original
+cohorts](https://pubmed.ncbi.nlm.nih.gov/33753889/) use an augmented
+list of read 2 codes, which includes the additional codes: du6z. du61.
+gdez. gdey. gde2. gde1.
+
+This list is in supplementary material table 1, available from the UKB
+resources folder on Rosalind. (See the
 paper's [code for treatment-resistant depression phenotype derivation,
 as well as antidepressant extraction](https://github.com/chiarafabbri/MDD_TRD_study/blob/master/scripts/extract_diagn_ADs_TRD_pheno.R))
 
-To extract all antidepressant prescriptions
+```{r}
+# -curated antidepressants - PMID33753889
+cf_path <- file.path(
+    dirname(project_dir),
+    "resources/pmid33753889_medrxiv_supplementary_table1.xlsx"
+)
 
-```{r antidepressant extraction}
-antidep_prescriptions <- bio_med(project_dir, chapter = "antidepressants")
+excel_sheets(cf_path)
+```
+
+<span style="background-color:grey">
+<pre>
+[1] "readv2_mood_psych_sub" "readv3_mood_psych_sub" "ADs_read_2_codes"      "bnf_drug_names"        "dmd_drug_names"        "read2_drug_names"
+</pre>
+</span>
+
+<br>
+
+Chiara's augmented list of read 2 codes is in the sheet "ADs_read_2_codes".
+```{r}
+# CF Read 2 code list
+cf_path <- file.path(
+    dirname(project_dir),
+    "resources/pmid33753889_medrxiv_supplementary_table1.xlsx"
+)
+
+read2_from_cf <- read_excel(cf_path, sheet = "ADs_read_2_codes") %>%
+    pull(read2_code)
+
+read2_rgx <- read2_from_cf %>%
+    str_replace_all("\\.", "\\\\.") %>%
+    str_c("^", ., collapse = "|") %>%
+    regex()
+
+read2 <- bio_record(project_dir, record = "gp_scripts") %>%
+    filter(str_detect(read_2, read2_rgx)) %>%
+    collect() %>%
+    mutate(read_2 = str_replace(read_2, "00$", ""))
 ```
 
 <br>
 
-This is equivalent to
+#### Search by dm+d code and/or drug name
+
+You could also search for known dm+d codes in column dmd_code, and/or
+known drug names in drug_name, to retrieve any prescriptions with
+missing BNF and Read 2 codes. For example, Chiara's list of curated
+antidepressant drug names is included in the ukbkings dataset
+`drug_dmd_antidep`.
+
 
 ```{r}
-# Antidepressant prescriptions
-
-# Search by BNF code
-bnf_antidep_prescriptions <- bio_record(project_dir, record = "gp_scripts") %>%
-    filter(str_detect(bnf_code, "^04\\.?03\\.?0[1-4]")) %>%
-    collect() %>%
-    distinct()
-
-# (TO BE COMPLETED) Search by Read 2 code
-read2_antidep_prescriptions <- bio_record(project_dir, record = "gp_scripts") %>%
-    filter() %>%
-    collect()
-
-# Search for remaining antidepressant prescriptions (captured by dm+d code?)
-antidep_rgx <- str_c("^", drug_dmd_antidep$dmd_name) %>%
+drug_name_rgx <- str_c(drug_dmd_antidep$dmd_name) %>%
     str_c(collapse = "|") %>%
     regex(ignore_case = TRUE)
 
-other_antidep_prescriptions <- bio_record(project_dir, record = "gp_scripts") %>%
-    filter(str_detect(drug_name, antidep_rgx)) %>%
-    collect() %>%
-    distinct()
+other <- bio_record(project_dir, record = "gp_scripts") %>%
+    filter(bnf_code == "" & read_2 == "") %>%
+    filter(str_detect(drug_name, drug_name_rgx)) %>%
+    collect()
+```
+
+The `filter` on empty strings (missing values) in bnf_code and read_2
+code searches among prescriptions not already captured by a bnf or
+read 2 code.
+
+<br>
+
+Merge prescriptions
+
+```{r}
+px <- bind_rows(bnf, read2, other) %>%
+    distinct() %>%
+    as_tibble()
 ```
 
 <br>
 
-### Medication dose
+
+## Additional data processing
+
+Replace empty strings with `NA`, fix column types, and drop
+prescriptions without an associated date (if appropriate).
+
+```{r}
+px <- px %>%
+    mutate(
+        across(.fns = ~ na_if(.x, "")),
+        across(read_2:quantity, as.character),
+        issue_date = as_date(issue_date, format = "%d/%m/%Y"),
+    ) %>%
+    filter(!is.na(issue_date))
+```
 
 <br>
+
+The drug_name and quantity columns are messy, with 1,655 and 4,830
+unique entries in this subset of prescriptions.
+
+```{r}
+px %>% distinct(drug_name)
+```
+
+<span style="background-color:grey">
+<pre>
+# A tibble: 1,655 × 1
+   drug_name                              
+   <chr>                                  
+ 1 Fluoxetine 20mg capsules               
+ 2 Citalopram 10mg tablets                
+ 3 Citalopram 20mg tablets                
+ 4 Citalopram 40mg tablets                
+ 5 Sertraline 50mg tablets                
+ 6 Amitriptyline 10mg tablets             
+ 7 Escitalopram 5mg tablets               
+ 8 Escitalopram 20mg tablets              
+ 9 Escitalopram 10mg tablets              
+10 Mirtazapine 15mg orodispersible tablets
+# … with 1,645 more rows
+</pre>
+</span>
+
+```{r}
+px %>% distinct(quantity)
+```
+
+<span style="background-color:grey">
+<pre>
+# A tibble: 4,830 × 1
+   quantity           
+   <chr>              
+ 1 30 cap             
+ 2 28 tab             
+ 3 56 tablets         
+ 4 56 tablet          
+ 5 28 tablet          
+ 6 28 tablets         
+ 7 30 capsules - 20 mg
+ 8 60 capsules - 20 mg
+ 9 28 tablet(s)       
+10 56 tablet(s)       
+# … with 4,820 more rows
+</pre>
+</span>
+
+
+<br>
+
+Tidy up drug_name and quantity.
+```{r}
+tidy_rgx <- "[\\*\\(\\)\\-\\/\\[\\]\\&\\'\\,]|\\.{3}"
+
+px <- px %>%
+    mutate(
+        across(c(drug_name, quantity), ~ {
+            tolower(.x) %>%
+                str_replace_all(tidy_rgx, " ") %>%
+                str_trim() %>%
+                str_squish()
+        })
+    )
+```
+
+
+<br>
+
 
 ## 3. Other medication reference data
 
@@ -152,7 +310,6 @@ other_antidep_prescriptions <- bio_record(project_dir, record = "gp_scripts") %>
 | drug_pharmgkb | PharmGKB curated drug list (​https://www.pharmgkb.org/downloads​, drugs.zip) |
 | drug_gwas | ukb.gwas.medication.supplementary.data.1.xlsx - Genome-wide association study of medication-use and associated disease in the UK Biobank, Nature Communications |
 | drug_dmd_antidep | A curated list of dm+d antidepressant drug names from Fabbri et al. |
-| drug_ukb | Nested dataframe of UKB primary care drug coding maps |
 
 
 ## 4. Resources
