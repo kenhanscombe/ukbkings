@@ -26,7 +26,7 @@ For each KCL UKB application with access to primary care prescription
 data, we have downloaded the full table and converted it to an R
 disk.frame for fast local queries with ukbkings `bio_record` and
 `bio_record_map`. (See the article
-[Access UKB data on Rosalind](https://kenhanscombe.github.io/ukbkings/articles/kcl-ukb-access.html#record-level-data)
+[Access UKB data on Rosalind/CREATE](https://kenhanscombe.github.io/ukbkings/articles/kcl-ukb-access.html#record-level-data)
 for a detailed description of the use of `bio_record` and `bio_record_map` to query all
 record-level data available to a particular KCL UKB application)
 
@@ -132,7 +132,7 @@ list of read 2 codes, which includes the additional codes: du6z. du61.
 gdez. gdey. gde2. gde1.
 
 This list is in supplementary material table 1, available from the UKB
-resources folder on Rosalind. (See the
+resources folder on Rosalind/CREATE. (See the
 paper's [code for treatment-resistant depression phenotype derivation,
 as well as antidepressant extraction](https://github.com/chiarafabbri/MDD_TRD_study/blob/master/scripts/extract_diagn_ADs_TRD_pheno.R))
 

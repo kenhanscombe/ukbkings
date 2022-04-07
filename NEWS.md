@@ -115,11 +115,5 @@ the project.
 
 *Genetic data*
 
-* Symlinks to genotyped and imputed genetic data are included in
-genotyped/ and imputed/ respectively. Project managers can add symlinks
-to fam, sample and relatedness files with link.py (see
-`python ./link.py --help` and the Article "Setup a UKB project on
-Rosalind").
-
 * resources/ now includes a the UKB program `ukbgene` used to retrieve
 UKB "link" files (.fam, .sample) and relatedness data.

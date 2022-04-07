@@ -1,8 +1,8 @@
 ---
-title: "Access UKB data on Rosalind"
+title: "Access UKB data on Rosalind/CREATE"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{How to access UKB phenotype data on KCL Rosalind HPC cluster}
+  %\VignetteIndexEntry{How to access UKB phenotype data on KCL Rosalind/CREATE HPC cluster}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -25,13 +25,13 @@ devtools::load_all(".")
 ***
 
 **Important. This document is only useful for UKB-approved KCL
-reasearchers and their collaborators, with an account on the Rosalind
+reasearchers and their collaborators, with an account on the Rosalind/CREATE
 HPC cluster.**
 
-The ukbkings package works with a Rosalind UKB project directory that
+The ukbkings package works with a Rosalind/CREATE UKB project directory that
 has been setup to use the package. See
 [ukbproject](https://github.com/kenhanscombe/ukbproject) for setup
-of the directory structure of a UKB project on Rosalind.
+of the directory structure of a UKB project on Rosalind/CREATE.
 
 ***
 

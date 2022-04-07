@@ -7,14 +7,14 @@ ukbkings <img src='man/figures/logo.png' align="right" alt = "" width="123.5" />
 [![R build status](https://github.com/kenhanscombe/ukbkings/workflows/R-CMD-check/badge.svg)](https://github.com/kenhanscombe/ukbkings/actions)
 <!-- badges: end -->
 
-**Important: This package is a KCL R interface to UKB data on Rosalind.
+**Important: This package is a KCL R interface to UKB data on Rosalind/CREATE.
 It is only useful for UKB-approved KCL reasearchers and their
-collaborators, with an account on the Rosalind HPC cluster.**
+collaborators, with an account on the Rosalind/CREATE HPC cluster.**
 
 ## Overview
 
 The ukbkings package includes functions to access UK Biobank (UKB)
-project data on the Rosalind High Performance Computing (HPC) cluster,
+project data on the Rosalind/CREATE High Performance Computing (HPC) cluster,
 for UKB-approved King's College London (KCL) researchers and
 collaborators. Access to data for a particular project is restricted to
 named collaborators on the project.
@@ -33,10 +33,7 @@ Project-specific phenotype data and genetic link files (.fam, .sample,
 .dat) are in project-specific folders. The structure of a
 project directory setup for use with ukbkings is documented in the
 project setup tool,
-[ukbproject](https://github.com/kenhanscombe/ukbproject). This is
-mainly intended for project owners/ managers. Access to project data
-for individual researchers is described in the **Access UKB data on
-Rosalind** article.
+[ukbproject](https://github.com/kenhanscombe/ukbproject).
 
 **Note. Any additional downloads (e.g. data baskets and associated
 keys, data downloads from the UKB data portal) should be stored in the
