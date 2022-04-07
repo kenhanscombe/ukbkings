@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KCL Interface to UKB Project Data on Rosalind HPC • ukbkings</title>
+<title>KCL Interface to UKB Project Data on Rosalind/CREATE HPC • ukbkings</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -17,10 +17,10 @@
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="KCL Interface to UKB Project Data on Rosalind HPC">
+<script src="pkgdown.js"></script><meta property="og:title" content="KCL Interface to UKB Project Data on Rosalind/CREATE HPC">
 <meta property="og:description" content="
   The goal of ukbkings is to provide an interface to UK Biobank (UKB) project
-  data on Rosalind HPC, for UKB-approved King's College London (KCL) researchers
+  data on Rosalind/CREATE HPC, for UKB-approved King's College London (KCL) researchers
   and collaborators on a project-by-project basis. Access to a particular
   project is restricted to named KCL researchers and collaborators, approved by
   the UKB for a particular study.">
@@ -62,7 +62,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/kcl-ukb-access.html">Access UKB data on Rosalind</a>
+      <a href="articles/kcl-ukb-access.html">Access UKB data on Rosalind/CREATE</a>
     </li>
     <li>
       <a href="articles/primary-care-prescriptions.html">Using UKB primary care prescription data</a>
@@ -97,11 +97,11 @@
 </h1></div>
 <!-- badges: start -->
 
-<p><strong>Important: This package is a KCL R interface to UKB data on Rosalind. It is only useful for UKB-approved KCL reasearchers and their collaborators, with an account on the Rosalind HPC cluster.</strong></p>
+<p><strong>Important: This package is a KCL R interface to UKB data on Rosalind/CREATE. It is only useful for UKB-approved KCL reasearchers and their collaborators, with an account on the Rosalind/CREATE HPC cluster.</strong></p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>The ukbkings package includes functions to access UK Biobank (UKB) project data on the Rosalind High Performance Computing (HPC) cluster, for UKB-approved King’s College London (KCL) researchers and collaborators. Access to data for a particular project is restricted to named collaborators on the project.</p>
+<p>The ukbkings package includes functions to access UK Biobank (UKB) project data on the Rosalind/CREATE High Performance Computing (HPC) cluster, for UKB-approved King’s College London (KCL) researchers and collaborators. Access to data for a particular project is restricted to named collaborators on the project.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -113,7 +113,7 @@
 <div class="section level2">
 <h2 id="project-data">Project data<a class="anchor" aria-label="anchor" href="#project-data"></a>
 </h2>
-<p>Project-specific phenotype data and genetic link files (.fam, .sample, .dat) are in project-specific folders. The structure of a project directory setup for use with ukbkings is documented in the project setup tool, <a href="https://github.com/kenhanscombe/ukbproject" class="external-link">ukbproject</a>. This is mainly intended for project owners/ managers. Access to project data for individual researchers is described in the <strong>Access UKB data on Rosalind</strong> article.</p>
+<p>Project-specific phenotype data and genetic link files (.fam, .sample, .dat) are in project-specific folders. The structure of a project directory setup for use with ukbkings is documented in the project setup tool, <a href="https://github.com/kenhanscombe/ukbproject" class="external-link">ukbproject</a>.</p>
 <p><strong>Note. Any additional downloads (e.g. data baskets and associated keys, data downloads from the UKB data portal) should be stored in the subdirectory raw/. (Do not create further subdirectories within this folder)</strong></p>
 </div>
 </div>

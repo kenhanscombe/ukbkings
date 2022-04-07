@@ -57,7 +57,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/kcl-ukb-access.html">Access UKB data on Rosalind</a>
+      <a href="../articles/kcl-ukb-access.html">Access UKB data on Rosalind/CREATE</a>
     </li>
     <li>
       <a href="../articles/primary-care-prescriptions.html">Using UKB primary care prescription data</a>
@@ -99,7 +99,7 @@
     
     
 <p>UKB primary care presciption data are included in the <a href="https://biobank.ndph.ox.ac.uk/showcase/showcase/docs/primary_care_data.pdf" class="external-link">Primary Care Linked data</a>, accessed through the UKB Data Portal. The data can be explored online with SQL queries, the results of which can be downloaded. Alternatively, the full table can be downloaded.</p>
-<p>For each KCL UKB application with access to primary care prescription data, we have downloaded the full table and converted it to an R disk.frame for fast local queries with ukbkings <code>bio_record</code> and <code>bio_record_map</code>. (See the article <a href="https://kenhanscombe.github.io/ukbkings/articles/kcl-ukb-access.html#record-level-data" class="external-link">Access UKB data on Rosalind</a> for a detailed description of the use of <code>bio_record</code> and <code>bio_record_map</code> to query all record-level data available to a particular KCL UKB application)</p>
+<p>For each KCL UKB application with access to primary care prescription data, we have downloaded the full table and converted it to an R disk.frame for fast local queries with ukbkings <code>bio_record</code> and <code>bio_record_map</code>. (See the article <a href="https://kenhanscombe.github.io/ukbkings/articles/kcl-ukb-access.html#record-level-data" class="external-link">Access UKB data on Rosalind/CREATE</a> for a detailed description of the use of <code>bio_record</code> and <code>bio_record_map</code> to query all record-level data available to a particular KCL UKB application)</p>
 <p><br></p>
 <div class="section level2">
 <h2 id="query-prescription-data">Query prescription data<a class="anchor" aria-label="anchor" href="#query-prescription-data"></a>
@@ -190,7 +190,7 @@
 <p>The <code>mutate</code> drops a trailing “00” on some read2 codes (a UKB artifact?).</p>
 <p><br></p>
 <p><strong>Note.</strong> <a href="https://pubmed.ncbi.nlm.nih.gov/33753889/" class="external-link">Fabbri et al. (2021) Genetic and clinical characteristics of treatment-resistant depression using primary care records in two UK cohorts</a> use an augmented list of read 2 codes, which includes the additional codes: du6z. du61. gdez. gdey. gde2. gde1.</p>
-<p>This list is in supplementary material table 1, available from the UKB resources folder on Rosalind. (See the paper’s <a href="https://github.com/chiarafabbri/MDD_TRD_study/blob/master/scripts/extract_diagn_ADs_TRD_pheno.R" class="external-link">code for treatment-resistant depression phenotype derivation, as well as antidepressant extraction</a>)</p>
+<p>This list is in supplementary material table 1, available from the UKB resources folder on Rosalind/CREATE. (See the paper’s <a href="https://github.com/chiarafabbri/MDD_TRD_study/blob/master/scripts/extract_diagn_ADs_TRD_pheno.R" class="external-link">code for treatment-resistant depression phenotype derivation, as well as antidepressant extraction</a>)</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># -curated antidepressants - PMID33753889</span>
 <span class="va">cf_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span>

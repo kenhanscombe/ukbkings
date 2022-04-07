@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Access UKB data on Rosalind • ukbkings</title>
+<title>Access UKB data on Rosalind/CREATE • ukbkings</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Access UKB data on Rosalind">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Access UKB data on Rosalind/CREATE">
 <meta property="og:description" content="ukbkings">
 <meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -57,7 +57,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/kcl-ukb-access.html">Access UKB data on Rosalind</a>
+      <a href="../articles/kcl-ukb-access.html">Access UKB data on Rosalind/CREATE</a>
     </li>
     <li>
       <a href="../articles/primary-care-prescriptions.html">Using UKB primary care prescription data</a>
@@ -88,7 +88,7 @@
       </header><script src="kcl-ukb-access_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Access UKB data on Rosalind</h1>
+      <h1 data-toc-skip>Access UKB data on Rosalind/CREATE</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/kenhanscombe/ukbkings/blob/HEAD/vignettes/kcl-ukb-access.Rmd" class="external-link"><code>vignettes/kcl-ukb-access.Rmd</code></a></small>
@@ -99,8 +99,8 @@
     
     
 <hr>
-<p><strong>Important. This document is only useful for UKB-approved KCL reasearchers and their collaborators, with an account on the Rosalind HPC cluster.</strong></p>
-<p>The ukbkings package works with a Rosalind UKB project directory that has been setup to use the package. See <a href="https://github.com/kenhanscombe/ukbproject" class="external-link">ukbproject</a> for setup of the directory structure of a UKB project on Rosalind.</p>
+<p><strong>Important. This document is only useful for UKB-approved KCL reasearchers and their collaborators, with an account on the Rosalind/CREATE HPC cluster.</strong></p>
+<p>The ukbkings package works with a Rosalind/CREATE UKB project directory that has been setup to use the package. See <a href="https://github.com/kenhanscombe/ukbproject" class="external-link">ukbproject</a> for setup of the directory structure of a UKB project on Rosalind/CREATE.</p>
 <hr>
 <p><span style="color:dodgerblue;"><strong>Contents:</strong></span><br><a href="#tldr">0. tldr</a><br><a href="#preamble">1. Preamble</a><br><a href="#installation">2. Installation</a><br><a href="#field-subset-file">3. Field subset file</a><br><a href="#read-and-write-data">4. Read and write data</a><br><a href="#categorical-codes">5. Categorical codes</a><br><a href="#record-level-data">6. Record level data</a><br><a href="#genetic-data">7. Genetic data</a></p>
 <hr>
