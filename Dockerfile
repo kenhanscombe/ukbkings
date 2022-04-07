@@ -1,8 +1,10 @@
 FROM rocker/r-ver:4.1.2
 
-# locale
-RUN echo 'en_GB.UTF-8 UTF-8' >> /etc/locale.gen \
-    && /usr/sbin/locale-gen
+RUN sed -i '/en_GB.UTF-8/s/^# //g' /etc/locale.gen && \
+    /usr/sbin/locale-gen
+ENV LANG en_GB.UTF-8  
+ENV LANGUAGE en_GB:en  
+ENV LC_ALL en_GB.UTF-8 
 
 RUN install2.r devtools dplyr stringr
 RUN R -e "devtools::install_github(\"kenhanscombe/ukbkings\", dependencies = TRUE, force = TRUE)"
