@@ -6,7 +6,7 @@ ENV LANG en_GB.UTF-8
 ENV LANGUAGE en_GB:en  
 ENV LC_ALL en_GB.UTF-8 
 
-RUN install2.r devtools dplyr stringr
+RUN install2.r devtools dplyr stringr readxl lubridate
 RUN R -e "devtools::install_github(\"kenhanscombe/ukbkings\", dependencies = TRUE, force = TRUE)"
 RUN apt-get update && apt-get install -y \
     python3-pip
