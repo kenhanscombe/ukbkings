@@ -2,9 +2,9 @@ ukbkings <img src='man/figures/logo.png' align="right" alt = "" width="123.5" />
 ===
 
 <!-- badges: start -->
-[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![codecov](https://codecov.io/gh/kenhanscombe/ukbkings/branch/master/graph/badge.svg?token=90dtoi0RvG)](https://codecov.io/gh/kenhanscombe/ukbkings)
 [![R build status](https://github.com/kenhanscombe/ukbkings/workflows/R-CMD-check/badge.svg)](https://github.com/kenhanscombe/ukbkings/actions)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![codecov](https://codecov.io/gh/kenhanscombe/ukbkings/branch/master/graph/badge.svg?token=90dtoi0RvG)](https://codecov.io/gh/kenhanscombe/ukbkings)
 <!-- badges: end -->
 
 **Important: This package is a KCL R interface to UKB data on Rosalind/CREATE.
@@ -23,9 +23,17 @@ named collaborators on the project.
 
 Install this development version from github with:
 
-``` r
+```r
 devtools::install_github("kenhanscombe/ukbkings", dependencies = TRUE, force = TRUE)
 ```
+
+Or, use the docker image to run R in a container with ukbkings and dependencies installed
+
+```bash
+singularity run docker://onekenken/ukbkings:0.2.2
+```
+
+**Note**: On Rosalind you first need to load the singularity module with `module load apps/singularity/3.5.3`; on CREATE the singularity command is immediately available.
 
 ## Project data
 
