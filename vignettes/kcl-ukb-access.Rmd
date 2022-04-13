@@ -15,11 +15,6 @@ knitr::opts_chunk$set(
     echo = TRUE,
     message = FALSE
 )
-
-requireNamespace("devtools", quietly = TRUE)
-requireNamespace("stringr", quietly = TRUE)
-
-devtools::load_all(".")
 ```
 
 ***
@@ -37,8 +32,8 @@ of the directory structure of a UKB project on Rosalind/CREATE.
 
 <span style="color:dodgerblue;">**Contents:**</span>  
 [0. tldr]  
-[1. Preamble]  
-[2. Installation]  
+[1. Installation]  
+[2. Container]  
 [3. Field subset file]  
 [4. Read and write data]  
 [5. Categorical codes]  
@@ -50,12 +45,18 @@ of the directory structure of a UKB project on Rosalind/CREATE.
 ### 0. tldr
 
 Install the package
-```{R}
+```{r}
 devtools::install_github("kenhanscombe/ukbkings", dependencies = TRUE, force = TRUE)
 ```
 
+Or, use the docker container with ukbkings and dependencies installed
+
+```{bash}
+singularity run docker://onekenken/ukbkings:0.2.2
+```
+
 Write a serialised R dataframe to file for your required fields.
-```{R}
+```{r}
 bio_phen(
     project_dir = "<path_to_project_directory>",
     field = "<path_to_required_fields_file>", # one per line, no header
@@ -70,20 +71,23 @@ with `NA`.*
 <br>
 
 Read the generated dataset into R.
-```{R}
+```{r}
 df <- readRDS("data/ukb.rds")
 ```
 
 <br>
 
-### 1. Preamble
+### 1. Installation
 
-Change to your user directory and make a project folder. Start an
-interactive cluster session with sufficient memory to read the UKB data
-(I think you can get away with less, but I've not worked that out yet).
-Load the default cluster version of R 
+Change to your user directory and make a study folder. Start an
+interactive cluster session with sufficient memory to read the UKB data.
 
-From your study folder in your user director on Rosalind:
+The below procedure describes loading the HPC R module and installing
+ukbkings. Section 2 describes an easier alternative, which is running
+a containerized version of R with ukbkings and dependencies pre-installed.
+
+Load the default cluster version of R. From your study folder in your user director on Rosalind:
+
 ```{bash}
 srun -p shared,brc --mem=30G --pty /bin/bash
 
@@ -106,24 +110,42 @@ module load <default_R_from_above>
 R
 ```
 
-<br>
-
-### 2. Installation
-
-***Note**. All code blocks below are R, unless otherwise specified.*
-
-<br>
-
 Install from Github
 ```{R}
 devtools::install_github("kenhanscombe/ukbkings", dependencies = TRUE, force = TRUE)
 ```
 
-Load libraries. (I like to use tidyverse but it is not necessary, base
-R is fine)
+<br>
+
+### 2. Container
+
+Alternatively, from your interactive SLURM session, use a
+container with ukbkings and dependencies pre-installed
+
+```{bash}
+# If on Rosalind load singularity; not needed on CREATE
+module load apps/singularity/3.5.3
+
+singularity run docker://onekenken/ukbkings:0.2.2
+```
+
+
+**Note**: This must be done from within your study folder in your user
+directory as this will be the working directory in the
+containerized R session.
+
+<br>
+
+***Note**. All code blocks below are R, unless otherwise specified.*
+
+<br>
+
+
+Load libraries
 ```{R}
 library(ukbkings)
-library(tidyverse)
+library(dplyr)
+library(stringr)
 ```
 
 Check help (press 'q' to exit).
