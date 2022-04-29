@@ -110,13 +110,23 @@ bio_field <- function(project_dir, pheno_dir = "phenotypes") {
 #' _array_) in your field subset file, e.g., 31-0.0 or 31.0.0
 #'
 #' @details Read the serialized dataframe with
-#' readRDS("<name_of_phenotype_subset_file>.rds")
-#'
+#' readRDS("<name_of_phenotype_subset_file>.rds").
+#' 
+#' Periodically, the UKB will update some subset of the data, e.g.,
+#' hospital episode statistics. When this happens, the datafame created
+#' will include all duplicates with the basket ID as suffix
+#' ("_<basket_id>"). Decide which to keep, larger basket numbers
+#' correspond to more recent data. To use \code{\link{bio_rename}},
+#' to update the numeric field names to more descriptive names, first
+#' drop duplicates you do not want and rename the remaining fields by
+#' deleting the "_<basket_id>" suffix.
+#' 
 #' @import dplyr stringr
 #' @importFrom data.table fread getDTthreads
 #' @importFrom readr read_csv
 #' @importFrom tidyr nest
 #' @importFrom purrr map map_df map_chr reduce
+#' @seealso \code{\link{bio_field}} \code{\link{bio_rename}}
 #' @export
 bio_phen <- function(project_dir, field_subset_file,
                      pheno_dir = "phenotypes", out = "ukb_phenotype_subset",
@@ -260,13 +270,19 @@ bio_field_add <- function(data, out = "ukb_field_subset.txt") {
 #'
 #' @return A dataframe with UKB field column names replaced with
 #' descriptive column names.
-#' @importFrom dplyr filter rename
+#' @details __Note__: Before using `bio_rename`, if duplicate fields
+#' exist, they will have a basket ID suffix. Drop the duplicates you do
+#' not want, and rename the remaining fields by dropping the
+#' `_<basket_id>` suffix.
+#' @importFrom dplyr filter select distinct rename
 #' @seealso \code{\link{bio_phen}}, \code{\link{bio_field}}
 #' @export
 bio_rename <- function(data, field_finder) {
     field_subset <- names(data)
-    field_finder <- dplyr::filter(field_finder, field %in% field_subset)
+    field_finder <- dplyr::filter(field_finder, field %in% field_subset) %>%
+        dplyr::select(field, name) %>%
+        dplyr::distinct()
     name_old_new <- field_finder$field
     names(name_old_new) <- field_finder$name
-    dplyr::rename(df, name_old_new)
+    dplyr::rename(data, name_old_new)
 }
