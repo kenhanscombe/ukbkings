@@ -39,8 +39,9 @@ chunks without reading the data into R.
 
 ```{r}
 library(ukbkings)
-# library(tidyverse)
-# library(readxl)
+library(dplyr)
+library(stringr)
+library(readxl)
 library(lubridate)
 
 project_dir <- "<path_to_project_directory>"
@@ -215,7 +216,7 @@ px <- bind_rows(bnf, read2, other) %>%
 <br>
 
 
-## Additional data processing
+## Initial clean and format
 
 Replace empty strings with `NA`, fix column types, and drop
 prescriptions without an associated date (if appropriate).
@@ -232,61 +233,68 @@ px <- px %>%
 
 <br>
 
-The drug_name and quantity columns are messy, with 1,655 and 4,830
-unique entries in this subset of prescriptions.
-
-```{r}
-px %>% distinct(drug_name)
-```
-
-<span style="background-color:grey">
-<pre>
-# A tibble: 1,655 × 1
-   drug_name                              
-   <chr>                                  
- 1 Fluoxetine 20mg capsules               
- 2 Citalopram 10mg tablets                
- 3 Citalopram 20mg tablets                
- 4 Citalopram 40mg tablets                
- 5 Sertraline 50mg tablets                
- 6 Amitriptyline 10mg tablets             
- 7 Escitalopram 5mg tablets               
- 8 Escitalopram 20mg tablets              
- 9 Escitalopram 10mg tablets              
-10 Mirtazapine 15mg orodispersible tablets
-# … with 1,645 more rows
-</pre>
-</span>
-
-```{r}
-px %>% distinct(quantity)
-```
+The drug_name and quantity columns include a mix of incomplete
+information (e.g., drug, dosage, form (i.e., capsule, tablet, etc),
+count, company) and style (upper/lower case, integer/floating point,
+same form expressed in many ways (e.g., tab, tablet, tablets,
+tablet(s))). A random sample of 20 rows shows some the above
 
 <span style="background-color:grey">
 <pre>
-# A tibble: 4,830 × 1
-   quantity           
-   <chr>              
- 1 30 cap             
- 2 28 tab             
- 3 56 tablets         
- 4 56 tablet          
- 5 28 tablet          
- 6 28 tablets         
- 7 30 capsules - 20 mg
- 8 60 capsules - 20 mg
- 9 28 tablet(s)       
-10 56 tablet(s)       
-# … with 4,820 more rows
+# A tibble: 20 × 8
+       eid data_provider issue_date read_2 bnf_code        dmd_code  drug_name                                        quantity             
+     <int>         <int> <date>     <chr>  <chr>           <chr>     <chr>                                            <chr>                
+ 1 XXXXXXX             X XXXX-XX-XX NA     04.03.03.00.00  NA        Citalopram 20mg tablets                          28 tablets           
+ 2 XXXXXXX             X XXXX-XX-XX NA     04.03.04.00.00  NA        Venlafaxine 75mg modified-release capsules       56 capsule(s) - 75 mg
+ 3 XXXXXXX             X XXXX-XX-XX NA     0403010N0AAAEAE NA        IMIPRAMINE HYDROCHLORIDE TABLETS 25MG            60.000               
+ 4 XXXXXXX             X XXXX-XX-XX da91.  NA              NA        NA                                               NA                   
+ 5 XXXXXXX             X XXXX-XX-XX da93.  NA              NA        NA                                               NA                   
+ 6 XXXXXXX             X XXXX-XX-XX NA     040301          NA        Dosulepin Hydrochloride CAPS 25MG                168.000              
+ 7 XXXXXXX             X XXXX-XX-XX NA     04.03.03.00.00  NA        Prozac 20mg capsules (Eli Lilly and Company Ltd) 1 OP                 
+ 8 XXXXXXX             X XXXX-XX-XX NA     04.03.03.00.00  NA        Fluoxetine 20mg capsules                         60 capsule           
+ 9 XXXXXXX             X XXXX-XX-XX NA     04.03.03.00.00  NA        Fluoxetine 20mg capsules                         60 capsules          
+10 XXXXXXX             X XXXX-XX-XX NA     04.03.04.00.00  NA        Venlafaxine 75mg modified-release capsules       84 capsule(s)        
+11 XXXXXXX             X XXXX-XX-XX NA     04.03.04.00.00  NA        Mirtazapine 45mg tablets                         28 tablet            
+12 XXXXXXX             X XXXX-XX-XX NA     04.03.03.00.00  NA        Sertraline 100mg tablets                         7 tablet             
+13 XXXXXXX             X XXXX-XX-XX da41.  04030300        NA        Fluoxetine 20mg capsules                         30.000               
+14 XXXXXXX             X XXXX-XX-XX d712.  NA              321746008 AMITRIPTYLINE HCl tabs 25mg                      56.000               
+15 XXXXXXX             X XXXX-XX-XX NA     04.03.01.00.00  NA        Amitriptyline 25mg tablets                       168 tablet(s) - 25 mg
+16 XXXXXXX             X XXXX-XX-XX daBz.  NA              NA        NA                                               NA                   
+17 XXXXXXX             X XXXX-XX-XX NA     04.03.01.00.00  NA        Amitriptyline 10mg tablets                       28 tablets           
+18 XXXXXXX             X XXXX-XX-XX NA     04.03.01.00.00  NA        Clomipramine 50mg capsules                       168 capsules - 50 mg 
+19 XXXXXXX             X XXXX-XX-XX NA     04.03.03.00.00  NA        Sertraline 100mg tablets                         14 tablets           
+20 XXXXXXX             X XXXX-XX-XX d79z.  NA              NA        NA                                               NA  
 </pre>
 </span>
-
 
 <br>
 
-Tidy up drug_name and quantity.
+In this subset of prescriptions, there are 1,655 and 4,830
+unique entries for drug_name and quantity respectively.
+
 ```{r}
-tidy_rgx <- "[\\*\\(\\)\\-\\/\\[\\]\\&\\'\\,]|\\.{3}"
+px %>%
+    distinct(drug_name) %>%
+    nrow()
+px %>%
+    distinct(quantity) %>%
+    nrow()
+```
+
+<span style="background-color:grey">
+<pre>
+[1] 1655
+[1] 4830
+</pre>
+</span>
+
+<br>
+
+A first pass tidy up of these two columns significantly reduces the
+number of unique entries.
+```{r}
+tidy_rgx <- "[\\*\\-\\&\\'\\,]|\\(.*[\\)\\.{3}]|\\.{3}|\\.000$|\\[.*\\]|[\\[\\]]"
+# \\/ part of dosage
 
 px <- px %>%
     mutate(
@@ -297,11 +305,114 @@ px <- px %>%
                 str_squish()
         })
     )
+
+px %>%
+    distinct(drug_name) %>%
+    nrow()
+px %>%
+    distinct(quantity) %>%
+    nrow()
 ```
 
+<span style="background-color:grey">
+<pre>
+[1] 1116
+[1] 3568
+</pre>
+</span>
 
 <br>
 
+## Additional tidying
+
+This data will require further tidying, some of which will be specific
+to the subset of prescriptions you collect. In the following, I've
+created a series of regular expressions to capture alternatives for the
+same descriptor, then added a new columns for drug, dose, and form.
+
+
+```{r}
+tab_rgx <- c("tablets", "tablet", "tabs", "tab", "soltab") %>%
+    str_c("\\b", ., "\\b", collapse = "|") %>%
+    regex()
+
+cap_rgx <- c("capsules", "capsule", "caps", "cap", "ca", "cps", "capsules\\d+mg") %>%
+    str_c("\\b", ., "\\b", collapse = "|") %>%
+    regex()
+
+sol_rgx <- c("solution", "soln") %>%
+    str_c("\\b", ., "\\b", collapse = "|") %>%
+    regex()
+
+drp_rgx <- c("drop", "drops") %>%
+    str_c("\\b", ., "\\b", collapse = "|") %>%
+    regex()
+
+sus_rgx <- c("suspension", "susp", "sus") %>%
+    str_c("\\b", ., "\\b", collapse = "|") %>%
+    regex()
+
+syr_rgx <- c("syrup", "syrp", "syr") %>%
+    str_c("\\b", ., "\\b", collapse = "|") %>%
+    regex()
+
+liq_rgx <- c("liquid", "liq") %>%
+    str_c("\\b", ., "\\b", collapse = "|") %>%
+    regex()
+
+eli_rgx <- c("elixir", "eli") %>%
+    str_c("\\b", ., "\\b", collapse = "|") %>%
+    regex()
+
+mix_rgx <- c("mixture", "mix") %>%
+    str_c("\\b", ., "\\b", collapse = "|") %>%
+    regex()
+
+px <- px %>%
+    mutate(
+        drug = word(drug_name, 1),
+        dose = str_extract(drug_name, "\\d*\\ *mg|\\d*\\ *microgram") %>% str_trim(),
+        form = case_when(
+            str_detect(drug_name, tab_rgx) |
+                str_detect(quantity, tab_rgx) ~ "tablet",
+            str_detect(drug_name, cap_rgx) |
+                str_detect(quantity, cap_rgx) ~ "capsule",
+            str_detect(drug_name, sol_rgx) |
+                str_detect(quantity, sol_rgx) ~ "solution",
+            str_detect(drug_name, drp_rgx) |
+                str_detect(quantity, drp_rgx) ~ "drops",
+            str_detect(drug_name, sus_rgx) |
+                str_detect(quantity, sus_rgx) ~ "suspension",
+            str_detect(drug_name, syr_rgx) |
+                str_detect(quantity, syr_rgx) ~ "syrup",
+            str_detect(drug_name, liq_rgx) |
+                str_detect(quantity, liq_rgx) ~ "liquid",
+            str_detect(drug_name, eli_rgx) |
+                str_detect(quantity, eli_rgx) ~ "elixir",
+            str_detect(drug_name, mix_rgx) |
+                str_detect(quantity, mix_rgx) ~ "mixture"
+        )
+    )
+```
+
+
+This is not an exhautive clean of the data. You could continue to clean
+this data by iteratively running the above chunk, then inspecting the
+remaining unique entries in drug_name for missing values in drug/ form/
+dose as follows
+
+```{r}
+px %>%
+    filter(is.na(form)) %>%
+    distinct(drug_name) %>%
+    print(n = Inf)
+```
+
+
+Add further terms to the regular expressions above, and repeat until the
+data are sufficiently clean for your purposes.
+
+<br>
 
 ## 3. Other medication reference data
 
