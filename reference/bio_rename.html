@@ -85,6 +85,13 @@ a column of descriptive names. See <code><a href="bio_field.html">bio_field</a><
     <p>A dataframe with UKB field column names replaced with
 descriptive column names.</p>
     </div>
+    <div id="details">
+    <h2>Details</h2>
+    <p><strong>Note</strong>: Before using <code>bio_rename</code>, if duplicate fields
+exist, they will have a basket ID suffix. Drop the duplicates you do
+not want, and rename the remaining fields by dropping the
+<code>_&lt;basket_id&gt;</code> suffix.</p>
+    </div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p><code><a href="bio_phen.html">bio_phen</a></code>, <code><a href="bio_field.html">bio_field</a></code></p></div>
@@ -102,7 +109,7 @@ descriptive column names.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

@@ -103,7 +103,19 @@ you have supplied full field names (i.e., including <em>index</em> and
     <div id="details">
     <h2>Details</h2>
     <p>Read the serialized dataframe with
-readRDS("&lt;name_of_phenotype_subset_file&gt;.rds")</p>
+readRDS("&lt;name_of_phenotype_subset_file&gt;.rds").</p>
+<p>Periodically, the UKB will update some subset of the data, e.g.,
+hospital episode statistics. When this happens, the datafame created
+will include all duplicates with the basket ID as suffix
+("<em>&lt;basket_id&gt;"). Decide which to keep, larger basket numbers
+correspond to more recent data. To use <code><a href="bio_rename.html">bio_rename</a></code>,
+to update the numeric field names to more descriptive names, first
+drop duplicates you do not want and rename the remaining fields by
+deleting the "</em>&lt;basket_id&gt;" suffix.</p>
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p><code><a href="bio_field.html">bio_field</a></code> <code><a href="bio_rename.html">bio_rename</a></code></p></div>
     </div>
 
   </div>
@@ -118,7 +130,7 @@ readRDS("&lt;name_of_phenotype_subset_file&gt;.rds")</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>
