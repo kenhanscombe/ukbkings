@@ -1,5 +1,21 @@
 # ukbkings (development version)
 
+***
+
+**Note. All paths mentioned in the Changelog are relative to
+the project-specific data folder.**
+
+<br>
+
+# ukbkings 0.2.3
+
+**29.04.2022 Ken B. Hanscombe**
+
+* `bio_rename` bug fix
+
+* document handling of duplicate fields indicated with "_<basket_id>"
+suffix, in both `bio_rename` and `bio_phen`
+
 **16.02.2022 Ken B. Hanscombe**
 
 *New/updated functionality*
@@ -15,13 +31,6 @@ primarycare_codings.zip)
 *New datasets*
 
 * Added datasets `drug_pharmgkb`, `drug_gwas`, `drug_dmd_antidep`
-
-***
-
-**Note. All paths mentioned in the Changelog are relative to
-the project-specific data folder.**
-
-<br>
 
 # ukbkings 0.2.1
 
