@@ -21,6 +21,12 @@ descriptive column names.
 Renames a dataframe with UKB fields as column names with descriptive
 names.
 }
+\details{
+\strong{Note}: Before using \code{bio_rename}, if duplicate fields
+exist, they will have a basket ID suffix. Drop the duplicates you do
+not want, and rename the remaining fields by dropping the
+\verb{_<basket_id>} suffix.
+}
 \seealso{
 \code{\link{bio_phen}}, \code{\link{bio_field}}
 }

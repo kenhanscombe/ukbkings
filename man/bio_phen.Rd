@@ -39,5 +39,17 @@ dataframe to a .rds file.
 }
 \details{
 Read the serialized dataframe with
-readRDS("<name_of_phenotype_subset_file>.rds")
+readRDS("<name_of_phenotype_subset_file>.rds").
+
+Periodically, the UKB will update some subset of the data, e.g.,
+hospital episode statistics. When this happens, the datafame created
+will include all duplicates with the basket ID as suffix
+("\emph{<basket_id>"). Decide which to keep, larger basket numbers
+correspond to more recent data. To use \code{\link{bio_rename}},
+to update the numeric field names to more descriptive names, first
+drop duplicates you do not want and rename the remaining fields by
+deleting the "}<basket_id>" suffix.
+}
+\seealso{
+\code{\link{bio_field}} \code{\link{bio_rename}}
 }
