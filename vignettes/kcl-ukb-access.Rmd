@@ -266,8 +266,22 @@ df <- readRDS("small_phenotype_subset.rds")
 If required, rename columns from the default UKB field names to the
 descriptive names used in the field-to-name "field finder" `name`
 column.
-```{R}
+```{r}
 df <- bio_rename(df, f)
+```
+
+<br>
+
+When there are duplicate fields (across baskets/datasets), drop the
+duplicates you don't want and rename the remaining fields by dropping
+the "_<basket>" suffix (so they match the original UKB field name)
+before using `bio_rename`
+
+```{r} 
+df <- df %>%
+select(!ends_with("_<drop_basket>")) %>%
+rename_with(~ str_replace(.x, pattern = "_<keep_basket>", replacement = "")) %>%
+bio_rename(df, f)
 ```
 
 <br>

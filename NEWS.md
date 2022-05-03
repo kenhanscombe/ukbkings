@@ -1,5 +1,7 @@
 # ukbkings (development version)
 
+* Documented dplicate column name edit before use of `bio_rename`
+
 ***
 
 **Note. All paths mentioned in the Changelog are relative to
