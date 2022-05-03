@@ -245,21 +245,28 @@
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_rename.html">bio_rename</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">f</span><span class="op">)</span></code></pre></div>
 <p><br></p>
+<p>When there are duplicate fields (across baskets/datasets), drop the duplicates you don’t want and rename the remaining fields by dropping the "_<basket>" suffix (so they match the original UKB field name) before using <code>bio_rename</code></basket></p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+<span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">ends_with</a></span><span class="op">(</span><span class="st">"_&lt;drop_basket&gt;"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+<span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename_with</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html" class="external-link">str_replace</a></span><span class="op">(</span><span class="va">.x</span>, pattern <span class="op">=</span> <span class="st">"_&lt;keep_basket&gt;"</span>, replacement <span class="op">=</span> <span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+<span class="fu"><a href="../reference/bio_rename.html">bio_rename</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">f</span><span class="op">)</span></code></pre></div>
+<p><br></p>
 </div>
 <div class="section level3">
 <h3 id="categorical-codes">5. Categorical codes<a class="anchor" aria-label="anchor" href="#categorical-codes"></a>
 </h3>
 <p>Categorical field codings are included in the field finder.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">f</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">field</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">field</span>, <span class="va">categorical_coding</span><span class="op">)</span></code></pre></div>
 <p>Retrieve numerical “Value” and and associated “Meaning” for each categorical code.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_code.html">bio_code</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cx</span><span class="op">)</span></code></pre></div>
 <p>Look up a particular coding.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cx</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Coding</span> <span class="op">==</span> <span class="fl">502</span><span class="op">)</span></code></pre></div>
 <p><br></p>
@@ -268,12 +275,12 @@
 <h3 id="record-level-data">6. Record level data<a class="anchor" aria-label="anchor" href="#record-level-data"></a>
 </h3>
 <p>To query and read record-level data, use <code>bio_record</code> and <code>bio_record_map</code>. List all record level data available for your project</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span></code></pre></div>
 <p><br></p>
 <p>You can retrieve the data as a <a href="https://diskframe.com/index.html" class="external-link">disk.frame</a> which you can inspect with functions like <code>head</code>, <code>names</code>, etc. This data is still on disk and so does not require a large amount of memory to read into R.</p>
 <p>You can also pipe the disk.frame through dplyr verbs, e.g., for column selection and row filtering. Use <code>collect</code> to read the results from disk into an R dataframe. For example to retieve death data</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gp_scripts_diskf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span><span class="va">project_dir</span>, record <span class="op">=</span> <span class="st">"gp_scripts"</span><span class="op">)</span>
 
 <span class="va">gp_scripts_df</span> <span class="op">&lt;-</span> <span class="va">gp_scripts_diskf</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
@@ -281,7 +288,7 @@
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">eid</span>, <span class="va">data_provider</span>, <span class="va">issue_date</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">collect</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Use the <code>subset</code> argument as a convenient way to read only the data for the samples you’re interested in, e.g. those with data on your phenotype of interest. This will automatically read the data into a dataframe in R - you do not need to <code>collect</code>.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_subset</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">321</span>, <span class="fl">654</span>, <span class="fl">987</span><span class="op">)</span>
 
 <span class="va">gp_scripts_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bio_record.html">bio_record</a></span><span class="op">(</span>
@@ -291,10 +298,10 @@
 <span class="op">)</span></code></pre></div>
 <p><br></p>
 <p>To inspect several records at once use <code>bio_record_map</code>, which maps a function to the data on disk without reading it into R. For example, to quickly find which variables are in which tables</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bio_record_map.html">bio_record_map</a></span><span class="op">(</span><span class="va">project_dir</span>, func <span class="op">=</span> <span class="va">names</span><span class="op">)</span></code></pre></div>
 <p>By default the function is mapped to all record table. You can also specify the records you’re interested in</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bio_record_map.html">bio_record_map</a></span><span class="op">(</span>
     <span class="va">project_dir</span>,
     func <span class="op">=</span> <span class="va">head</span>,
@@ -334,21 +341,21 @@
 <h3 id="genetic-data">7. Genetic data<a class="anchor" aria-label="anchor" href="#genetic-data"></a>
 </h3>
 <p>For paths to the genetic data available for the project</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bio_gen_ls.html">bio_gen_ls</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span></code></pre></div>
 <p>For the genotyped data “sample information” files fam file and sample QC files</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bio_gen_fam.html">bio_gen_fam</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span>
 <span class="fu"><a href="../reference/bio_gen_sqc.html">bio_gen_sqc</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span></code></pre></div>
 <p>Read the relatedness data into a dataframe with <code>bio_gen_related</code>. To get a dataframe of related samples to remove use <code>bio_gen_related_remove</code> - uses <a href="https://gitlab.com/choishingwan/GreedyRelated" class="external-link">GreedyRelated</a> with default relatedness theshold, <code>thresh = 0.044</code></p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bio_gen_related.html">bio_gen_related</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span>
 <span class="fu"><a href="../reference/bio_gen_related_remove.html">bio_gen_related_remove</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span></code></pre></div>
 <p>To assign 1000 Genomes super population ancestry to your project-specific pseudo-IDs.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bio_gen_ancestry.html">bio_gen_ancestry</a></span><span class="op">(</span><span class="va">project_dir</span><span class="op">)</span></code></pre></div>
 <p>To write a PLINK file of samples to <code>keep</code>, use <code>bio_gen_write_plink_input</code>: <code>data</code> is either a vector of samples to keep, or a dataframe with samples IDs to keep in the first column; <code>out</code> is the file path to write output file to.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bio_gen_write_plink_input.html">bio_gen_write_plink_input</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">out</span><span class="op">)</span></code></pre></div>
 </div>
   </div>
