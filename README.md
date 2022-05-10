@@ -27,10 +27,12 @@ Install this development version from github with:
 devtools::install_github("kenhanscombe/ukbkings", dependencies = TRUE, force = TRUE)
 ```
 
-Or, use the docker image to run R in a container with ukbkings and dependencies installed
+Or, use the docker image to run R in a container with ukbkings and dependencies installed.
+Explicitly mount your study folder from your user directly for data storage, and the UKB
+data folder for access to UKB application data.
 
 ```bash
-singularity run docker://onekenken/ukbkings:0.2.2
+singularity run --bind /scratch/users/<username>/<study>:/<study>,/<path_to_datasets>/ukbiobank:/ukbiobank docker://onekenken/ukbkings:0.2.3
 ```
 
 **Note**: On Rosalind you first need to load the singularity module with `module load apps/singularity/3.5.3`; on CREATE the singularity command is immediately available.
