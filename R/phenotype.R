@@ -209,7 +209,7 @@ bio_phen <- function(project_dir, field_subset_file,
 
     if (length(withdraw_files) > 0) {
         withdraw_ids <- purrr::map_df(
-            withdraw_files, ~ readr::read_csv(., col_names = "withdraw")
+            withdraw_files, ~ readr::read_csv(., col_names = "withdraw", show_col_types=FALSE)
         ) %>%
             dplyr::pull(withdraw)
 
