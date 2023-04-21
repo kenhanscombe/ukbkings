@@ -205,7 +205,7 @@ bio_phen <- function(project_dir, field_subset_file,
         dplyr::mutate_if(is.character, list(~ na_if(., "")))
 
     # withdrawals
-    withdraw_files <- list.files("raw", pattern = "^w.*csv", full.names = TRUE)
+    withdraw_files <- list.files(paste(project_dir, "raw", sep="/"), pattern = "^w.*csv", full.names = TRUE)
 
     if (length(withdraw_files) > 0) {
         withdraw_ids <- purrr::map_df(
